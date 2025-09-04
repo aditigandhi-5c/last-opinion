@@ -23,7 +23,7 @@ const Header = () => {
               <Stethoscope className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-primary">5C Second Opinion</h1>
+              <h1 className="text-xl font-bold text-primary">EchoMed</h1>
               <p className="text-xs text-muted-foreground">Trusted Medical Consultations</p>
             </div>
           </div>

@@ -27,7 +27,7 @@ const Login = () => {
       setIsLoading(false);
       toast({
         title: "Login Successful!",
-        description: "Welcome back to 5C Second Opinion.",
+        description: "Welcome back to EchoMed.",
       });
       navigate('/intake');
     }, 1500);

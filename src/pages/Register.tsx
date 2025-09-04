@@ -31,7 +31,7 @@ const Register = () => {
       setIsLoading(false);
       toast({
         title: "Registration Successful!",
-        description: "Welcome to 5C Second Opinion. Let's complete your profile.",
+        description: "Welcome to EchoMed. Let's complete your profile.",
       });
       navigate('/intake');
     }, 1500);

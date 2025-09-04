@@ -150,7 +150,7 @@ const Index = () => {
       <section id="why-trust-us" className="py-20 bg-primary-light/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Trust 5C Second Opinion?</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Trust EchoMed?</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               We're committed to providing you with expert medical insights you can trust
             </p>
