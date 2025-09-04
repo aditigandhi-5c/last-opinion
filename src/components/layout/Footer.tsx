@@ -27,7 +27,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span className="text-sm">+91 9876543210</span>
+                <span className="text-sm">+91 95872 74858</span>
               </div>
             </div>
           </div>
@@ -50,10 +50,10 @@ const Footer = () => {
               <div className="flex items-start space-x-2">
                 <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
                 <span className="text-sm">
-                  5C Networks Private Limited<br />
-                  #123, 4th Floor, Prestige Tower<br />
-                  MG Road, Bangalore<br />
-                  Karnataka 560001, India
+                  5C Towers, #246, 6th Main Rd<br />
+                  Above AU Bank, Opposite MedPlus<br />
+                  Mico Layout, BTM 2nd Stage, BTM Layout<br />
+                  Bengaluru, Karnataka 560076, India
                 </span>
               </div>
             </div>
