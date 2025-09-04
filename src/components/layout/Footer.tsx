@@ -50,10 +50,10 @@ const Footer = () => {
               <div className="flex items-start space-x-2">
                 <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
                 <span className="text-sm">
-                  5C Healthcare Private Limited<br />
-                  Unit 402, 4th Floor, Tower A<br />
-                  Spaze i-Tech Park, Sector 49<br />
-                  Gurugram, Haryana 122018, India
+                  5C Networks Private Limited<br />
+                  #123, 4th Floor, Prestige Tower<br />
+                  MG Road, Bangalore<br />
+                  Karnataka 560001, India
                 </span>
               </div>
             </div>
