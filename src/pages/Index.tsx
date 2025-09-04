@@ -92,81 +92,99 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-gradient py-20 lg:py-28">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-white">
-              <Badge className="bg-white/20 text-white border-white/30 mb-6">
-                Trusted by 50,000+ Patients
-              </Badge>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                Get Trusted 
-                <span className="block text-secondary-light">Second Opinions</span>
-              </h1>
-              <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                Expert medical consultations from certified specialists. 
-                Make informed decisions about your health with confidence.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  size="lg" 
-                  className="bg-white text-primary hover:bg-white/90 hero-shadow"
-                  onClick={() => navigate('/register')}
-                >
-                  Get Started Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  className="bg-white text-primary hover:bg-white/90 hero-shadow"
-                  onClick={() => navigate('/login')}
-                >
-                  I Have an Account
-                </Button>
-              </div>
+      <section className="min-h-screen flex items-center justify-center hero-gradient relative overflow-hidden">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <Badge className="bg-white/20 text-white border-white/30 mb-8 inline-flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Trusted by 50,000+ Patients Worldwide
+          </Badge>
+          
+          <h1 className="text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+            Explore Expert
+            <span className="block bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+              Medical Opinions
+            </span>
+          </h1>
+          
+          <p className="text-xl lg:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Connect with certified medical specialists for trusted second opinions. 
+            Make informed health decisions with confidence and peace of mind.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            <Button 
+              size="lg" 
+              className="bg-white text-primary hover:bg-white/90 hero-shadow px-8 py-4 text-lg font-semibold rounded-full"
+              onClick={() => navigate('/register')}
+            >
+              Start Your Journey
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full"
+              onClick={() => navigate('/login')}
+            >
+              Sign In
+            </Button>
+          </div>
+          
+          {/* Floating Cards */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <Clock className="h-8 w-8 text-white mb-4 mx-auto" />
+              <h3 className="text-white font-semibold mb-2">24-48 Hours</h3>
+              <p className="text-white/80 text-sm">Quick response time</p>
             </div>
-            <div className="relative">
-              <img 
-                src={heroImage} 
-                alt="Trusted Medical Professional" 
-                className="rounded-2xl hero-shadow w-full"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl medical-shadow">
-                <div className="flex items-center space-x-3">
-                  <div className="flex -space-x-2">
-                    {[1,2,3,4,5].map((i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-sm font-medium">4.9/5 Rating</span>
-                </div>
-              </div>
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <Award className="h-8 w-8 text-white mb-4 mx-auto" />
+              <h3 className="text-white font-semibold mb-2">Expert Doctors</h3>
+              <p className="text-white/80 text-sm">15+ years experience</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <Shield className="h-8 w-8 text-white mb-4 mx-auto" />
+              <h3 className="text-white font-semibold mb-2">100% Secure</h3>
+              <p className="text-white/80 text-sm">Encrypted & protected</p>
             </div>
           </div>
+        </div>
+        
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-40 h-40 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-white rounded-full blur-3xl"></div>
         </div>
       </section>
 
       {/* Why Trust Us */}
-      <section id="why-trust-us" className="py-20 bg-primary-light/30">
+      <section id="why-trust-us" className="py-24 bg-gradient-to-br from-background to-muted/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Trust EchoMed?</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We're committed to providing you with expert medical insights you can trust
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
+              Why Choose EchoMed
+            </Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Trusted Healthcare Excellence
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Experience the difference with our world-class medical professionals and 
+              cutting-edge secure platform designed for your peace of mind
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center medical-shadow hover:scale-105 transition-bounce">
-                <CardHeader>
-                  <div className="mx-auto p-3 bg-primary rounded-full text-primary-foreground mb-4">
+              <Card key={index} className="group text-center border-0 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-500 hover:-translate-y-2 shadow-lg hover:shadow-2xl">
+                <CardHeader className="pb-4">
+                  <div className="mx-auto p-4 bg-gradient-to-br from-primary to-primary/80 rounded-2xl text-primary-foreground mb-6 group-hover:scale-110 transition-transform duration-300">
                     {feature.icon}
                   </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  <CardTitle className="text-xl font-bold">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -175,46 +193,55 @@ const Index = () => {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20">
+      <section id="how-it-works" className="py-24 bg-gradient-to-br from-muted/20 to-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get your second opinion in 4 simple steps
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-secondary/10 text-secondary border-secondary/20">
+              Simple Process
+            </Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Your Journey to Better Health
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Get expert medical insights in just 4 simple steps - designed for convenience and security
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {steps.map((step, index) => (
-              <div key={index} className="relative">
-                <Card className="text-center medical-shadow hover:scale-105 transition-bounce">
-                  <CardHeader>
-                    <div className="mx-auto p-4 bg-secondary rounded-full text-secondary-foreground mb-4">
-                      {step.icon}
-                    </div>
-                    <div className="absolute -top-3 -left-3 bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                      {index + 1}
-                    </div>
-                    <CardTitle className="text-lg">{step.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{step.description}</p>
-                  </CardContent>
-                </Card>
-                {index < steps.length - 1 && (
-                  <ArrowRight className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-primary h-6 w-6" />
-                )}
-              </div>
-            ))}
+          <div className="relative">
+            {/* Connection Line */}
+            <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-primary/20 via-primary to-primary/20 transform -translate-y-1/2"></div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+              {steps.map((step, index) => (
+                <div key={index} className="relative group">
+                  <Card className="text-center border-0 bg-white/70 backdrop-blur-sm hover:bg-white transition-all duration-500 hover:-translate-y-4 shadow-lg hover:shadow-2xl">
+                    <CardHeader className="pb-4">
+                      <div className="relative">
+                        <div className="mx-auto p-6 bg-gradient-to-br from-secondary to-secondary/80 rounded-3xl text-secondary-foreground mb-6 group-hover:scale-110 transition-transform duration-300">
+                          {step.icon}
+                        </div>
+                        <div className="absolute -top-3 -right-3 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shadow-lg">
+                          {index + 1}
+                        </div>
+                      </div>
+                      <CardTitle className="text-xl font-bold mb-2">{step.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Button 
-              variant="hero" 
               size="lg" 
+              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               onClick={() => navigate('/register')}
             >
-              Start Your Consultation
+              Begin Your Consultation
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -222,26 +249,33 @@ const Index = () => {
       </section>
 
       {/* FAQs */}
-      <section id="faqs" className="py-20 bg-muted/30">
+      <section id="faqs" className="py-24 bg-gradient-to-br from-background to-muted/40">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get answers to common questions about our service
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-accent/10 text-accent border-accent/20">
+              Common Questions
+            </Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Everything You Need to Know
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Find answers to the most common questions about our medical consultation service
             </p>
           </div>
           
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-6">
             {faqs.map((faq, index) => (
-              <Card key={index} className="medical-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-accent mt-1 flex-shrink-0" />
+              <Card key={index} className="group border-0 bg-white/60 backdrop-blur-sm hover:bg-white/90 transition-all duration-300 hover:shadow-lg">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl flex items-start gap-4 group-hover:text-primary transition-colors">
+                    <div className="p-2 bg-gradient-to-br from-accent to-accent/80 rounded-xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <CheckCircle className="h-5 w-5 text-white" />
+                    </div>
                     {faq.question}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground pl-8">{faq.answer}</p>
+                  <p className="text-muted-foreground leading-relaxed pl-16">{faq.answer}</p>
                 </CardContent>
               </Card>
             ))}
@@ -250,31 +284,49 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 hero-gradient">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-            Ready to Get Your Second Opinion?
+      <section className="py-24 hero-gradient relative overflow-hidden">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <Badge className="mb-8 bg-white/20 text-white border-white/30 inline-flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            Join 50,000+ Satisfied Patients
+          </Badge>
+          
+          <h2 className="text-4xl lg:text-6xl font-bold text-white mb-8 leading-tight">
+            Start Your Health Journey
+            <span className="block bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+              Today
+            </span>
           </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join thousands of patients who trust us with their most important health decisions
+          
+          <p className="text-xl lg:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Take the first step towards better health decisions with expert medical guidance you can trust
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button 
               size="lg" 
-              className="bg-white text-primary hover:bg-white/90 hero-shadow"
+              className="bg-white text-primary hover:bg-white/90 px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300"
               onClick={() => navigate('/register')}
             >
-              Register Now
-              <ArrowRight className="ml-2 h-5 w-5" />
+              Get Started Now
+              <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
             <Button 
               size="lg" 
-              className="bg-white text-primary hover:bg-white/90 hero-shadow"
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full"
               onClick={() => navigate('/login')}
             >
-              Login
+              Sign In
             </Button>
           </div>
+        </div>
+        
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-32 h-32 bg-white rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-white rounded-full blur-2xl animate-pulse delay-500"></div>
         </div>
       </section>
 
