@@ -58,6 +58,13 @@ const Header = () => {
                 >
                   Get Started
                 </Button>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => navigate('/admin/login')}
+                  className="text-xs text-muted-foreground hover:text-primary"
+                >
+                  Admin
+                </Button>
               </>
             )}
           </div>

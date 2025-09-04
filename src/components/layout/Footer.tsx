@@ -27,7 +27,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span className="text-sm">+91 1800-123-5555</span>
+                <span className="text-sm">+91 9876543210</span>
               </div>
             </div>
           </div>
@@ -50,9 +50,10 @@ const Footer = () => {
               <div className="flex items-start space-x-2">
                 <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
                 <span className="text-sm">
-                  5C Healthcare Pvt Ltd<br />
-                  A-204, Business Square, Andheri East<br />
-                  Mumbai, Maharashtra 400069, India
+                  5C Healthcare Private Limited<br />
+                  Unit 402, 4th Floor, Tower A<br />
+                  Spaze i-Tech Park, Sector 49<br />
+                  Gurugram, Haryana 122018, India
                 </span>
               </div>
             </div>

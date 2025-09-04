@@ -117,9 +117,8 @@ const Index = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
-                  variant="outline" 
-                  size="lg"
-                  className="border-white text-white hover:bg-white hover:text-primary"
+                  size="lg" 
+                  className="bg-white text-primary hover:bg-white/90 hero-shadow"
                   onClick={() => navigate('/login')}
                 >
                   I Have an Account
@@ -269,9 +268,8 @@ const Index = () => {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
-              variant="outline" 
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary"
+              size="lg" 
+              className="bg-white text-primary hover:bg-white/90 hero-shadow"
               onClick={() => navigate('/login')}
             >
               Login
