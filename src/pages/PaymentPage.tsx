@@ -8,14 +8,19 @@ import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, CreditCard, Shield, CheckCircle, Clock, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useDummyNotifications } from "@/hooks/useDummyNotifications";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { sendPatientConfirmations, sendTeamNotifications } = useDummyNotifications();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
     setIsProcessing(true);
+    
+    // Get patient data for notifications
+    const patientData = JSON.parse(localStorage.getItem('patientDetails') || '{}');
     
     // Simulate payment processing
     setTimeout(() => {
@@ -23,6 +28,11 @@ const PaymentPage = () => {
         title: "Payment Successful!",
         description: "Your second opinion request has been submitted. You'll receive your report within 48 hours.",
       });
+      
+      // Send dummy notifications
+      sendPatientConfirmations(patientData);
+      sendTeamNotifications(patientData);
+      
       navigate('/dashboard');
     }, 2000);
   };
