@@ -14,11 +14,17 @@ import {
   ArrowRight,
   Star,
   Users,
-  Stethoscope
+  Stethoscope,
+  Heart,
+  Zap
 } from "lucide-react";
 import WorkflowSlideshow from "@/components/WorkflowSlideshow";
 import ChatBot from "@/components/ChatBot";
 import DoctorShowcase from "@/components/DoctorShowcase";
+
+import medicalCareBg from "@/assets/medical-care-bg.jpg";
+import medicalReportBg from "@/assets/medical-report-bg.jpg";
+import medicalTechBg from "@/assets/medical-tech-bg.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -116,29 +122,67 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-12 bg-white">
+      {/* Why Choose Us Section with Three Service Boxes */}
+      <section className="py-20 bg-gradient-subtle">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
-              The Last Opinion You'll Ever Need.
-            </h2>
+          <div className="flex justify-between items-start mb-16">
+            <div className="flex-1">
+              <h2 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+                The Last Opinion<br />You'll Ever Need.
+              </h2>
+            </div>
+            <div className="flex-1 ml-8">
+              <p className="text-xl text-muted-foreground">
+                Our radiologists provide comprehensive, expert second opinions using cutting-edge technology to give you the clarity you deserve.
+              </p>
+            </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {trustPoints.map((point, index) => (
-              <Card key={index} className="text-center border-0 shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-4">
-                  <div className="mx-auto p-3 bg-primary rounded-2xl text-white mb-4 w-fit">
-                    {point.icon}
-                  </div>
-                  <CardTitle className="text-lg font-semibold">{point.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{point.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${medicalCareBg})` }}
+              />
+              <div className="absolute inset-0 bg-primary/80" />
+              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center text-white">
+                <Heart className="h-12 w-12 mb-6 text-white" />
+                <h3 className="text-2xl font-bold mb-4">Expert Care</h3>
+                <p className="text-white/90">
+                  Board-certified radiologists with decades of experience in medical imaging analysis
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${medicalReportBg})` }}
+              />
+              <div className="absolute inset-0 bg-primary/80" />
+              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center text-white">
+                <FileText className="h-12 w-12 mb-6 text-white" />
+                <h3 className="text-2xl font-bold mb-4">Detailed Reports</h3>
+                <p className="text-white/90">
+                  Comprehensive analysis with clear explanations you can understand and trust
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${medicalTechBg})` }}
+              />
+              <div className="absolute inset-0 bg-primary/80" />
+              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center text-white">
+                <Zap className="h-12 w-12 mb-6 text-white" />
+                <h3 className="text-2xl font-bold mb-4">Fast Results</h3>
+                <p className="text-white/90">
+                  Get your expert second opinion within 24-48 hours, not weeks
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
