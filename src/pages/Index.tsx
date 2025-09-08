@@ -18,13 +18,7 @@ import {
 } from "lucide-react";
 import WorkflowSlideshow from "@/components/WorkflowSlideshow";
 import ChatBot from "@/components/ChatBot";
-import doctor1 from "@/assets/doctor-1.jpg";
-import doctor2 from "@/assets/doctor-2.jpg";
-import doctor3 from "@/assets/doctor-3.jpg";
-import doctor4 from "@/assets/doctor-4.jpg";
-import doctor5 from "@/assets/doctor-5.jpg";
-import doctor6 from "@/assets/doctor-6.jpg";
-import doctor7 from "@/assets/doctor-7.jpg";
+import DoctorShowcase from "@/components/DoctorShowcase";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -177,87 +171,7 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Doctor Cards Row */}
-          <div className="flex justify-center mb-12">
-            <div className="relative flex -space-x-4 transform perspective-1000 rotate-y-12">
-              {/* Best Match Badge */}
-              <div className="absolute -top-8 left-8 z-20">
-                <Badge className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Best Match
-                </Badge>
-              </div>
-              
-              {/* Available Now Badge */}
-              <div className="absolute -top-8 right-8 z-20">
-                <Badge className="bg-gray-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Available Now
-                </Badge>
-              </div>
-
-              {/* Doctor Profile Cards */}
-              {[
-                { src: doctor1, name: "Dr. Smith" },
-                { src: doctor2, name: "Dr. Johnson" },
-                { src: doctor3, name: "Dr. Williams" },
-                { src: doctor4, name: "Dr. Brown" },
-                { src: doctor5, name: "Dr. Davis" },
-                { src: doctor6, name: "Dr. Miller" },
-                { src: doctor7, name: "Dr. Wilson" }
-              ].map((doctor, index) => (
-                <div
-                  key={index}
-                  className={`relative transform ${
-                    index === 0 ? 'z-10 scale-105' : index === 6 ? 'z-10 scale-105' : 'z-5'
-                  } transition-transform hover:scale-110 hover:z-30`}
-                  style={{
-                    transform: `rotateY(${(index - 3) * 8}deg) translateZ(${Math.abs(index - 3) * -20}px)`
-                  }}
-                >
-                  <Card className="w-32 h-40 border-4 border-white shadow-2xl rounded-2xl overflow-hidden bg-white">
-                    <div className="w-full h-full">
-                      <img
-                        src={doctor.src}
-                        alt={doctor.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Institution Logos */}
-          <div className="flex justify-center items-center space-x-12 mb-12">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                <span className="text-primary font-bold text-xs">POMONA</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Pomona College</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                <span className="text-secondary font-bold text-xs">HMC</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Harvey Mudd College</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                <span className="text-accent font-bold text-xs">CMC</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Claremont McKenna</p>
-            </div>
-          </div>
-
-          {/* Description Text */}
-          <div className="text-center max-w-4xl mx-auto">
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              EchoMed second opinion radiologists are educated at world-class institutions and fellowship trained 
-              — so you can choose with confidence, knowing your case is in expert hands.
-            </p>
-          </div>
+          <DoctorShowcase />
         </div>
       </section>
 
