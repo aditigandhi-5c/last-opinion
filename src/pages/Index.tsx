@@ -269,7 +269,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold mb-6 leading-tight">
-                    96% of TriagePoint's second opinions clarify results
+                    96% of Echo Meds' second opinions clarify results
                   </h3>
                   <p className="text-white/80 text-lg">
                     Even great doctors occasionally miss things on scans.
@@ -288,7 +288,7 @@ const Index = () => {
                     Fast, affordable, and reassuring
                   </h3>
                   <p className="text-white/80 text-lg">
-                    TriagePoint makes it simple to confirm your diagnosis without waiting.
+                    Echo Meds makes it simple to confirm your diagnosis without waiting.
                   </p>
                 </div>
               </CardContent>
