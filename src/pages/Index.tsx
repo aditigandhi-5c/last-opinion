@@ -123,6 +123,39 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Patient Story Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+            <div className="relative">
+              <img 
+                src="/lovable-uploads/358be03d-0f44-43e6-b04e-7bfd9f8d5376.png" 
+                alt="Patient testimonial" 
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
+            <div className="space-y-6">
+              <div className="text-6xl text-muted-foreground/30 font-serif">"</div>
+              <div className="space-y-4">
+                <p className="text-xl text-foreground leading-relaxed">
+                  When my doctor told me something unusual showed up on my scans, my heart sank. Waiting for answers was unbearable.
+                </p>
+                <p className="text-xl text-foreground leading-relaxed">
+                  TriagePoint quickly connected me with an expert radiologist who reviewed everything with care. Within hours, I had clear answers and peace of mind.
+                </p>
+                <p className="text-xl text-foreground leading-relaxed font-medium">
+                  At my age, that's priceless.
+                </p>
+              </div>
+              <div className="pt-4">
+                <p className="text-lg font-semibold text-foreground">Sarah M., 62</p>
+                <p className="text-muted-foreground">Boston, MA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us Section with Three Service Boxes */}
       <section className="py-20 bg-gradient-subtle">
         <div className="container mx-auto px-4">
