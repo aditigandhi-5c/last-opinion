@@ -16,21 +16,21 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 84% 4.9%;
 
-    /* Medical primary - trustworthy blue */
-    --primary: 196 89% 43%;
+    /* DocPanel primary - professional dark green */
+    --primary: 157 46% 30%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 196 89% 93%;
-    --primary-dark: 196 89% 30%;
+    --primary-light: 157 46% 93%;
+    --primary-dark: 157 46% 20%;
 
-    /* Medical secondary - soothing teal */
-    --secondary: 174 72% 56%;
+    /* DocPanel secondary - complementary green */
+    --secondary: 157 35% 40%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 174 72% 92%;
+    --secondary-light: 157 35% 92%;
 
-    /* Medical accent - warm green for success */
-    --accent: 142 76% 36%;
+    /* DocPanel accent - success green */
+    --accent: 157 55% 35%;
     --accent-foreground: 0 0% 100%;
-    --accent-light: 142 76% 94%;
+    --accent-light: 157 55% 94%;
 
     --muted: 210 20% 95%;
     --muted-foreground: 215 20% 50%;
@@ -85,18 +85,18 @@
     --popover: 220 27% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 196 89% 55%;
+    --primary: 157 46% 40%;
     --primary-foreground: 220 27% 8%;
-    --primary-light: 196 89% 85%;
-    --primary-dark: 196 89% 25%;
+    --primary-light: 157 46% 85%;
+    --primary-dark: 157 46% 25%;
 
-    --secondary: 174 72% 65%;
+    --secondary: 157 35% 50%;
     --secondary-foreground: 220 27% 8%;
-    --secondary-light: 174 72% 85%;
+    --secondary-light: 157 35% 85%;
 
-    --accent: 142 76% 45%;
+    --accent: 157 55% 45%;
     --accent-foreground: 220 27% 8%;
-    --accent-light: 142 76% 85%;
+    --accent-light: 157 55% 85%;
 
     --muted: 220 27% 15%;
     --muted-foreground: 210 20% 65%;
