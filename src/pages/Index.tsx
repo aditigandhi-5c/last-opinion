@@ -231,7 +231,7 @@ const Index = () => {
             </div>
             <div className="flex-1 ml-8 flex flex-col justify-center">
               <p className="text-xl text-muted-foreground mb-8">
-                Don't leave your diagnosis to chance. Access the nation's leading radiologists for a second opinion you can trust.
+                We give you the final, trusted clarity that ends doubt and helps you move forward with confidence in your treatment.
               </p>
               <Button 
                 size="lg" 
