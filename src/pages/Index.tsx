@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
@@ -292,6 +293,70 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-light text-foreground mb-4">
+              You've Got Questions.
+            </h2>
+            <p className="text-2xl lg:text-3xl font-bold text-foreground mb-6">
+              We Have Answers
+            </p>
+            <p className="text-lg text-muted-foreground">
+              What to expect when you request a second opinion from one of our top radiologists.
+            </p>
+          </div>
+          
+          <Accordion type="single" collapsible className="space-y-4">
+            <AccordionItem value="item-1" className="border border-border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                What is a radiology second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                A radiology second opinion is when a different radiologist reviews your medical images to confirm or provide an alternative interpretation of your original diagnosis.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-2" className="border border-border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                Why should I get a second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Second opinions can catch missed diagnoses, provide treatment alternatives, and give you confidence in your medical decisions. Studies show significant diagnostic changes in 20-30% of cases.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-3" className="border border-border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                Who will be reviewing my case?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Board-certified subspecialty radiologists with 15+ years of experience in their specific areas of expertise will review your images.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-4" className="border border-border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                How long does it take to get my second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Most second opinions are delivered within 24-48 hours of receiving your complete medical images and information.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-5" className="border border-border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                Will my doctor be offended if I get a second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Most physicians encourage second opinions for complex cases. It's a standard practice that shows you're taking an active role in your healthcare.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </section>
 
