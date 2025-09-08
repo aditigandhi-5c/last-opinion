@@ -126,21 +126,21 @@ const Index = () => {
 
       {/* Why Choose Us Section with Three Service Boxes */}
       <section className="py-16 md:py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
-            <div className="flex-1 max-w-xl">
+            <div className="flex-1">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 The Last Opinion<br />You'll Ever Need.
               </h2>
             </div>
-            <div className="flex-1 lg:ml-8 max-w-xl">
+            <div className="flex-1 lg:ml-8">
               <p className="text-lg md:text-xl text-muted-foreground">
                 Our radiologists provide comprehensive, expert second opinions using cutting-edge technology to give you the clarity you deserve.
               </p>
             </div>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
               <div 
                 className="absolute inset-0 bg-cover bg-center"
@@ -223,15 +223,15 @@ const Index = () => {
 
       {/* Statistics Section - DocPanel Style */}
       <section className="py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
-            <div className="flex-1 max-w-xl">
+            <div className="flex-1">
               <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light text-foreground leading-tight">
                 An Accurate Diagnosis<br />
                 <span className="font-bold">Changes Everything</span>
               </h2>
             </div>
-            <div className="flex-1 lg:ml-8 flex flex-col justify-center max-w-xl">
+            <div className="flex-1 lg:ml-8 flex flex-col justify-center">
               <p className="text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
                 We give you the final, trusted clarity that ends doubt and helps you move forward with confidence in your treatment.
               </p>
@@ -245,7 +245,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
               <CardContent className="p-8 h-full flex flex-col justify-between">
                 <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
