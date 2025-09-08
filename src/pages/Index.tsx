@@ -16,6 +16,7 @@ import {
   Users,
   Stethoscope
 } from "lucide-react";
+import WorkflowSlideshow from "@/components/WorkflowSlideshow";
 import ChatBot from "@/components/ChatBot";
 
 const Index = () => {
@@ -213,6 +214,22 @@ const Index = () => {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Workflow Slideshow Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
+              Ensuring You Always
+            </h2>
+            <p className="text-2xl lg:text-3xl font-light text-muted-foreground">
+              Get the Full Picture
+            </p>
+          </div>
+          
+          <WorkflowSlideshow />
         </div>
       </section>
 
