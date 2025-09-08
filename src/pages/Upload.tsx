@@ -64,7 +64,7 @@ const Upload = () => {
                 <CardTitle className="flex items-center gap-2 text-primary">
                   <UploadIcon className="h-5 w-5" />
                   Medical Scan (DICOM) 
-                  <Badge variant="destructive" className="ml-2">Required</Badge>
+                  <Badge variant="secondary" className="ml-2">Optional</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
@@ -87,9 +87,9 @@ const Upload = () => {
                     <div className="space-y-4">
                       <UploadIcon className="h-12 w-12 text-muted-foreground mx-auto" />
                       <div>
-                        <p className="font-semibold">Upload your DICOM scan files</p>
+                        <p className="font-semibold">Upload your DICOM scan files (optional)</p>
                         <p className="text-sm text-muted-foreground">
-                          Supported formats: .dcm, .dicom files
+                          For demo purposes, you can skip this step
                         </p>
                       </div>
                       <Button
@@ -191,7 +191,6 @@ const Upload = () => {
               </Button>
               <Button
                 onClick={handleNext}
-                disabled={!dicomFile}
                 className="flex-1 bg-primary hover:bg-primary/90"
               >
                 Continue
