@@ -26,7 +26,7 @@ import DoctorShowcase from "@/components/DoctorShowcase";
 import medicalCareBg from "@/assets/medical-care-bg.jpg";
 import medicalReportBg from "@/assets/medical-report-bg.jpg";
 import medicalTechBg from "@/assets/medical-tech-bg.jpg";
-import patientTestimonial from "@/assets/patient-testimonial.jpg";
+import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -301,7 +301,7 @@ const Index = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="relative">
+            <div className="relative max-w-sm">
               <img 
                 src={patientTestimonial} 
                 alt="Patient testimonial" 
@@ -322,8 +322,8 @@ const Index = () => {
                 </p>
               </div>
               <div className="pt-4">
-                <p className="text-lg font-semibold text-foreground">Sarah M., 62</p>
-                <p className="text-muted-foreground">Boston, MA</p>
+                <p className="text-lg font-semibold text-foreground">Priya S., 58</p>
+                <p className="text-muted-foreground">Mumbai, India</p>
               </div>
             </div>
           </div>
