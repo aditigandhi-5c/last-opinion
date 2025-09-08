@@ -103,44 +103,44 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="py-16 bg-gradient-to-br from-primary to-secondary text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+        <div className="container mx-auto px-4 text-center max-w-5xl">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
             When Doubt Ends, Healing Begins.
           </h1>
           
-          <p className="text-xl lg:text-2xl mb-12 max-w-4xl mx-auto opacity-90">
+          <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto opacity-90 px-4">
             Get the most accurate interpretation of your scans, guided by subspecialty experts 
             who care about your clarity and peace of mind.
           </p>
           
           <Button 
             size="lg" 
-            className="bg-white text-primary hover:bg-white/90 px-8 py-4 text-lg font-semibold"
+            className="bg-white text-primary hover:bg-white/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold"
             onClick={() => navigate('/patient-details')}
           >
             Get Started
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
           </Button>
         </div>
       </section>
 
       {/* Why Choose Us Section with Three Service Boxes */}
-      <section className="py-20 bg-gradient-subtle">
+      <section className="py-16 md:py-20 bg-gradient-subtle">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-start mb-16">
-            <div className="flex-1">
-              <h2 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
+            <div className="flex-1 max-w-xl">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                 The Last Opinion<br />You'll Ever Need.
               </h2>
             </div>
-            <div className="flex-1 ml-8">
-              <p className="text-xl text-muted-foreground">
+            <div className="flex-1 lg:ml-8 max-w-xl">
+              <p className="text-lg md:text-xl text-muted-foreground">
                 Our radiologists provide comprehensive, expert second opinions using cutting-edge technology to give you the clarity you deserve.
               </p>
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
             <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
               <div 
                 className="absolute inset-0 bg-cover bg-center"
@@ -222,22 +222,22 @@ const Index = () => {
       </section>
 
       {/* Statistics Section - DocPanel Style */}
-      <section className="py-20 bg-background">
+      <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-start mb-16">
-            <div className="flex-1">
-              <h2 className="text-4xl lg:text-6xl font-light text-foreground leading-tight">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
+            <div className="flex-1 max-w-xl">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light text-foreground leading-tight">
                 An Accurate Diagnosis<br />
                 <span className="font-bold">Changes Everything</span>
               </h2>
             </div>
-            <div className="flex-1 ml-8 flex flex-col justify-center">
-              <p className="text-xl text-muted-foreground mb-8">
+            <div className="flex-1 lg:ml-8 flex flex-col justify-center max-w-xl">
+              <p className="text-lg md:text-xl text-muted-foreground mb-6 md:mb-8">
                 We give you the final, trusted clarity that ends doubt and helps you move forward with confidence in your treatment.
               </p>
               <Button 
                 size="lg" 
-                className="bg-primary text-white hover:bg-primary/90 px-8 py-4 text-lg font-semibold w-fit"
+                className="bg-primary text-white hover:bg-primary/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold w-fit"
                 onClick={() => navigate('/patient-details')}
               >
                 Get Started
@@ -245,7 +245,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
             <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
               <CardContent className="p-8 h-full flex flex-col justify-between">
                 <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
@@ -298,14 +298,14 @@ const Index = () => {
       </section>
 
       {/* Patient Story Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-8 max-w-5xl mx-auto">
-            <div className="flex-shrink-0">
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 max-w-5xl mx-auto">
+            <div className="flex-shrink-0 w-40 md:w-48">
               <img 
                 src={patientTestimonial} 
                 alt="Patient testimonial" 
-                className="w-48 h-48 object-cover rounded-lg shadow-lg"
+                className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-lg shadow-lg"
               />
             </div>
             <div className="flex-1 space-y-4">
