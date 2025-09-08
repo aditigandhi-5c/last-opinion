@@ -300,30 +300,30 @@ const Index = () => {
       {/* Patient Story Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="relative max-w-sm">
+          <div className="flex items-center gap-8 max-w-5xl mx-auto">
+            <div className="flex-shrink-0">
               <img 
                 src={patientTestimonial} 
                 alt="Patient testimonial" 
-                className="w-full h-auto rounded-lg shadow-lg"
+                className="w-48 h-48 object-cover rounded-lg shadow-lg"
               />
             </div>
-            <div className="space-y-6">
-              <div className="text-6xl text-muted-foreground/30 font-serif">"</div>
-              <div className="space-y-4">
-                <p className="text-xl text-foreground leading-relaxed">
+            <div className="flex-1 space-y-4">
+              <div className="text-4xl text-muted-foreground/30 font-serif">"</div>
+              <div className="space-y-3">
+                <p className="text-lg text-foreground leading-relaxed">
                   When my doctor told me something unusual showed up on my scans, my heart sank. Waiting for answers was unbearable.
                 </p>
-                <p className="text-xl text-foreground leading-relaxed">
+                <p className="text-lg text-foreground leading-relaxed">
                   TriagePoint quickly connected me with an expert radiologist who reviewed everything with care. Within hours, I had clear answers and peace of mind.
                 </p>
-                <p className="text-xl text-foreground leading-relaxed font-medium">
+                <p className="text-lg text-foreground leading-relaxed font-medium">
                   At my age, that's priceless.
                 </p>
               </div>
-              <div className="pt-4">
-                <p className="text-lg font-semibold text-foreground">Priya S., 58</p>
-                <p className="text-muted-foreground">Mumbai, India</p>
+              <div className="pt-2">
+                <p className="text-base font-semibold text-foreground">Priya S., 58</p>
+                <p className="text-sm text-muted-foreground">Mumbai, India</p>
               </div>
             </div>
           </div>
