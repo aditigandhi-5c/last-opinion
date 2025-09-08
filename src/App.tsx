@@ -11,6 +11,11 @@ import Payment from "./pages/Payment";
 import Success from "./pages/Success";
 import Case from "./pages/Case";
 import NotFound from "./pages/NotFound";
+import PatientDetails from "./pages/PatientDetails";
+import Upload from "./pages/Upload";
+import Questionnaire from "./pages/Questionnaire";
+import PaymentPage from "./pages/PaymentPage";
+import Dashboard from "./pages/Dashboard";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminPatients from "./pages/admin/Patients";
@@ -31,9 +36,18 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/intake" element={<Intake />} />
-          <Route path="/payment" element={<Payment />} />
           <Route path="/success" element={<Success />} />
           <Route path="/case/:id" element={<Case />} />
+          
+          {/* New Multi-Step Flow */}
+          <Route path="/patient-details" element={<PatientDetails />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/questionnaire" element={<Questionnaire />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          
+          {/* Legacy route */}
+          <Route path="/old-payment" element={<Payment />} />
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
