@@ -27,7 +27,6 @@ import medicalCareBg from "@/assets/medical-care-bg.jpg";
 import medicalReportBg from "@/assets/medical-report-bg.jpg";
 import medicalTechBg from "@/assets/medical-tech-bg.jpg";
 import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
-import heroMedicalProfessional from "@/assets/hero-medical-professional.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -103,15 +102,8 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative py-16 bg-gradient-to-br from-primary to-secondary text-white overflow-hidden min-h-[600px] flex items-center">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-60"
-          style={{ backgroundImage: `url(${heroMedicalProfessional})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/70 to-secondary/70" />
-        
-        <div className="relative z-10 container mx-auto px-4 text-center max-w-5xl">
+      <section className="py-16 bg-gradient-to-br from-primary to-secondary text-white">
+        <div className="container mx-auto px-4 text-center max-w-5xl">
           <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
             When Doubt Ends, Healing Begins.
           </h1>
