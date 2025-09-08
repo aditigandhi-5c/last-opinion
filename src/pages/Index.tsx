@@ -219,6 +219,82 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Statistics Section - DocPanel Style */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-start mb-16">
+            <div className="flex-1">
+              <h2 className="text-4xl lg:text-6xl font-light text-foreground leading-tight">
+                An Accurate Diagnosis<br />
+                <span className="font-bold">Changes Everything</span>
+              </h2>
+            </div>
+            <div className="flex-1 ml-8 flex flex-col justify-center">
+              <p className="text-xl text-muted-foreground mb-8">
+                Don't leave your diagnosis to chance. Access the nation's leading radiologists for a second opinion you can trust.
+              </p>
+              <Button 
+                size="lg" 
+                className="bg-primary text-white hover:bg-primary/90 px-8 py-4 text-lg font-semibold w-fit"
+                onClick={() => navigate('/patient-details')}
+              >
+                Get Started
+              </Button>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
+              <CardContent className="p-8 h-full flex flex-col justify-between">
+                <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
+                  <Shield className="h-6 w-6 text-slate-800" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold mb-6 leading-tight">
+                    12 million patients are misdiagnosed every year
+                  </h3>
+                  <p className="text-white/80 text-lg">
+                    A missed detail could mean the wrong treatment—or no treatment at all.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
+              <CardContent className="p-8 h-full flex flex-col justify-between">
+                <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle className="h-6 w-6 text-slate-800" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold mb-6 leading-tight">
+                    96% of TriagePoint's second opinions clarify results
+                  </h3>
+                  <p className="text-white/80 text-lg">
+                    Even great doctors occasionally miss things on scans.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
+              <CardContent className="p-8 h-full flex flex-col justify-between">
+                <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
+                  <Clock className="h-6 w-6 text-slate-800" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold mb-6 leading-tight">
+                    Fast, affordable, and reassuring
+                  </h3>
+                  <p className="text-white/80 text-lg">
+                    TriagePoint makes it simple to confirm your diagnosis without waiting.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
