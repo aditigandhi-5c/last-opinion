@@ -315,7 +315,7 @@ const Index = () => {
                   When my doctor told me something unusual showed up on my scans, my heart sank. Waiting for answers was unbearable.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed">
-                  TriagePoint quickly connected me with an expert radiologist who reviewed everything with care. Within hours, I had clear answers and peace of mind.
+                  5c network quickly connected me with an expert radiologist who reviewed everything with care. Within hours, I had clear answers and peace of mind.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed font-medium">
                   At my age, that's priceless.
