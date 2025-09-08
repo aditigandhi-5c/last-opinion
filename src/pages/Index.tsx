@@ -103,13 +103,13 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative py-16 bg-gradient-to-br from-primary to-secondary text-white overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-br from-primary to-secondary text-white overflow-hidden min-h-[600px] flex items-center">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-center opacity-60"
           style={{ backgroundImage: `url(${heroMedicalProfessional})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-secondary/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/70 to-secondary/70" />
         
         <div className="relative z-10 container mx-auto px-4 text-center max-w-5xl">
           <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
