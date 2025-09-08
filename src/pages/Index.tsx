@@ -39,24 +39,6 @@ const Index = () => {
     }
   ];
 
-  const steps = [
-    {
-      icon: <Upload className="h-6 w-6" />,
-      title: "Upload scans",
-      description: "Securely upload your DICOM files"
-    },
-    {
-      icon: <FileText className="h-6 w-6" />,
-      title: "Share details",
-      description: "Provide context about your condition"
-    },
-    {
-      icon: <CheckCircle className="h-6 w-6" />,
-      title: "Get your expert report",
-      description: "Receive detailed analysis from specialists"
-    }
-  ];
-
   const testimonials = [
     {
       text: "The clarity I needed when everything felt uncertain.",
@@ -160,33 +142,76 @@ const Index = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-12 bg-muted/30">
+      <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
-              How It Works
+              Peace of Mind
             </h2>
+            <p className="text-2xl lg:text-3xl font-light text-muted-foreground">
+              in 3 Simple Steps
+            </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {steps.map((step, index) => (
-              <Card key={index} className="text-center border-0 bg-white shadow-md">
-                <CardHeader className="pb-4">
-                  <div className="relative">
-                    <div className="mx-auto p-4 bg-secondary rounded-2xl text-white mb-4 w-fit">
-                      {step.icon}
-                    </div>
-                    <div className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
-                      {index + 1}
-                    </div>
-                  </div>
-                  <CardTitle className="text-lg font-semibold">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{step.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-6">
+                  1
+                </div>
+                <div className="w-full h-48 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                  <Upload className="h-16 w-16 text-primary" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold mb-4">Upload Your Scans</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Send us your images and specific questions, we'll take care of the rest.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-6">
+                  2
+                </div>
+                <div className="w-full h-48 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6">
+                  <Award className="h-16 w-16 text-secondary" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold mb-4">Choose a Specialist</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Let us pair you with the best or browse radiologist profiles.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto mb-6">
+                  3
+                </div>
+                <div className="w-full h-48 bg-accent/10 rounded-2xl flex items-center justify-center mb-6">
+                  <FileText className="h-16 w-16 text-accent" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold mb-4">Get Your Report</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Receive a clear, thorough report and expert answers in 1-2 business days.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-16">
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 px-8 py-4 text-lg font-semibold"
+              onClick={() => navigate('/patient-details')}
+            >
+              Start Your Second Opinion
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </div>
       </section>
