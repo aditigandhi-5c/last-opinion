@@ -158,6 +158,126 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Academic Excellence Section */}
+      <section className="py-16 bg-gradient-to-br from-muted/20 to-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
+              Precision Starts with
+            </h2>
+            <p className="text-2xl lg:text-3xl font-light text-muted-foreground">
+              Academic Excellence
+            </p>
+            <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
+              Our medical experts are educated at the world's most prestigious institutions, 
+              bringing unparalleled depth of knowledge to your case.
+            </p>
+          </div>
+
+          {/* Academic Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+            {/* Pomona Excellence */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Award className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">Research Excellence</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Faculty and students collaborate on breakthrough research, with over 50% of students 
+                  working closely with professors on cutting-edge medical discoveries.
+                </p>
+                <div className="text-xs text-primary font-medium">Pomona College Network</div>
+              </CardContent>
+            </Card>
+
+            {/* Harvey Mudd Innovation */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Stethoscope className="h-8 w-8 text-secondary" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">STEM Innovation</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The Liberal Arts College of Engineering, Science and Mathematics, 
+                  fostering 70 years of academic excellence and meaningful STEM contributions.
+                </p>
+                <div className="text-xs text-secondary font-medium">Harvey Mudd College</div>
+              </CardContent>
+            </Card>
+
+            {/* CMC Leadership */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-8 w-8 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">Leadership Focus</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Developing leaders who learn, lead, and succeed through innovative education 
+                  and hands-on research in the Robert Day Sciences Center.
+                </p>
+                <div className="text-xs text-accent font-medium">Claremont McKenna College</div>
+              </CardContent>
+            </Card>
+
+            {/* Scripps Collaboration */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">Collaborative Network</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Part of a consortium of five prestigious colleges, offering resources 
+                  and opportunities of a large research institution with personalized attention.
+                </p>
+                <div className="text-xs text-primary font-medium">Scripps College</div>
+              </CardContent>
+            </Card>
+
+            {/* Pitzer Impact */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Star className="h-8 w-8 text-secondary" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">Making an Impact</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  #1 Best School for Making an Impact with 18 Fulbright recipients in 2025, 
+                  and a U.S. "Top Producer" for 16 consecutive years.
+                </p>
+                <div className="text-xs text-secondary font-medium">Pitzer College</div>
+              </CardContent>
+            </Card>
+
+            {/* 5C Consortium */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Shield className="h-8 w-8 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">Proven Excellence</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The 5C network represents decades of academic excellence, innovative research, 
+                  and commitment to developing scholars who make meaningful contributions to society.
+                </p>
+                <div className="text-xs text-accent font-medium">Five College Consortium</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Bottom Text */}
+          <div className="text-center">
+            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              Our medical professionals are educated at these world-renowned institutions, bringing together 
+              research excellence, innovative thinking, collaborative expertise, and proven impact 
+              — so you can choose with confidence, knowing your case is in the most capable hands.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
