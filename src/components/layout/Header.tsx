@@ -12,8 +12,8 @@ const Header = () => {
 
   return (
     <header className="bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 sticky top-0 z-50 w-full border-b medical-shadow">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between max-w-7xl mx-auto">
           {/* Logo */}
           <div 
             className="flex items-center space-x-2 cursor-pointer transition-smooth hover:scale-105"
@@ -29,14 +29,14 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <a href="#how-it-works" className="text-muted-foreground hover:text-primary transition-smooth">
+          <nav className="hidden md:flex items-center space-x-8">
+            <a href="#how-it-works" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
               How It Works
             </a>
-            <a href="#why-trust-us" className="text-muted-foreground hover:text-primary transition-smooth">
+            <a href="#why-trust-us" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
               Why Trust Us
             </a>
-            <a href="#faqs" className="text-muted-foreground hover:text-primary transition-smooth">
+            <a href="#faqs" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
               FAQs
             </a>
           </nav>
