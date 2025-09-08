@@ -18,6 +18,13 @@ import {
 } from "lucide-react";
 import WorkflowSlideshow from "@/components/WorkflowSlideshow";
 import ChatBot from "@/components/ChatBot";
+import doctor1 from "@/assets/doctor-1.jpg";
+import doctor2 from "@/assets/doctor-2.jpg";
+import doctor3 from "@/assets/doctor-3.jpg";
+import doctor4 from "@/assets/doctor-4.jpg";
+import doctor5 from "@/assets/doctor-5.jpg";
+import doctor6 from "@/assets/doctor-6.jpg";
+import doctor7 from "@/assets/doctor-7.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -158,121 +165,97 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Academic Excellence Section */}
-      <section className="py-16 bg-gradient-to-br from-muted/20 to-background">
+      {/* Precision Starts with The Right Doctor Section */}
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
               Precision Starts with
             </h2>
             <p className="text-2xl lg:text-3xl font-light text-muted-foreground">
-              Academic Excellence
-            </p>
-            <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Our medical experts are educated at the world's most prestigious institutions, 
-              bringing unparalleled depth of knowledge to your case.
+              The Right Doctor
             </p>
           </div>
 
-          {/* Academic Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-            {/* Pomona Excellence */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Award className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Research Excellence</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Faculty and students collaborate on breakthrough research, with over 50% of students 
-                  working closely with professors on cutting-edge medical discoveries.
-                </p>
-                <div className="text-xs text-primary font-medium">Pomona College Network</div>
-              </CardContent>
-            </Card>
+          {/* Doctor Cards Row */}
+          <div className="flex justify-center mb-12">
+            <div className="relative flex -space-x-4 transform perspective-1000 rotate-y-12">
+              {/* Best Match Badge */}
+              <div className="absolute -top-8 left-8 z-20">
+                <Badge className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  Best Match
+                </Badge>
+              </div>
+              
+              {/* Available Now Badge */}
+              <div className="absolute -top-8 right-8 z-20">
+                <Badge className="bg-gray-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  Available Now
+                </Badge>
+              </div>
 
-            {/* Harvey Mudd Innovation */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Stethoscope className="h-8 w-8 text-secondary" />
+              {/* Doctor Profile Cards */}
+              {[
+                { src: doctor1, name: "Dr. Smith" },
+                { src: doctor2, name: "Dr. Johnson" },
+                { src: doctor3, name: "Dr. Williams" },
+                { src: doctor4, name: "Dr. Brown" },
+                { src: doctor5, name: "Dr. Davis" },
+                { src: doctor6, name: "Dr. Miller" },
+                { src: doctor7, name: "Dr. Wilson" }
+              ].map((doctor, index) => (
+                <div
+                  key={index}
+                  className={`relative transform ${
+                    index === 0 ? 'z-10 scale-105' : index === 6 ? 'z-10 scale-105' : 'z-5'
+                  } transition-transform hover:scale-110 hover:z-30`}
+                  style={{
+                    transform: `rotateY(${(index - 3) * 8}deg) translateZ(${Math.abs(index - 3) * -20}px)`
+                  }}
+                >
+                  <Card className="w-32 h-40 border-4 border-white shadow-2xl rounded-2xl overflow-hidden bg-white">
+                    <div className="w-full h-full">
+                      <img
+                        src={doctor.src}
+                        alt={doctor.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </Card>
                 </div>
-                <h3 className="text-lg font-bold mb-2">STEM Innovation</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  The Liberal Arts College of Engineering, Science and Mathematics, 
-                  fostering 70 years of academic excellence and meaningful STEM contributions.
-                </p>
-                <div className="text-xs text-secondary font-medium">Harvey Mudd College</div>
-              </CardContent>
-            </Card>
-
-            {/* CMC Leadership */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8 text-accent" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Leadership Focus</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Developing leaders who learn, lead, and succeed through innovative education 
-                  and hands-on research in the Robert Day Sciences Center.
-                </p>
-                <div className="text-xs text-accent font-medium">Claremont McKenna College</div>
-              </CardContent>
-            </Card>
-
-            {/* Scripps Collaboration */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Collaborative Network</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Part of a consortium of five prestigious colleges, offering resources 
-                  and opportunities of a large research institution with personalized attention.
-                </p>
-                <div className="text-xs text-primary font-medium">Scripps College</div>
-              </CardContent>
-            </Card>
-
-            {/* Pitzer Impact */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Star className="h-8 w-8 text-secondary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Making an Impact</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  #1 Best School for Making an Impact with 18 Fulbright recipients in 2025, 
-                  and a U.S. "Top Producer" for 16 consecutive years.
-                </p>
-                <div className="text-xs text-secondary font-medium">Pitzer College</div>
-              </CardContent>
-            </Card>
-
-            {/* 5C Consortium */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-accent" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Proven Excellence</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  The 5C network represents decades of academic excellence, innovative research, 
-                  and commitment to developing scholars who make meaningful contributions to society.
-                </p>
-                <div className="text-xs text-accent font-medium">Five College Consortium</div>
-              </CardContent>
-            </Card>
+              ))}
+            </div>
           </div>
 
-          {/* Bottom Text */}
-          <div className="text-center">
-            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Our medical professionals are educated at these world-renowned institutions, bringing together 
-              research excellence, innovative thinking, collaborative expertise, and proven impact 
-              — so you can choose with confidence, knowing your case is in the most capable hands.
+          {/* Institution Logos */}
+          <div className="flex justify-center items-center space-x-12 mb-12">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-2">
+                <span className="text-primary font-bold text-xs">POMONA</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Pomona College</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-2">
+                <span className="text-secondary font-bold text-xs">HMC</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Harvey Mudd College</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-20 h-20 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-2">
+                <span className="text-accent font-bold text-xs">CMC</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Claremont McKenna</p>
+            </div>
+          </div>
+
+          {/* Description Text */}
+          <div className="text-center max-w-4xl mx-auto">
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              EchoMed second opinion radiologists are educated at world-class institutions and fellowship trained 
+              — so you can choose with confidence, knowing your case is in expert hands.
             </p>
           </div>
         </div>
