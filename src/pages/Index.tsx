@@ -305,11 +305,11 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
-              <CardContent className="p-8 h-full flex flex-col justify-between">
+              <CardContent className="p-8 h-full flex flex-col">
                 <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
                   <Shield className="h-6 w-6 text-slate-800" />
                 </div>
-                <div>
+                <div className="flex-1 flex flex-col justify-center">
                   <h3 className="text-3xl font-bold mb-6 leading-tight">
                     12 million patients are misdiagnosed every year
                   </h3>
@@ -321,13 +321,13 @@ const Index = () => {
             </Card>
 
             <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
-              <CardContent className="p-8 h-full flex flex-col justify-between">
+              <CardContent className="p-8 h-full flex flex-col">
                 <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
                   <CheckCircle className="h-6 w-6 text-slate-800" />
                 </div>
-                <div>
+                <div className="flex-1 flex flex-col justify-center">
                   <h3 className="text-3xl font-bold mb-6 leading-tight">
-                    96% of Echo Meds' second opinions clarify results
+                    96% of EchoMed's second opinions clarify results
                   </h3>
                   <p className="text-white/80 text-lg">
                     Even great doctors occasionally miss things on scans.
@@ -337,11 +337,11 @@ const Index = () => {
             </Card>
 
             <Card className="relative h-80 overflow-hidden border-0 bg-slate-800 text-white">
-              <CardContent className="p-8 h-full flex flex-col justify-between">
+              <CardContent className="p-8 h-full flex flex-col">
                 <div className="w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center mb-6">
                   <Clock className="h-6 w-6 text-slate-800" />
                 </div>
-                <div>
+                <div className="flex-1 flex flex-col justify-center">
                   <h3 className="text-3xl font-bold mb-6 leading-tight">
                     Fast, affordable, and reassuring
                   </h3>
