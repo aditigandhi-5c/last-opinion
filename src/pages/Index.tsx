@@ -6,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { 
   Shield, 
   Clock, 
@@ -40,6 +41,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
   const navigate = useNavigate();
+  const carouselApiRef = useRef<any>(null);
   
   // Animation hooks for different sections
   const heroAnimation = useScrollAnimation(0.1);
@@ -132,6 +134,17 @@ const Index = () => {
       }
     }
   ];
+
+  // Auto-advance testimonials carousel
+  useEffect(() => {
+    if (!carouselApiRef.current) return;
+
+    const timer = setInterval(() => {
+      carouselApiRef.current?.scrollNext();
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -437,7 +450,16 @@ const Index = () => {
           </div>
           
           <div className="max-w-6xl mx-auto">
-            <Carousel className="w-full">
+            <Carousel 
+              className="w-full"
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              setApi={(api) => {
+                carouselApiRef.current = api;
+              }}
+            >
               <CarouselContent>
                 {doctorTestimonials.map((testimonial, index) => (
                   <CarouselItem key={index}>
