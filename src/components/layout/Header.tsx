@@ -28,16 +28,22 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#how-it-works" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
+          {/* Desktop Navigation - Centered */}
+          <nav className="hidden md:flex items-center space-x-8 flex-1 justify-center">
+            <a href="#how-it-works" className="text-base font-medium text-foreground hover:text-primary transition-smooth">
               How It Works
             </a>
-            <a href="#why-trust-us" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
-              Why Trust Us
+            <a href="#our-experts" className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              Our Experts
             </a>
-            <a href="#faqs" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
-              FAQs
+            <a href="#features" className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              Features
+            </a>
+            <a href="#reviews" className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              Reviews
+            </a>
+            <a href="#faqs" className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              FAQ
             </a>
           </nav>
 
