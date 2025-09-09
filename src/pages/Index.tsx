@@ -141,7 +141,7 @@ const Index = () => {
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [doctorTestimonials.length]);
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % doctorTestimonials.length);
