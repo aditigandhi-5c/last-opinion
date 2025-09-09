@@ -98,7 +98,7 @@ const PaymentPage = () => {
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle className="h-4 w-4 text-green-600" />
-                          <span>24-hour delivery guarantee</span>
+                          <span>1-2 business day delivery</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle className="h-4 w-4 text-green-600" />
@@ -123,7 +123,7 @@ const PaymentPage = () => {
                   <div className="p-3 bg-primary/10 rounded-full w-fit mx-auto mb-2">
                     <Clock className="h-6 w-6 text-primary" />
                   </div>
-                  <p className="text-xs font-medium">24-Hour Delivery</p>
+                  <p className="text-xs font-medium">1-2 Business Days</p>
                 </div>
                 <div className="text-center">
                   <div className="p-3 bg-secondary/10 rounded-full w-fit mx-auto mb-2">
@@ -209,7 +209,7 @@ const PaymentPage = () => {
               <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
             </p>
             <p className="mt-2">
-              Your expert second opinion report will be delivered within 48 hours to your dashboard and email.
+              Your expert second opinion report will be delivered within 1-2 business days to your dashboard and email.
             </p>
           </div>
         </div>
