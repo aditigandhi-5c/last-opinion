@@ -33,12 +33,6 @@ const WorkflowSlideshow = () => {
       icon: <MessageSquare className="h-12 w-12" />,
     },
     {
-      id: "browse-radiologists",
-      title: "Browse Radiologists",
-      description: "Choose from our network of board-certified specialist radiologists",
-      icon: <Search className="h-12 w-12" />,
-    },
-    {
       id: "secure-payment",
       title: "Secure Payment",
       description: "Complete your order with our encrypted payment system",
