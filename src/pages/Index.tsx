@@ -30,9 +30,21 @@ import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
 import happyPatientLaptop from "@/assets/happy-patient-laptop.jpg";
 import happyPatientConsultation from "@/assets/happy-patient-consultation.jpg";
 import happyCoupleLaptop from "@/assets/happy-couple-laptop.jpg";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
   const navigate = useNavigate();
+  
+  // Animation hooks for different sections
+  const heroAnimation = useScrollAnimation(0.1);
+  const serviceCardsAnimation = useScrollAnimation(0.1);
+  const workflowAnimation = useScrollAnimation(0.1);
+  const doctorAnimation = useScrollAnimation(0.1);
+  const statsAnimation = useScrollAnimation(0.1);
+  const patientStoryAnimation = useScrollAnimation(0.1);
+  const faqAnimation = useScrollAnimation(0.1);
+  const testimonialsAnimation = useScrollAnimation(0.1);
+  const finalCtaAnimation = useScrollAnimation(0.1);
 
   const trustPoints = [
     {
@@ -186,7 +198,14 @@ const Index = () => {
       </section>
 
       {/* Why Choose Us Section with Three Service Boxes */}
-      <section className="py-16 md:py-20 bg-primary">
+      <section 
+        ref={serviceCardsAnimation.ref}
+        className={`py-16 md:py-20 bg-primary transition-all duration-1000 ${
+          serviceCardsAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
             <div className="flex-1">
@@ -248,7 +267,14 @@ const Index = () => {
       </section>
 
       {/* Workflow Slideshow Section */}
-      <section className="py-16 bg-white">
+      <section 
+        ref={workflowAnimation.ref}
+        className={`py-16 bg-white transition-all duration-1000 delay-200 ${
+          workflowAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
@@ -280,7 +306,14 @@ const Index = () => {
       </section>
 
       {/* Statistics Section - DocPanel Style */}
-      <section className="py-16 md:py-20 bg-background">
+      <section 
+        ref={statsAnimation.ref}
+        className={`py-16 md:py-20 bg-background transition-all duration-1000 delay-400 ${
+          statsAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
             <div className="flex-1">
@@ -356,7 +389,14 @@ const Index = () => {
       </section>
 
       {/* Patient Story Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section 
+        ref={patientStoryAnimation.ref}
+        className={`py-12 md:py-16 bg-white transition-all duration-1000 delay-500 ${
+          patientStoryAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 max-w-5xl mx-auto">
             <div className="flex-shrink-0 w-40 md:w-48">
@@ -389,7 +429,14 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-background">
+      <section 
+        ref={faqAnimation.ref}
+        className={`py-16 bg-background transition-all duration-1000 delay-600 ${
+          faqAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-light text-foreground mb-4">
@@ -453,7 +500,14 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-12 bg-white">
+      <section 
+        ref={testimonialsAnimation.ref}
+        className={`py-12 bg-white transition-all duration-1000 delay-700 ${
+          testimonialsAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
@@ -483,7 +537,14 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-gradient-to-br from-primary to-secondary text-white">
+      <section 
+        ref={finalCtaAnimation.ref}
+        className={`py-16 bg-gradient-to-br from-primary to-secondary text-white transition-all duration-1000 delay-800 ${
+          finalCtaAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center mb-6">
             <div className="p-4 bg-white/20 rounded-full">
