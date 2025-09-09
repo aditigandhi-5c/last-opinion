@@ -274,7 +274,7 @@ const Index = () => {
               />
               <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
                 <Heart className="h-12 w-12 mb-6 text-primary" />
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Clear Answers</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Trusted Care</h3>
                 <p className="text-gray-700">
                   Board-certified radiologists with decades of experience in medical imaging analysis
                 </p>
