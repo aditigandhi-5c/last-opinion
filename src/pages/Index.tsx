@@ -26,10 +26,10 @@ import DoctorShowcase from "@/components/DoctorShowcase";
 import medicalCareBg from "@/assets/medical-care-bg.jpg";
 import medicalReportBg from "@/assets/medical-report-bg.jpg";
 import medicalTechBg from "@/assets/medical-tech-bg.jpg";
-import patientTestimonial from "/lovable-uploads/c5c14020-0e52-4dca-99f7-5c52e98ce055.png";
-import happyPatientLaptop from "/lovable-uploads/74972956-ca8d-4a1f-a6b5-7de831bf50df.png";
+import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
+import happyPatientLaptop from "@/assets/happy-patient-laptop.jpg";
 import happyPatientConsultation from "@/assets/happy-patient-consultation.jpg";
-import happyCoupleLaptop from "/lovable-uploads/c5c14020-0e52-4dca-99f7-5c52e98ce055.png";
+import happyCoupleLaptop from "@/assets/happy-couple-laptop.jpg";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
@@ -134,9 +134,8 @@ const Index = () => {
             
             {/* Center Content */}
             <div className="lg:col-span-3 text-center">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-gray-900">
-                <div>When Doubt Ends,</div>
-                <div>Healing Begins.</div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-gray-900">
+                When Doubt Ends, Healing Begins.
               </h1>
               
               <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto text-gray-700 px-4">
