@@ -102,25 +102,102 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-primary to-secondary text-white">
-        <div className="container mx-auto px-4 text-center max-w-5xl">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
-            When Doubt Ends, Healing Begins.
-          </h1>
+      <section className="py-16 lg:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
+            {/* Left Image */}
+            <div className="hidden lg:block">
+              <img 
+                src="/lovable-uploads/566288b8-465d-4600-a051-1a1d467cf7f8.png" 
+                alt="Medical consultation" 
+                className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+              />
+            </div>
+            
+            {/* Center Content */}
+            <div className="lg:col-span-1 text-center lg:text-left">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-foreground">
+                Get a Radiology<br />
+                <span className="text-primary">Second Opinion</span>
+              </h1>
+              
+              <p className="text-lg md:text-xl mb-8 text-muted-foreground">
+                Clarity and peace of mind from top radiologists.
+              </p>
+              
+              <div className="space-y-4 mb-8 text-left">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-foreground">U.S. board certified radiologists</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-foreground">Ask very specific questions</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-foreground">Easy-to-understand results</span>
+                </div>
+              </div>
+              
+              <Button 
+                size="lg" 
+                className="bg-primary text-white hover:bg-primary/90 px-8 py-4 text-lg font-semibold mb-6"
+                onClick={() => navigate('/patient-details')}
+              >
+                Starting at $199
+              </Button>
+              
+              <p className="text-sm text-muted-foreground flex items-center justify-center lg:justify-start gap-2">
+                <Clock className="h-4 w-4" />
+                Takes 1 - 2 business days
+              </p>
+            </div>
+            
+            {/* Right Image */}
+            <div className="hidden lg:block">
+              <img 
+                src="/lovable-uploads/60bdc12a-a0b4-4f10-81aa-b182834071c8.png" 
+                alt="Medical professional working" 
+                className="w-full h-[400px] object-cover rounded-lg shadow-lg"
+              />
+            </div>
+          </div>
           
-          <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto opacity-90 px-4">
-            Get the most accurate interpretation of your scans, guided by subspecialty experts 
-            who care about your clarity and peace of mind.
-          </p>
-          
-          <Button 
-            size="lg" 
-            className="bg-white text-primary hover:bg-white/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold"
-            onClick={() => navigate('/patient-details')}
-          >
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-          </Button>
+          {/* HIPAA Certification and Trust Badges */}
+          <div className="mt-16 pt-12 border-t border-border">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
+              <div className="flex items-center gap-3">
+                <Shield className="h-8 w-8 text-primary" />
+                <div>
+                  <p className="font-semibold text-foreground">HIPAA Certified</p>
+                  <p className="text-sm text-muted-foreground">Your data is secure</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Award className="h-8 w-8 text-primary" />
+                <div>
+                  <p className="font-semibold text-foreground">Board Certified</p>
+                  <p className="text-sm text-muted-foreground">Expert radiologists</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Users className="h-8 w-8 text-primary" />
+                <div>
+                  <p className="font-semibold text-foreground">10,000+ Patients</p>
+                  <p className="text-sm text-muted-foreground">Trusted nationwide</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
