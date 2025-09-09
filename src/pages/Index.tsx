@@ -26,10 +26,10 @@ import DoctorShowcase from "@/components/DoctorShowcase";
 import medicalCareBg from "@/assets/medical-care-bg.jpg";
 import medicalReportBg from "@/assets/medical-report-bg.jpg";
 import medicalTechBg from "@/assets/medical-tech-bg.jpg";
-import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
-import happyPatientLaptop from "@/assets/happy-patient-laptop.jpg";
+import patientTestimonial from "/lovable-uploads/c5c14020-0e52-4dca-99f7-5c52e98ce055.png";
+import happyPatientLaptop from "/lovable-uploads/74972956-ca8d-4a1f-a6b5-7de831bf50df.png";
 import happyPatientConsultation from "@/assets/happy-patient-consultation.jpg";
-import happyCoupleLaptop from "@/assets/happy-couple-laptop.jpg";
+import happyCoupleLaptop from "/lovable-uploads/c5c14020-0e52-4dca-99f7-5c52e98ce055.png";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
