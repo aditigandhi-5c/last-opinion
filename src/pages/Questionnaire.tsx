@@ -8,12 +8,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, FileText, Stethoscope } from "lucide-react";
-
 const Questionnaire = () => {
   const navigate = useNavigate();
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [wantSubspecialist, setWantSubspecialist] = useState(false);
-
   const handleNext = () => {
     // Store questionnaire data
     const questionnaireData = {
@@ -23,9 +21,7 @@ const Questionnaire = () => {
     localStorage.setItem('questionnaireData', JSON.stringify(questionnaireData));
     navigate('/payment');
   };
-
-  return (
-    <div className="min-h-screen bg-background animate-fade-in">
+  return <div className="min-h-screen bg-background animate-fade-in">
       <Header />
       
       <div className="container mx-auto px-4 py-12">
@@ -49,14 +45,7 @@ const Questionnaire = () => {
                 <Label htmlFor="additional-info">
                   Share more information about your condition or questions
                 </Label>
-                <Textarea
-                  id="additional-info"
-                  placeholder="Please describe your symptoms, concerns, or any specific questions you have about your scans. Include relevant medical history, current medications, or previous treatments if applicable."
-                  rows={6}
-                  value={additionalInfo}
-                  onChange={(e) => setAdditionalInfo(e.target.value)}
-                  className="resize-none"
-                />
+                <Textarea id="additional-info" placeholder="Please describe your symptoms, concerns, or any specific questions you have about your scans. Include relevant medical history, current medications, or previous treatments if applicable." rows={6} value={additionalInfo} onChange={e => setAdditionalInfo(e.target.value)} className="resize-none" />
                 <p className="text-xs text-muted-foreground">
                   The more details you provide, the more comprehensive your second opinion will be.
                 </p>
@@ -64,16 +53,9 @@ const Questionnaire = () => {
 
               <div className="border-t pt-6">
                 <div className="flex items-start space-x-3">
-                  <Checkbox 
-                    id="subspecialist"
-                    checked={wantSubspecialist}
-                    onCheckedChange={(checked) => setWantSubspecialist(checked as boolean)}
-                  />
+                  <Checkbox id="subspecialist" checked={wantSubspecialist} onCheckedChange={checked => setWantSubspecialist(checked as boolean)} />
                   <div className="space-y-1">
-                    <Label 
-                      htmlFor="subspecialist" 
-                      className="flex items-center gap-2 cursor-pointer font-medium"
-                    >
+                    <Label htmlFor="subspecialist" className="flex items-center gap-2 cursor-pointer font-medium">
                       <Stethoscope className="h-4 w-4 text-secondary" />
                       Do you want a subspecialty radiologist to review?
                     </Label>
@@ -91,23 +73,16 @@ const Questionnaire = () => {
                   <li>• Your case will be assigned to an expert radiologist</li>
                   <li>• Comprehensive review of your scans and medical information</li>
                   <li>• Detailed written report within 24 hours</li>
-                  <li>• Secure delivery to your dashboard and email</li>
+                  <li>• Secure delivery to your dashboard.</li>
                 </ul>
               </div>
 
               <div className="flex gap-4 pt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => navigate('/upload')}
-                  className="flex-1"
-                >
+                <Button variant="outline" onClick={() => navigate('/upload')} className="flex-1">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
-                <Button
-                  onClick={handleNext}
-                  className="flex-1 bg-primary hover:bg-primary/90"
-                >
+                <Button onClick={handleNext} className="flex-1 bg-primary hover:bg-primary/90">
                   Continue to Payment
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -118,8 +93,6 @@ const Questionnaire = () => {
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Questionnaire;
