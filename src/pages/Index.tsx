@@ -186,62 +186,59 @@ const Index = () => {
       </section>
 
       {/* Why Choose Us Section with Three Service Boxes */}
-      <section className="py-16 md:py-20 bg-gradient-subtle">
+      <section className="py-16 md:py-20 bg-primary">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
             <div className="flex-1">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 The Last Opinion<br />You'll Ever Need.
               </h2>
             </div>
             <div className="flex-1 lg:ml-8">
-              <p className="text-lg md:text-xl text-muted-foreground">
+              <p className="text-lg md:text-xl text-white/80">
                 Our radiologists provide comprehensive, expert second opinions using cutting-edge technology to give you the clarity you deserve.
               </p>
             </div>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
+            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant bg-gray-50">
               <div 
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-center opacity-10"
                 style={{ backgroundImage: `url(${medicalCareBg})` }}
               />
-              <div className="absolute inset-0 bg-primary/80" />
-              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center text-white">
-                <Heart className="h-12 w-12 mb-6 text-white" />
-                <h3 className="text-2xl font-bold mb-4">Expert Care</h3>
-                <p className="text-white/90">
+              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
+                <Heart className="h-12 w-12 mb-6 text-primary" />
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Expert Care</h3>
+                <p className="text-gray-700">
                   Board-certified radiologists with decades of experience in medical imaging analysis
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
+            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant bg-gray-50">
               <div 
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-center opacity-10"
                 style={{ backgroundImage: `url(${medicalReportBg})` }}
               />
-              <div className="absolute inset-0 bg-primary/80" />
-              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center text-white">
-                <FileText className="h-12 w-12 mb-6 text-white" />
-                <h3 className="text-2xl font-bold mb-4">Detailed Reports</h3>
-                <p className="text-white/90">
+              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
+                <FileText className="h-12 w-12 mb-6 text-primary" />
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Detailed Reports</h3>
+                <p className="text-gray-700">
                   Comprehensive analysis with clear explanations you can understand and trust
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant">
+            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant bg-gray-50">
               <div 
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-center opacity-10"
                 style={{ backgroundImage: `url(${medicalTechBg})` }}
               />
-              <div className="absolute inset-0 bg-primary/80" />
-              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center text-white">
-                <Zap className="h-12 w-12 mb-6 text-white" />
-                <h3 className="text-2xl font-bold mb-4">Fast Results</h3>
-                <p className="text-white/90">
+              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
+                <Zap className="h-12 w-12 mb-6 text-primary" />
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">Fast Results</h3>
+                <p className="text-gray-700">
                   Get your expert second opinion within 24-48 hours, not weeks
                 </p>
               </CardContent>
