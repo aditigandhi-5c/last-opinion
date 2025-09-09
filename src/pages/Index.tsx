@@ -258,7 +258,7 @@ const Index = () => {
                 <Zap className="h-12 w-12 mb-6 text-primary" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">Fast Results</h3>
                 <p className="text-gray-700">
-                  Get your expert second opinion within 24-48 hours, not weeks
+                  Get your expert second opinion within 24 hours, not weeks
                 </p>
               </CardContent>
             </Card>
@@ -483,7 +483,7 @@ const Index = () => {
                 How long does it take to get my second opinion?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Most second opinions are delivered within 24-48 hours of receiving your complete medical images and information.
+                Most second opinions are delivered within 24 hours of receiving your complete medical images and information.
               </AccordionContent>
             </AccordionItem>
             
