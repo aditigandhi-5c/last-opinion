@@ -123,7 +123,7 @@ const PaymentPage = () => {
                   <div className="p-3 bg-primary/10 rounded-full w-fit mx-auto mb-2">
                     <Clock className="h-6 w-6 text-primary" />
                   </div>
-                  <p className="text-xs font-medium">48-Hour Delivery</p>
+                  <p className="text-xs font-medium">24-Hour Delivery</p>
                 </div>
                 <div className="text-center">
                   <div className="p-3 bg-secondary/10 rounded-full w-fit mx-auto mb-2">
