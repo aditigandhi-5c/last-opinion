@@ -30,7 +30,7 @@ function MovingDegrees() {
         {degrees.concat(degrees).map((degree, index) => (
           <div
             key={index}
-            className="whitespace-nowrap px-12 py-6 text-base font-medium text-muted-foreground hover:text-primary transition-colors"
+            className="whitespace-nowrap px-12 py-6 text-lg font-semibold text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-300 hover:scale-105"
           >
             {degree}
           </div>
