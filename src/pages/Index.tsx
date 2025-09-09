@@ -141,7 +141,7 @@ const Index = () => {
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src={happyCoupleLaptop} 
+                src="/lovable-uploads/d5229efa-efbe-491d-b50a-d6bde2ddf868.png" 
                 alt="Happy couple looking at laptop computer together" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
