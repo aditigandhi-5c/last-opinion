@@ -9,45 +9,44 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, CreditCard, Shield, CheckCircle, Clock, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useDummyNotifications } from "@/hooks/useDummyNotifications";
-
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const { sendPatientConfirmations, sendTeamNotifications } = useDummyNotifications();
+  const {
+    toast
+  } = useToast();
+  const {
+    sendPatientConfirmations,
+    sendTeamNotifications
+  } = useDummyNotifications();
   const [isProcessing, setIsProcessing] = useState(false);
-
   const handlePayment = async () => {
     setIsProcessing(true);
-    
+
     // Get patient data for notifications
     const patientData = JSON.parse(localStorage.getItem('patientDetails') || '{}');
-    
+
     // Simulate payment processing
     setTimeout(() => {
       toast({
         title: "Payment Successful!",
-        description: "Your second opinion request has been submitted. You'll receive your report within 48 hours.",
+        description: "Your second opinion request has been submitted. You'll receive your report within 48 hours."
       });
-      
+
       // Send thank you WhatsApp message after payment
-      const { sendWhatsAppNotification } = useDummyNotifications();
+      const {
+        sendWhatsAppNotification
+      } = useDummyNotifications();
       const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
       setTimeout(() => {
-        sendWhatsAppNotification(
-          patientName,
-          "Thank you for trusting us! You will see your report in your dashboard once ready."
-        );
+        sendWhatsAppNotification(patientName, "Thank you for trusting us! You will see your report in your dashboard once ready.");
       }, 1000);
-      
+
       // Send team notifications
       sendTeamNotifications(patientData);
-      
       navigate('/dashboard');
     }, 2000);
   };
-
-  return (
-    <div className="min-h-screen bg-background animate-fade-in">
+  return <div className="min-h-screen bg-background animate-fade-in">
       <Header />
       
       <div className="container mx-auto px-4 py-12">
@@ -99,7 +98,7 @@ const PaymentPage = () => {
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle className="h-4 w-4 text-green-600" />
-                          <span>48-hour delivery guarantee</span>
+                          <span>24-hour delivery guarantee</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <CheckCircle className="h-4 w-4 text-green-600" />
@@ -166,23 +165,14 @@ const PaymentPage = () => {
                     </p>
                   </div>
                   
-                  <Button
-                    onClick={handlePayment}
-                    disabled={isProcessing}
-                    className="w-full bg-primary hover:bg-primary/90 text-lg py-6"
-                    size="lg"
-                  >
-                    {isProcessing ? (
-                      <>
+                  <Button onClick={handlePayment} disabled={isProcessing} className="w-full bg-primary hover:bg-primary/90 text-lg py-6" size="lg">
+                    {isProcessing ? <>
                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                         Processing Payment...
-                      </>
-                    ) : (
-                      <>
+                      </> : <>
                         Pay ₹3,000 Securely
                         <ArrowRight className="ml-2 h-5 w-5" />
-                      </>
-                    )}
+                      </>}
                   </Button>
                 </CardContent>
               </Card>
@@ -203,12 +193,7 @@ const PaymentPage = () => {
               </Card>
 
               <div className="flex gap-4">
-                <Button
-                  variant="outline"
-                  onClick={() => navigate('/questionnaire')}
-                  className="flex-1"
-                  disabled={isProcessing}
-                >
+                <Button variant="outline" onClick={() => navigate('/questionnaire')} className="flex-1" disabled={isProcessing}>
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
@@ -231,8 +216,6 @@ const PaymentPage = () => {
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default PaymentPage;
