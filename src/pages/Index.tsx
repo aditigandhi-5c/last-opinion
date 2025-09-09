@@ -144,11 +144,17 @@ const Index = () => {
   }, [doctorTestimonials.length]);
 
   const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % doctorTestimonials.length);
+    setCurrentTestimonial((prev) => {
+      const next = (prev + 1) % doctorTestimonials.length;
+      return next;
+    });
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + doctorTestimonials.length) % doctorTestimonials.length);
+    setCurrentTestimonial((prev) => {
+      const previous = (prev - 1 + doctorTestimonials.length) % doctorTestimonials.length;
+      return previous;
+    });
   };
 
   return (
@@ -464,9 +470,10 @@ const Index = () => {
                       <div className="text-center">
                         <div className="relative mb-6">
                           <img 
+                            key={currentTestimonial}
                             src={doctorTestimonials[currentTestimonial].doctor.image} 
                             alt={doctorTestimonials[currentTestimonial].doctor.name} 
-                            className="w-48 h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20"
+                            className="w-48 h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20 transition-all duration-500 ease-in-out"
                           />
                         </div>
                         <h3 className="text-xl font-bold text-foreground mb-2">
@@ -486,14 +493,17 @@ const Index = () => {
                       <Card className="h-full border-0 shadow-lg">
                         <CardContent className="p-8 flex flex-col justify-center min-h-[300px]">
                           <div className="text-6xl text-primary/20 font-serif mb-4">"</div>
-                          <blockquote className="text-lg text-foreground leading-relaxed mb-6">
+                          <blockquote 
+                            key={`testimonial-${currentTestimonial}`}
+                            className="text-lg text-foreground leading-relaxed mb-6 transition-all duration-500 ease-in-out"
+                          >
                             {doctorTestimonials[currentTestimonial].patient.text}
                           </blockquote>
                           <footer className="border-t pt-4">
-                            <p className="font-semibold text-foreground text-lg">
+                            <p className="font-semibold text-foreground text-lg transition-all duration-500 ease-in-out">
                               {doctorTestimonials[currentTestimonial].patient.author}
                             </p>
-                            <p className="text-muted-foreground">
+                            <p className="text-muted-foreground transition-all duration-500 ease-in-out">
                               {doctorTestimonials[currentTestimonial].patient.location}
                             </p>
                           </footer>
