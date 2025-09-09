@@ -124,7 +124,7 @@ const Index = () => {
             <div className="hidden lg:block lg:col-span-1">
               <div className="relative">
                 <img 
-                  src="/lovable-uploads/850ffc50-9875-4e44-8bd3-628d367877c6.png" 
+                  src="/lovable-uploads/50475260-1d3f-4f1f-b4c9-55dc52242839.png" 
                   alt="Happy patient reviewing medical results" 
                   className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl"
                 />
@@ -158,7 +158,7 @@ const Index = () => {
             <div className="hidden lg:block lg:col-span-1">
               <div className="relative">
                 <img 
-                  src="/lovable-uploads/d5229efa-efbe-491d-b50a-d6bde2ddf868.png" 
+                  src="/lovable-uploads/611f445b-c405-4176-b2b2-32c37525b9e5.png" 
                   alt="Happy couple looking at laptop computer together" 
                   className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl"
                 />
