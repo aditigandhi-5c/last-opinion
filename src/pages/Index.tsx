@@ -441,15 +441,15 @@ const Index = () => {
               <CarouselContent>
                 {doctorTestimonials.map((testimonial, index) => (
                   <CarouselItem key={index}>
-                    <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12 p-6">
+                    <div className="flex flex-row items-center gap-8 p-6 min-h-[400px]">
                       {/* Doctor Section */}
-                      <div className="flex-shrink-0 lg:w-1/3">
+                      <div className="flex-shrink-0 w-1/3">
                         <div className="text-center">
                           <div className="relative mb-6">
                             <img 
                               src={testimonial.doctor.image} 
                               alt={testimonial.doctor.name} 
-                              className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20"
+                              className="w-48 h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20"
                             />
                           </div>
                           <h3 className="text-xl font-bold text-foreground mb-2">
@@ -465,9 +465,9 @@ const Index = () => {
                       </div>
                       
                       {/* Patient Review Section */}
-                      <div className="flex-1 lg:w-2/3">
+                      <div className="flex-1 w-2/3">
                         <Card className="h-full border-0 shadow-lg">
-                          <CardContent className="p-8">
+                          <CardContent className="p-8 flex flex-col justify-center min-h-[300px]">
                             <div className="text-6xl text-primary/20 font-serif mb-4">"</div>
                             <blockquote className="text-lg text-foreground leading-relaxed mb-6">
                               {testimonial.patient.text}
