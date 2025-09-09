@@ -29,8 +29,17 @@ const PaymentPage = () => {
         description: "Your second opinion request has been submitted. You'll receive your report within 48 hours.",
       });
       
-      // Send dummy notifications
-      sendPatientConfirmations(patientData);
+      // Send thank you WhatsApp message after payment
+      const { sendWhatsAppNotification } = useDummyNotifications();
+      const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
+      setTimeout(() => {
+        sendWhatsAppNotification(
+          patientName,
+          "Thank you for trusting us! You will see your report in your dashboard once ready."
+        );
+      }, 1000);
+      
+      // Send team notifications
       sendTeamNotifications(patientData);
       
       navigate('/dashboard');

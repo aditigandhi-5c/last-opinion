@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { useDummyNotifications } from "@/hooks/useDummyNotifications";
 import { 
   ArrowLeft, 
   Shield, 
@@ -20,10 +21,14 @@ import {
 const Payment = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { sendWhatsAppNotification, sendTeamNotifications } = useDummyNotifications();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
     setIsProcessing(true);
+
+    // Get patient data for notifications
+    const patientData = JSON.parse(localStorage.getItem('patientDetails') || '{}');
 
     // Simulate payment processing
     setTimeout(() => {
@@ -32,6 +37,19 @@ const Payment = () => {
         title: "Payment Successful!",
         description: "Your case has been submitted to our medical experts.",
       });
+      
+      // Send thank you WhatsApp message after payment
+      const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
+      setTimeout(() => {
+        sendWhatsAppNotification(
+          patientName,
+          "Thank you for trusting us! You will see your report in your dashboard once ready."
+        );
+      }, 1000);
+      
+      // Send team notifications
+      sendTeamNotifications(patientData);
+      
       navigate('/success');
     }, 2000);
   };

@@ -8,11 +8,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useToast } from "@/hooks/use-toast";
+import { useDummyNotifications } from "@/hooks/useDummyNotifications";
 import { ArrowLeft } from "lucide-react";
 
 const Register = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { sendSlackNotification } = useDummyNotifications();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -33,6 +35,15 @@ const Register = () => {
         title: "Registration Successful!",
         description: "Welcome to EchoMed. Let's complete your profile.",
       });
+      
+      // Notify team via Slack when patient registers
+      setTimeout(() => {
+        sendSlackNotification(
+          "#patient-registrations",
+          `🎉 New patient registered: ${formData.fullName} (${formData.email})`
+        );
+      }, 500);
+      
       navigate('/intake');
     }, 1500);
   };
