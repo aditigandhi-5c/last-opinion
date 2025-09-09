@@ -209,7 +209,7 @@ const PaymentPage = () => {
               <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
             </p>
             <p className="mt-2">
-              Your expert second opinion report will be delivered within 1-2 business days to your dashboard and email.
+              Your expert second opinion report will be delivered within 1-2 business days to your dashboard.
             </p>
           </div>
         </div>
