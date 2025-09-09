@@ -234,7 +234,7 @@ const Index = () => {
               <div className="flex items-center gap-3">
                 <Users className="h-8 w-8 text-primary" />
                 <div>
-                  <p className="font-semibold text-gray-900">10,000+ Patients</p>
+                  <p className="font-semibold text-gray-900">25,000+ Patients</p>
                   <p className="text-sm text-gray-600">Trusted nationwide</p>
                 </div>
               </div>
