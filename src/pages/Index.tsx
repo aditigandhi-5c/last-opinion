@@ -140,8 +140,8 @@ const Index = () => {
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src="/lovable-uploads/a410e8c8-3730-4ddf-a30d-16bd1b61e3e6.png" 
-                alt="Patient working with medical consultation" 
+                src="/src/assets/happy-couple-laptop.jpg" 
+                alt="Happy couple looking at laptop computer together" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
             </div>
