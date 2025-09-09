@@ -90,7 +90,7 @@ const Questionnaire = () => {
                 <ul className="text-sm text-blue-700 space-y-1">
                   <li>• Your case will be assigned to an expert radiologist</li>
                   <li>• Comprehensive review of your scans and medical information</li>
-                  <li>• Detailed written report within 48 hours</li>
+                  <li>• Detailed written report within 24 hours</li>
                   <li>• Secure delivery to your dashboard and email</li>
                 </ul>
               </div>
