@@ -48,20 +48,21 @@ const Header = () => {
                 <Button 
                   variant="ghost" 
                   onClick={() => navigate('/login')}
-                  className="text-primary hover:bg-primary-light"
+                  className="text-lg text-primary hover:bg-primary-light"
                 >
                   Login
                 </Button>
                 <Button 
                   variant="hero" 
                   onClick={() => navigate('/register')}
+                  className="text-lg"
                 >
                   Get Started
                 </Button>
                 <Button 
                   variant="ghost" 
                   onClick={() => navigate('/admin/login')}
-                  className="text-xs text-muted-foreground hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary"
                 >
                   Admin
                 </Button>
