@@ -110,8 +110,8 @@ const Index = () => {
             {/* Left Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src={happyPatientLaptop} 
-                alt="Happy patient reviewing medical results on laptop" 
+                src="/lovable-uploads/850ffc50-9875-4e44-8bd3-628d367877c6.png" 
+                alt="Happy patient reviewing medical results" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -140,8 +140,8 @@ const Index = () => {
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src={happyPatientConsultation} 
-                alt="Patient satisfied with medical consultation" 
+                src="/lovable-uploads/a410e8c8-3730-4ddf-a30d-16bd1b61e3e6.png" 
+                alt="Patient working with medical consultation" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
             </div>
