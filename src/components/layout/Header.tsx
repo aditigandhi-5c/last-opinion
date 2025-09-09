@@ -11,9 +11,9 @@ const Header = () => {
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   return (
-    <header className="bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 sticky top-0 z-50 w-full border-b medical-shadow">
-      <div className="container mx-auto px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between max-w-7xl mx-auto">
+    <header className="sticky top-0 z-50 w-full">
+      <div className="container mx-auto px-6 lg:px-8 pt-4">
+        <div className="flex h-16 items-center justify-between max-w-7xl mx-auto bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border border-border/50 rounded-full px-6 medical-shadow">
           {/* Logo */}
           <div 
             className="flex items-center space-x-2 cursor-pointer transition-smooth hover:scale-105"
