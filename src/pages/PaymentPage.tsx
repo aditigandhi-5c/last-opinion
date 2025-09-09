@@ -16,7 +16,8 @@ const PaymentPage = () => {
   } = useToast();
   const {
     sendPatientConfirmations,
-    sendTeamNotifications
+    sendTeamNotifications,
+    sendWhatsAppNotification
   } = useDummyNotifications();
   const [isProcessing, setIsProcessing] = useState(false);
   const handlePayment = async () => {
@@ -33,9 +34,6 @@ const PaymentPage = () => {
       });
 
       // Send thank you WhatsApp message after payment
-      const {
-        sendWhatsAppNotification
-      } = useDummyNotifications();
       const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
       setTimeout(() => {
         sendWhatsAppNotification(patientName, "Thank you for trusting us! You will see your report in your dashboard once ready.");
