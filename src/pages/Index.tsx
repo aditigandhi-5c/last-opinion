@@ -134,8 +134,9 @@ const Index = () => {
             
             {/* Center Content */}
             <div className="lg:col-span-3 text-center">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-gray-900">
-                When Doubt Ends, Healing Begins.
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-gray-900">
+                <div>When Doubt Ends,</div>
+                <div>Healing Begins.</div>
               </h1>
               
               <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto text-gray-700 px-4">
