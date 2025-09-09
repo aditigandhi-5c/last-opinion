@@ -47,7 +47,7 @@ const Dashboard = () => {
                     <h2 className="text-2xl font-bold mb-1">Your report is under review</h2>
                     <p className="opacity-90">
                       Our expert radiologists are carefully analyzing your scans. 
-                      You'll receive your detailed report within 48 hours.
+                      You'll receive your detailed report within 1-2 business days.
                     </p>
                   </div>
                 </div>

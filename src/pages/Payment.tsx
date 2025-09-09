@@ -65,7 +65,7 @@ const Payment = () => {
     },
     {
       icon: <Clock className="h-5 w-5" />,
-      text: "Report delivered within 24-48 hours"
+      text: "Report delivered within 1-2 business days"
     },
     {
       icon: <Shield className="h-5 w-5" />,
@@ -204,7 +204,7 @@ const Payment = () => {
 
             <p className="text-xs text-center text-muted-foreground">
               By proceeding with payment, you agree to our Terms of Service and Privacy Policy. 
-              You will receive your second opinion report within 24-48 hours of successful payment.
+              You will receive your second opinion report within 1-2 business days of successful payment.
             </p>
           </div>
         </div>

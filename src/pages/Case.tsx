@@ -185,7 +185,7 @@ const Case = () => {
                     <h4 className="font-medium mb-2">Report in Progress</h4>
                     <p className="text-muted-foreground max-w-md mx-auto">
                       Our medical experts are carefully reviewing your case. 
-                      Your detailed second opinion report will appear here within 24-48 hours.
+                      Your detailed second opinion report will appear here within 1-2 business days.
                     </p>
                   </div>
                 </CardContent>

@@ -61,7 +61,7 @@ const Index = () => {
     },
     {
       icon: <Clock className="h-6 w-6" />,
-      title: "Accurate results within 48 hours",
+      title: "Accurate results within 1-2 business days",
       description: "Fast turnaround without compromising quality"
     },
     {

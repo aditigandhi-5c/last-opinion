@@ -29,7 +29,7 @@ const PaymentPage = () => {
     setTimeout(() => {
       toast({
         title: "Payment Successful!",
-        description: "Your second opinion request has been submitted. You'll receive your report within 48 hours."
+        description: "Your second opinion request has been submitted. You'll receive your report within 1-2 business days."
       });
 
       // Send thank you WhatsApp message after payment

@@ -12,7 +12,7 @@ const ChatBot = () => {
     {
       id: "timing",
       question: "When will I get my report?",
-      answer: "Within 48 hours.",
+      answer: "Within 1-2 business days.",
       icon: <Clock className="h-4 w-4" />
     },
     {

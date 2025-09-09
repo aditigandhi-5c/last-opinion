@@ -34,7 +34,7 @@ export const useDummyNotifications = () => {
     setTimeout(() => {
       sendWhatsAppNotification(
         patientName, 
-        "Your second opinion request has been received. You'll get your report within 48 hours."
+        "Your second opinion request has been received. You'll get your report within 1-2 business days."
       );
     }, 1000);
 
