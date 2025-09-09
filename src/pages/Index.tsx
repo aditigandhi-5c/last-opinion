@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +31,11 @@ import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
 import happyPatientLaptop from "@/assets/happy-patient-laptop.jpg";
 import happyPatientConsultation from "@/assets/happy-patient-consultation.jpg";
 import happyCoupleLaptop from "@/assets/happy-couple-laptop.jpg";
+import doctor1 from "@/assets/doctor-1.jpg";
+import doctor2 from "@/assets/doctor-2.jpg";
+import doctor3 from "@/assets/doctor-3.jpg";
+import doctor4 from "@/assets/doctor-4.jpg";
+import doctor5 from "@/assets/doctor-5.jpg";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
@@ -64,51 +70,66 @@ const Index = () => {
     }
   ];
 
-  const testimonials = [
+  const doctorTestimonials = [
     {
-      text: "The clarity I needed when everything felt uncertain.",
-      author: "Sarah M.",
-      rating: 5
+      doctor: {
+        name: "Dr. Sarah Chen",
+        specialty: "Neuroradiology",
+        image: doctor1
+      },
+      patient: {
+        text: "When my doctor told me something unusual showed up on my brain scan, I was terrified. Dr. Chen's detailed second opinion not only clarified what we were seeing but also provided the reassurance I desperately needed. Her expertise gave me peace of mind during the most frightening time of my life.",
+        author: "Maria Rodriguez, 42",
+        location: "Phoenix, AZ"
+      }
     },
     {
-      text: "Finally, answers that made sense. Life-changing.",
-      author: "David K.",
-      rating: 5
+      doctor: {
+        name: "Dr. Michael Thompson",
+        specialty: "Musculoskeletal Radiology",
+        image: doctor2
+      },
+      patient: {
+        text: "After my MRI showed what looked like a serious spinal issue, I was told I might need major surgery. Dr. Thompson's second opinion revealed it was actually a much more manageable condition. His careful analysis saved me from unnecessary surgery and changed my entire treatment path.",
+        author: "James Wilson, 58",
+        location: "Denver, CO"
+      }
     },
     {
-      text: "Peace of mind when I needed it most.",
-      author: "Maria L.",
-      rating: 5
+      doctor: {
+        name: "Dr. Emily Rodriguez",
+        specialty: "Breast Imaging",
+        image: doctor3
+      },
+      patient: {
+        text: "The mammogram results were unclear and my local radiologist recommended immediate biopsy. Dr. Rodriguez's expert review showed it was likely benign and suggested follow-up imaging instead. Six months later, she was proven right. Her expertise saved me from an invasive procedure.",
+        author: "Linda Chen, 51",
+        location: "San Francisco, CA"
+      }
     },
     {
-      text: "Expert insight that changed my treatment path.",
-      author: "John D.",
-      rating: 5
+      doctor: {
+        name: "Dr. David Park",
+        specialty: "Abdominal Radiology",
+        image: doctor4
+      },
+      patient: {
+        text: "My CT scan showed something concerning in my abdomen, and my doctor was worried about cancer. Dr. Park's thorough second opinion identified it as a benign condition that just needed monitoring. His detailed explanation helped me understand exactly what was happening in my body.",
+        author: "Robert Martinez, 65",
+        location: "Miami, FL"
+      }
     },
     {
-      text: "Professional, fast, and incredibly thorough.",
-      author: "Lisa R.",
-      rating: 5
-    },
-    {
-      text: "The second opinion that saved my life.",
-      author: "Michael T.",
-      rating: 5
-    },
-    {
-      text: "Clarity in confusion, hope in uncertainty.",
-      author: "Emma S.",
-      rating: 5
-    },
-    {
-      text: "World-class expertise, caring approach.",
-      author: "Robert H.",
-      rating: 5
-    },
-    {
-      text: "The answers I desperately needed.",
-      author: "Jennifer W.",
-      rating: 5
+      doctor: {
+        name: "Dr. Jennifer Kim",
+        specialty: "Cardiac Imaging",
+        image: doctor5
+      },
+      patient: {
+        text: "After my cardiac CT, I was told I might need immediate intervention. Dr. Kim's second opinion provided a more nuanced view that allowed for conservative management first. Her expertise helped me avoid rushing into a procedure I didn't actually need.",
+        author: "Angela Thompson, 47",
+        location: "Boston, MA"
+      }
     }
   ];
 
@@ -396,42 +417,79 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Patient Story Section */}
+      {/* Doctor Testimonials Carousel Section */}
       <section 
         ref={patientStoryAnimation.ref}
-        className={`py-12 md:py-16 bg-white transition-all duration-1000 delay-500 ${
+        className={`py-16 md:py-20 bg-white transition-all duration-1000 delay-500 ${
           patientStoryAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
         }`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 max-w-5xl mx-auto">
-            <div className="flex-shrink-0 w-40 md:w-48">
-              <img 
-                src={patientTestimonial} 
-                alt="Patient testimonial" 
-                className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-lg shadow-lg"
-              />
-            </div>
-            <div className="flex-1 space-y-4">
-              <div className="text-4xl text-muted-foreground/30 font-serif">"</div>
-              <div className="space-y-3">
-                <p className="text-lg text-foreground leading-relaxed">
-                  When my doctor told me something unusual showed up on my scans, my heart sank. Waiting for answers was unbearable.
-                </p>
-                <p className="text-lg text-foreground leading-relaxed">
-                  5c network quickly connected me with an expert radiologist who reviewed everything with care. Within hours, I had clear answers and peace of mind.
-                </p>
-                <p className="text-lg text-foreground leading-relaxed font-medium">
-                  At my age, that's priceless.
-                </p>
-              </div>
-              <div className="pt-2">
-                <p className="text-base font-semibold text-foreground">Priya S., 58</p>
-                <p className="text-sm text-muted-foreground">Mumbai, India</p>
-              </div>
-            </div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Expert Second Opinions
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Real patient stories and the doctors who provided clarity
+            </p>
+          </div>
+          
+          <div className="max-w-6xl mx-auto">
+            <Carousel className="w-full">
+              <CarouselContent>
+                {doctorTestimonials.map((testimonial, index) => (
+                  <CarouselItem key={index}>
+                    <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12 p-6">
+                      {/* Doctor Section */}
+                      <div className="flex-shrink-0 lg:w-1/3">
+                        <div className="text-center">
+                          <div className="relative mb-6">
+                            <img 
+                              src={testimonial.doctor.image} 
+                              alt={testimonial.doctor.name} 
+                              className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20"
+                            />
+                          </div>
+                          <h3 className="text-xl font-bold text-foreground mb-2">
+                            {testimonial.doctor.name}
+                          </h3>
+                          <p className="text-primary font-semibold mb-4">
+                            {testimonial.doctor.specialty}
+                          </p>
+                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30">
+                            Reported by this doctor
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      {/* Patient Review Section */}
+                      <div className="flex-1 lg:w-2/3">
+                        <Card className="h-full border-0 shadow-lg">
+                          <CardContent className="p-8">
+                            <div className="text-6xl text-primary/20 font-serif mb-4">"</div>
+                            <blockquote className="text-lg text-foreground leading-relaxed mb-6">
+                              {testimonial.patient.text}
+                            </blockquote>
+                            <footer className="border-t pt-4">
+                              <p className="font-semibold text-foreground text-lg">
+                                {testimonial.patient.author}
+                              </p>
+                              <p className="text-muted-foreground">
+                                {testimonial.patient.location}
+                              </p>
+                            </footer>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-4" />
+              <CarouselNext className="right-4" />
+            </Carousel>
           </div>
         </div>
       </section>
@@ -492,46 +550,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section 
-        ref={testimonialsAnimation.ref}
-        className={`py-16 bg-white transition-all duration-1000 delay-700 ${
-          testimonialsAnimation.isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-10'
-        }`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              What Our Patients Say
-            </h2>
-            <p className="text-lg text-gray-600">
-              Real stories from patients who found clarity through our service
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="h-full border-gray-200 hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-6 h-full flex flex-col">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <blockquote className="text-gray-700 mb-4 flex-grow">
-                    "{testimonial.text}"
-                  </blockquote>
-                  <footer className="text-sm font-semibold text-gray-900">
-                    — {testimonial.author}
-                  </footer>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Final CTA Section */}
       <section 
