@@ -49,7 +49,7 @@ const Index = () => {
   const statsAnimation = useScrollAnimation(0.1);
   const patientStoryAnimation = useScrollAnimation(0.1);
   const faqAnimation = useScrollAnimation(0.1);
-  const testimonialsAnimation = useScrollAnimation(0.1);
+  
   const finalCtaAnimation = useScrollAnimation(0.1);
 
   const trustPoints = [
