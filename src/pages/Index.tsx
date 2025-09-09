@@ -6,7 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { 
   Shield, 
   Clock, 
@@ -41,7 +41,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Index = () => {
   const navigate = useNavigate();
-  const carouselApiRef = useRef<any>(null);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   
   // Animation hooks for different sections
   const heroAnimation = useScrollAnimation(0.1);
@@ -135,16 +135,22 @@ const Index = () => {
     }
   ];
 
-  // Auto-advance testimonials carousel
+  // Auto-advance testimonials
   useEffect(() => {
-    if (!carouselApiRef.current) return;
-
     const timer = setInterval(() => {
-      carouselApiRef.current?.scrollNext();
+      setCurrentTestimonial((prev) => (prev + 1) % doctorTestimonials.length);
     }, 5000);
 
     return () => clearInterval(timer);
   }, []);
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % doctorTestimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + doctorTestimonials.length) % doctorTestimonials.length);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -450,68 +456,85 @@ const Index = () => {
           </div>
           
           <div className="max-w-6xl mx-auto">
-            <Carousel 
-              className="w-full"
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              setApi={(api) => {
-                carouselApiRef.current = api;
-              }}
-            >
-              <CarouselContent>
-                {doctorTestimonials.map((testimonial, index) => (
-                  <CarouselItem key={index}>
-                    <div className="flex flex-row items-center gap-8 p-6 min-h-[400px]">
-                      {/* Doctor Section */}
-                      <div className="flex-shrink-0 w-1/3">
-                        <div className="text-center">
-                          <div className="relative mb-6">
-                            <img 
-                              src={testimonial.doctor.image} 
-                              alt={testimonial.doctor.name} 
-                              className="w-48 h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20"
-                            />
-                          </div>
-                          <h3 className="text-xl font-bold text-foreground mb-2">
-                            {testimonial.doctor.name}
-                          </h3>
-                          <p className="text-primary font-semibold mb-4">
-                            {testimonial.doctor.specialty}
-                          </p>
-                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30">
-                            Reported by this doctor
-                          </Badge>
+            <div className="relative">
+              <Card className="border-0 shadow-2xl bg-gradient-to-br from-white to-muted/30 min-h-[400px]">
+                <CardContent className="p-8">
+                  <div className="flex flex-row items-center gap-8 min-h-[400px]">
+                    {/* Doctor Section */}
+                    <div className="flex-shrink-0 w-1/3">
+                      <div className="text-center">
+                        <div className="relative mb-6">
+                          <img 
+                            src={doctorTestimonials[currentTestimonial].doctor.image} 
+                            alt={doctorTestimonials[currentTestimonial].doctor.name} 
+                            className="w-48 h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20"
+                          />
                         </div>
-                      </div>
-                      
-                      {/* Patient Review Section */}
-                      <div className="flex-1 w-2/3">
-                        <Card className="h-full border-0 shadow-lg">
-                          <CardContent className="p-8 flex flex-col justify-center min-h-[300px]">
-                            <div className="text-6xl text-primary/20 font-serif mb-4">"</div>
-                            <blockquote className="text-lg text-foreground leading-relaxed mb-6">
-                              {testimonial.patient.text}
-                            </blockquote>
-                            <footer className="border-t pt-4">
-                              <p className="font-semibold text-foreground text-lg">
-                                {testimonial.patient.author}
-                              </p>
-                              <p className="text-muted-foreground">
-                                {testimonial.patient.location}
-                              </p>
-                            </footer>
-                          </CardContent>
-                        </Card>
+                        <h3 className="text-xl font-bold text-foreground mb-2">
+                          {doctorTestimonials[currentTestimonial].doctor.name}
+                        </h3>
+                        <p className="text-primary font-semibold mb-4">
+                          {doctorTestimonials[currentTestimonial].doctor.specialty}
+                        </p>
+                        <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30">
+                          Reported by this doctor
+                        </Badge>
                       </div>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="left-4" />
-              <CarouselNext className="right-4" />
-            </Carousel>
+                    
+                    {/* Patient Review Section */}
+                    <div className="flex-1 w-2/3">
+                      <Card className="h-full border-0 shadow-lg">
+                        <CardContent className="p-8 flex flex-col justify-center min-h-[300px]">
+                          <div className="text-6xl text-primary/20 font-serif mb-4">"</div>
+                          <blockquote className="text-lg text-foreground leading-relaxed mb-6">
+                            {doctorTestimonials[currentTestimonial].patient.text}
+                          </blockquote>
+                          <footer className="border-t pt-4">
+                            <p className="font-semibold text-foreground text-lg">
+                              {doctorTestimonials[currentTestimonial].patient.author}
+                            </p>
+                            <p className="text-muted-foreground">
+                              {doctorTestimonials[currentTestimonial].patient.location}
+                            </p>
+                          </footer>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Navigation Arrows */}
+              <button
+                onClick={prevTestimonial}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-muted/50 transition-colors"
+              >
+                <ArrowRight className="h-6 w-6 text-muted-foreground rotate-180" />
+              </button>
+              
+              <button
+                onClick={nextTestimonial}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-muted/50 transition-colors"
+              >
+                <ArrowRight className="h-6 w-6 text-muted-foreground" />
+              </button>
+            </div>
+
+            {/* Step Indicators */}
+            <div className="flex justify-center mt-8 space-x-3">
+              {doctorTestimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentTestimonial 
+                      ? 'bg-primary' 
+                      : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
