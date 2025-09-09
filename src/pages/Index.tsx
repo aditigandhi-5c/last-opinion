@@ -290,7 +290,14 @@ const Index = () => {
       </section>
 
       {/* Precision Starts with The Right Doctor Section */}
-      <section className="py-16 bg-background">
+      <section 
+        ref={doctorAnimation.ref}
+        className={`py-16 bg-background transition-all duration-1000 delay-300 ${
+          doctorAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
@@ -431,78 +438,63 @@ const Index = () => {
       {/* FAQ Section */}
       <section 
         ref={faqAnimation.ref}
-        className={`py-16 bg-background transition-all duration-1000 delay-600 ${
+        className={`py-16 bg-gray-50 transition-all duration-1000 delay-600 ${
           faqAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
         }`}
       >
-        <div className="container mx-auto px-4 max-w-4xl">
+        <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-light text-foreground mb-4">
-              You've Got Questions.
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Frequently Asked Questions
             </h2>
-            <p className="text-2xl lg:text-3xl font-bold text-foreground mb-6">
-              We Have Answers
-            </p>
-            <p className="text-lg text-muted-foreground">
-              What to expect when you request a second opinion from one of our top radiologists.
+            <p className="text-lg text-gray-600">
+              Everything you need to know about our second opinion service
             </p>
           </div>
           
-          <Accordion type="single" collapsible className="space-y-4">
-            <AccordionItem value="item-1" className="border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-lg font-medium">
-                What is a radiology second opinion?
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
+                What types of medical images can you review?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                A radiology second opinion is when a different radiologist reviews your medical images to confirm or provide an alternative interpretation of your original diagnosis.
+                We review all types of medical imaging including CT scans, MRIs, X-rays, ultrasounds, mammograms, and nuclear medicine studies. Our radiologists are subspecialty-trained in various areas of imaging.
               </AccordionContent>
             </AccordionItem>
-            
-            <AccordionItem value="item-2" className="border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-lg font-medium">
-                Why should I get a second opinion?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Second opinions can catch missed diagnoses, provide treatment alternatives, and give you confidence in your medical decisions. Studies show significant diagnostic changes in 20-30% of cases.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-3" className="border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-lg font-medium">
-                Who will be reviewing my case?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Board-certified subspecialty radiologists with 15+ years of experience in their specific areas of expertise will review your images.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-4" className="border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-lg font-medium">
+            <AccordionItem value="item-2" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
                 How long does it take to get my second opinion?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 Most second opinions are delivered within 24 hours of receiving your complete medical images and information.
               </AccordionContent>
             </AccordionItem>
-            
-            <AccordionItem value="item-5" className="border border-border rounded-lg px-6">
-              <AccordionTrigger className="text-lg font-medium">
-                Will my doctor be offended if I get a second opinion?
+            <AccordionItem value="item-3" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
+                Are your radiologists board-certified?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Most physicians encourage second opinions for complex cases. It's a standard practice that shows you're taking an active role in your healthcare.
+                Yes, all of our radiologists are board-certified and fellowship-trained subspecialists with extensive experience in their areas of expertise.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
+                Is my medical information secure?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Absolutely. We are HIPAA compliant and use enterprise-grade security measures to protect your medical information. Your data is encrypted in transit and at rest.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Testimonials Section */}
       <section 
         ref={testimonialsAnimation.ref}
-        className={`py-12 bg-white transition-all duration-1000 delay-700 ${
+        className={`py-16 bg-white transition-all duration-1000 delay-700 ${
           testimonialsAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
@@ -510,25 +502,29 @@ const Index = () => {
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
-              Clarity That Changed Everything.
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              What Our Patients Say
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Thousands of patients trust us for the answers they deserve.
+            <p className="text-lg text-gray-600">
+              Real stories from patients who found clarity through our service
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-sm bg-muted/20">
-                <CardContent className="p-6">
-                  <div className="flex mb-3">
+              <Card key={index} className="h-full border-gray-200 hover:shadow-lg transition-shadow duration-300">
+                <CardContent className="p-6 h-full flex flex-col">
+                  <div className="flex mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <p className="text-sm text-foreground mb-3 italic">"{testimonial.text}"</p>
-                  <p className="text-xs text-muted-foreground font-medium">— {testimonial.author}</p>
+                  <blockquote className="text-gray-700 mb-4 flex-grow">
+                    "{testimonial.text}"
+                  </blockquote>
+                  <footer className="text-sm font-semibold text-gray-900">
+                    — {testimonial.author}
+                  </footer>
                 </CardContent>
               </Card>
             ))}
@@ -536,30 +532,27 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* Final CTA Section */}
       <section 
         ref={finalCtaAnimation.ref}
-        className={`py-16 bg-gradient-to-br from-primary to-secondary text-white transition-all duration-1000 delay-800 ${
+        className={`py-16 md:py-20 bg-primary text-white transition-all duration-1000 delay-800 ${
           finalCtaAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
         }`}
       >
         <div className="container mx-auto px-4 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-white/20 rounded-full">
-              <Stethoscope className="h-12 w-12" />
-            </div>
-          </div>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Your clarity begins here
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+            Don't Let Doubt Hold You Back
           </h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands who found peace of mind through expert medical second opinions
+          <p className="text-lg md:text-xl mb-12 max-w-3xl mx-auto text-white/90">
+            Get the clarity you deserve from world-class radiologists. 
+            Your peace of mind is just one click away.
           </p>
           <Button 
             size="lg" 
-            className="bg-white text-primary hover:bg-white/90 px-8 py-4 text-lg font-semibold"
+            variant="secondary"
+            className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             onClick={() => navigate('/patient-details')}
           >
             Get Your Second Opinion
@@ -568,8 +561,8 @@ const Index = () => {
         </div>
       </section>
 
-      <ChatBot />
       <Footer />
+      <ChatBot />
     </div>
   );
 };
