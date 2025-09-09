@@ -27,6 +27,8 @@ import medicalCareBg from "@/assets/medical-care-bg.jpg";
 import medicalReportBg from "@/assets/medical-report-bg.jpg";
 import medicalTechBg from "@/assets/medical-tech-bg.jpg";
 import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
+import happyPatientLaptop from "@/assets/happy-patient-laptop.jpg";
+import happyPatientConsultation from "@/assets/happy-patient-consultation.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -108,8 +110,8 @@ const Index = () => {
             {/* Left Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src="/lovable-uploads/566288b8-465d-4600-a051-1a1d467cf7f8.png" 
-                alt="Medical consultation" 
+                src={happyPatientLaptop} 
+                alt="Happy patient reviewing medical results on laptop" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -138,8 +140,8 @@ const Index = () => {
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src="/lovable-uploads/60bdc12a-a0b4-4f10-81aa-b182834071c8.png" 
-                alt="Medical professional working" 
+                src={happyPatientConsultation} 
+                alt="Patient satisfied with medical consultation" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
             </div>
