@@ -23,20 +23,20 @@ const Header = () => {
               <Stethoscope className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-primary">EchoMed</h1>
-              <p className="text-xs text-muted-foreground">Trusted Medical Consultations</p>
+              <h1 className="text-2xl font-bold text-primary">EchoMed</h1>
+              <p className="text-sm text-muted-foreground">Trusted Medical Consultations</p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#how-it-works" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
+            <a href="#how-it-works" className="text-lg font-medium text-muted-foreground hover:text-primary transition-smooth">
               How It Works
             </a>
-            <a href="#why-trust-us" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
+            <a href="#why-trust-us" className="text-lg font-medium text-muted-foreground hover:text-primary transition-smooth">
               Why Trust Us
             </a>
-            <a href="#faqs" className="text-base font-medium text-muted-foreground hover:text-primary transition-smooth">
+            <a href="#faqs" className="text-lg font-medium text-muted-foreground hover:text-primary transition-smooth">
               FAQs
             </a>
           </nav>
