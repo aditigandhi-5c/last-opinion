@@ -41,7 +41,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center p-4 animate-fade-in">
       <Card className="w-full max-w-md medical-shadow">
         <CardHeader className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-2">

@@ -35,7 +35,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="min-h-screen bg-muted/30 animate-fade-in">
       {/* Mobile Header */}
       <div className="lg:hidden bg-card border-b p-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
