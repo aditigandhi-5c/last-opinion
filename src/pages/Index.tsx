@@ -29,6 +29,7 @@ import medicalTechBg from "@/assets/medical-tech-bg.jpg";
 import patientTestimonial from "@/assets/patient-testimonial-indian.jpg";
 import happyPatientLaptop from "@/assets/happy-patient-laptop.jpg";
 import happyPatientConsultation from "@/assets/happy-patient-consultation.jpg";
+import happyCoupleLaptop from "@/assets/happy-couple-laptop.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -140,7 +141,7 @@ const Index = () => {
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
               <img 
-                src="/src/assets/happy-couple-laptop.jpg" 
+                src={happyCoupleLaptop} 
                 alt="Happy couple looking at laptop computer together" 
                 className="w-full h-[400px] object-cover rounded-lg shadow-lg"
               />
