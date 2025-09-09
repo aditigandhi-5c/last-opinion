@@ -105,32 +105,35 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-primary to-secondary text-white">
+      <section className="py-16 bg-gray-50 text-gray-900">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-5 gap-8 items-center max-w-7xl mx-auto">
             {/* Left Image */}
             <div className="hidden lg:block lg:col-span-1">
-              <img 
-                src="/lovable-uploads/850ffc50-9875-4e44-8bd3-628d367877c6.png" 
-                alt="Happy patient reviewing medical results" 
-                className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-              />
+              <div className="relative">
+                <img 
+                  src="/lovable-uploads/850ffc50-9875-4e44-8bd3-628d367877c6.png" 
+                  alt="Happy patient reviewing medical results" 
+                  className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl"
+                />
+                <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-primary rounded-full"></div>
+              </div>
             </div>
             
             {/* Center Content */}
             <div className="lg:col-span-3 text-center">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-gray-900">
                 When Doubt Ends, Healing Begins.
               </h1>
               
-              <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto opacity-90 px-4">
+              <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto text-gray-700 px-4">
                 Get the most accurate interpretation of your scans, guided by subspecialty experts 
                 who care about your clarity and peace of mind.
               </p>
               
               <Button 
                 size="lg" 
-                className="bg-white text-primary hover:bg-white/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold"
+                className="bg-primary text-white hover:bg-primary/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold"
                 onClick={() => navigate('/patient-details')}
               >
                 Get Started
@@ -140,38 +143,41 @@ const Index = () => {
             
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
-              <img 
-                src="/lovable-uploads/d5229efa-efbe-491d-b50a-d6bde2ddf868.png" 
-                alt="Happy couple looking at laptop computer together" 
-                className="w-full h-[400px] object-cover rounded-lg shadow-lg"
-              />
+              <div className="relative">
+                <img 
+                  src="/lovable-uploads/d5229efa-efbe-491d-b50a-d6bde2ddf868.png" 
+                  alt="Happy couple looking at laptop computer together" 
+                  className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl"
+                />
+                <div className="absolute -top-3 -left-3 w-6 h-6 bg-primary rounded-full"></div>
+              </div>
             </div>
           </div>
           
           {/* HIPAA Certification Row */}
-          <div className="mt-16 pt-8 border-t border-white/20">
+          <div className="mt-16 pt-8 border-t border-gray-300">
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
               <div className="flex items-center gap-3">
-                <Shield className="h-8 w-8 text-white" />
+                <Shield className="h-8 w-8 text-primary" />
                 <div>
-                  <p className="font-semibold text-white">HIPAA Certified</p>
-                  <p className="text-sm text-white/80">Your data is secure</p>
+                  <p className="font-semibold text-gray-900">HIPAA Certified</p>
+                  <p className="text-sm text-gray-600">Your data is secure</p>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
-                <Award className="h-8 w-8 text-white" />
+                <Award className="h-8 w-8 text-primary" />
                 <div>
-                  <p className="font-semibold text-white">Board Certified</p>
-                  <p className="text-sm text-white/80">Expert radiologists</p>
+                  <p className="font-semibold text-gray-900">Board Certified</p>
+                  <p className="text-sm text-gray-600">Expert radiologists</p>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
-                <Users className="h-8 w-8 text-white" />
+                <Users className="h-8 w-8 text-primary" />
                 <div>
-                  <p className="font-semibold text-white">10,000+ Patients</p>
-                  <p className="text-sm text-white/80">Trusted nationwide</p>
+                  <p className="font-semibold text-gray-900">10,000+ Patients</p>
+                  <p className="text-sm text-gray-600">Trusted nationwide</p>
                 </div>
               </div>
             </div>
