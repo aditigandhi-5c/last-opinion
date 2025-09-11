@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  // Keep login simple: do not auto-redirect away from login
+
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -29,7 +31,8 @@ const Login = () => {
         title: "Login Successful!",
         description: "Welcome back to EchoMed.",
       });
-      navigate('/intake');
+      localStorage.setItem('isAuthenticated', 'true');
+      navigate('/dashboard');
     }, 1500);
   };
 

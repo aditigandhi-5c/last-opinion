@@ -4,9 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { User, Upload, FileText, Clock, CheckCircle, Download, Mail } from "lucide-react";
+import { User, Upload, FileText, Clock, CheckCircle, Download, MessageCircle, PlusCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [patientData, setPatientData] = useState<any>(null);
   const [uploadData, setUploadData] = useState<any>(null);
   const [questionnaireData, setQuestionnaireData] = useState<any>(null);
@@ -22,6 +24,13 @@ const Dashboard = () => {
     if (questionnaire) setQuestionnaireData(JSON.parse(questionnaire));
   }, []);
 
+  const startNewCase = () => {
+    localStorage.removeItem('patientDetails');
+    localStorage.removeItem('uploadData');
+    localStorage.removeItem('questionnaireData');
+    navigate('/patient-details');
+  };
+
   return (
     <div className="min-h-screen bg-background animate-fade-in">
       <Header />
@@ -33,6 +42,13 @@ const Dashboard = () => {
             <p className="text-muted-foreground">
               Track your second opinion request and access your expert report.
             </p>
+          </div>
+
+          {/* Top Bar Actions */}
+          <div className="flex justify-end mb-4">
+            <Button onClick={startNewCase} className="bg-primary hover:bg-primary/90">
+              <PlusCircle className="mr-2 h-4 w-4" /> New Case
+            </Button>
           </div>
 
           {/* Status Banner */}
@@ -51,9 +67,12 @@ const Dashboard = () => {
                     </p>
                   </div>
                 </div>
-                <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
-                  In Progress
-                </Badge>
+                <Button 
+                  onClick={() => navigate('/case/MC-2024-001')} 
+                  className="bg-white text-primary hover:bg-white/90"
+                >
+                  View Report
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -233,11 +252,11 @@ const Dashboard = () => {
                 
                 <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <div className="flex items-center gap-2 mb-2">
-                    <Mail className="h-4 w-4 text-blue-600" />
-                    <p className="font-medium text-blue-800">Email Notification</p>
+                    <MessageCircle className="h-4 w-4 text-blue-600" />
+                    <p className="font-medium text-blue-800">WhatsApp Notification</p>
                   </div>
                   <p className="text-sm text-blue-700">
-                    We'll send you an email notification as soon as your report is ready.
+                    We'll send you a WhatsApp message as soon as your report is ready.
                   </p>
                 </div>
               </CardContent>

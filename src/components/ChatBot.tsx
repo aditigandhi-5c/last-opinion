@@ -48,7 +48,7 @@ const ChatBot = () => {
 
       {/* Chat Widget */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-80">
+        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 max-w-[90vw]">
           <Card className="shadow-2xl border-0">
             <CardHeader className="bg-primary text-white rounded-t-lg">
               <CardTitle className="text-lg flex items-center gap-2">
@@ -56,7 +56,7 @@ const ChatBot = () => {
                 How can we help?
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 space-y-3 max-h-80 overflow-y-auto">
+            <CardContent className="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
               <p className="text-sm text-muted-foreground mb-4">
                 Click on any question below for quick answers:
               </p>

@@ -100,9 +100,9 @@ const Success = () => {
             <Button 
               variant="hero" 
               size="lg"
-              onClick={() => navigate('/case/MC-2024-001')}
+              onClick={() => navigate('/dashboard')}
             >
-              Go to My Case
+              Go to Dashboard
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             
