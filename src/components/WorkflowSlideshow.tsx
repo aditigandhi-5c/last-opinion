@@ -131,7 +131,7 @@ const WorkflowSlideshow = () => {
       </div>
 
       {/* Step Labels */}
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
+      <div className="flex flex-wrap justify-center gap-4 mt-8">
         {steps.map((step, index) => (
           <button
             key={step.id}

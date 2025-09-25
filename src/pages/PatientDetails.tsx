@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,10 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
+import { createPatient, optInWhatsApp } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, ArrowLeft, User, Phone, Mail, Calendar } from "lucide-react";
 
 const PatientDetails = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const GUPSHUP_OPTIN_URL = "https://apps.gupshup.io/whatsapp/optin?bId=ca57b242-b204-4586-b5ba-c6d8cae48c9d&bName=th1itv15qyTQvEcFAQT9guJv&s=URL&lang=en_US";
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,6 +25,40 @@ const PatientDetails = () => {
     phone: "",
     symptoms: ""
   });
+  const [whatsappConsent, setWhatsappConsent] = useState(false);
+
+  useEffect(() => {
+    try {
+      // Prefill from existing patient if available
+      const existing = localStorage.getItem('patientDetails');
+      if (existing) {
+        const pd = JSON.parse(existing);
+        setFormData(prev => ({
+          ...prev,
+          firstName: pd.firstName || prev.firstName,
+          lastName: pd.lastName || prev.lastName,
+          age: pd.age ? String(pd.age) : prev.age,
+          gender: pd.gender || prev.gender,
+          email: pd.email || prev.email,
+          phone: pd.phone || prev.phone,
+          symptoms: pd.symptoms || prev.symptoms,
+        }));
+        return;
+      }
+
+      // Fallback: infer email from token
+      const raw = localStorage.getItem('token');
+      if (!raw) return;
+      const token = raw.replace(/^\"|\"$/g, "").trim();
+      const payload = JSON.parse(atob(token.split('.')[1] || ''));
+      const emailFromToken = payload?.sub || '';
+      if (emailFromToken) {
+        setFormData(prev => ({ ...prev, email: emailFromToken }));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -29,14 +67,33 @@ const PatientDetails = () => {
     }));
   };
 
-  const handleNext = () => {
-    // Store form data in localStorage for the next step
-    localStorage.setItem('patientDetails', JSON.stringify(formData));
-    navigate('/upload');
+  const handleNext = async () => {
+    try {
+      if (!whatsappConsent) {
+        throw new Error('Please agree to receive WhatsApp updates to continue.');
+      }
+      const payload = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        age: Number(formData.age),
+        gender: formData.gender,
+        phone: formData.phone,
+        symptoms: formData.symptoms || undefined,
+      };
+      const saved = await createPatient(payload);
+      // Fire opt-in (best-effort)
+      try { await optInWhatsApp(String(saved.phone || formData.phone)); } catch {}
+      try { window.open(GUPSHUP_OPTIN_URL, "_blank", "noopener,noreferrer"); } catch {}
+      localStorage.setItem('patientDetails', JSON.stringify({ ...formData, id: saved.id }));
+      toast({ title: 'Saved', description: `Patient #${saved.id} created.` });
+      navigate('/upload');
+    } catch (err: any) {
+      toast({ title: 'Save failed', description: String(err?.message || err), variant: 'destructive' });
+    }
   };
 
   const isFormValid = formData.firstName && formData.lastName && formData.age && 
-                     formData.gender && formData.email && formData.phone;
+                     formData.gender && formData.phone && whatsappConsent;
 
   return (
     <div className="min-h-screen bg-background animate-fade-in">
@@ -112,16 +169,16 @@ const PatientDetails = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="Auto-filled from login"
                     className="pl-10"
                     value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    disabled
                   />
                 </div>
               </div>
@@ -150,6 +207,24 @@ const PatientDetails = () => {
                   value={formData.symptoms}
                   onChange={(e) => handleInputChange('symptoms', e.target.value)}
                 />
+              </div>
+
+              <div className="flex items-start gap-3">
+                <input id="wa-consent" type="checkbox" className="mt-1"
+                  checked={whatsappConsent}
+                  onChange={(e) => setWhatsappConsent(e.target.checked)}
+                />
+                <div className="text-sm">
+                  <Label htmlFor="wa-consent" className="cursor-pointer">
+                    I agree to receive important updates about my case via WhatsApp to the phone number provided. This consent is required to proceed.
+                  </Label>
+                  <div className="mt-2">
+                    <a href={GUPSHUP_OPTIN_URL} target="_blank" rel="noreferrer" className="text-primary underline">
+                      Open WhatsApp to complete opt-in
+                    </a>
+                    <span className="text-muted-foreground ml-2 text-xs">(opens in new tab)</span>
+                  </div>
+                </div>
               </div>
 
               <div className="flex gap-4 pt-6">

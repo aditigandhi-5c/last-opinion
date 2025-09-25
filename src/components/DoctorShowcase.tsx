@@ -42,6 +42,12 @@ function MovingDegrees() {
 
 export default function DoctorShowcase() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [activeMobileCardIndex, setActiveMobileCardIndex] = useState<number | null>(null);
+
+  function triggerTemporaryLift(cardIndex: number) {
+    setHoveredCard(cardIndex);
+    window.setTimeout(() => setHoveredCard(null), 300);
+  }
 
   const doctors = [
     { src: doctor1, name: "Dr. Smith" },
@@ -68,10 +74,10 @@ export default function DoctorShowcase() {
         </Badge>
       </div>
 
-      {/* 3D Doctor Cards */}
-      <div className="flex justify-center mb-16 px-4 perspective-1000">
+      {/* 3D Doctor Cards (hidden on small screens) */}
+      <div className="hidden sm:flex justify-center mb-16 px-4 perspective-1000">
         <div 
-          className="relative flex gap-2" 
+          className="relative flex gap-2 pointer-events-none" 
           style={{ 
             transformStyle: 'preserve-3d',
             transform: 'rotateY(-5deg)'
@@ -81,25 +87,29 @@ export default function DoctorShowcase() {
             const isCenter = index === 3;
             const rotation = (index - 3) * 12; // More pronounced rotation
             const zOffset = Math.abs(index - 3) * -30; // Deeper Z spacing
-            const scale = isCenter ? 1.1 : hoveredCard === index ? 1.05 : 0.95;
+            const isHovered = hoveredCard === index;
+            const baseScale = isCenter ? 1.1 : isHovered ? 1.05 : 0.95;
+            const combinedScale = baseScale * (isHovered ? 1.12 : 1);
             
             return (
               <div
                 key={index}
-                className={`relative transition-all duration-500 ease-out ${
-                  isCenter ? 'z-20' : hoveredCard === index ? 'z-30' : 'z-10'
+                className={`relative transition-transform duration-300 ease-out pointer-events-auto ${
+                  isHovered ? 'z-40' : isCenter ? 'z-20' : 'z-10'
                 }`}
                 style={{
                   transform: `
                     rotateY(${rotation}deg) 
                     translateZ(${zOffset}px) 
-                    scale(${scale})
-                    ${hoveredCard === index ? 'translateY(-10px)' : ''}
+                    scale(${combinedScale})
+                    translateY(${isHovered ? '-18px' : '0px'})
                   `,
                   transformStyle: 'preserve-3d'
                 }}
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
+                onTouchStart={() => triggerTemporaryLift(index)}
+                onClick={() => triggerTemporaryLift(index)}
               >
                 <Card className="w-36 h-48 border-4 border-white shadow-2xl rounded-3xl overflow-hidden bg-white hover:shadow-3xl transition-shadow duration-300">
                   <div className="w-full h-full relative group">
@@ -114,6 +124,34 @@ export default function DoctorShowcase() {
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Mobile horizontal scroll list */}
+      <div className="sm:hidden mb-12 px-4">
+        <div className="flex gap-4 overflow-x-auto no-scrollbar py-2">
+          {doctors.map((doctor, index) => (
+            <Card
+              key={index}
+              className="min-w-[140px] h-48 border-0 shadow-md rounded-2xl overflow-hidden transition-transform duration-300"
+              style={{
+                transform: activeMobileCardIndex === index ? 'translateY(-14px) scale(1.05)' : 'translateY(0) scale(1)'
+              }}
+              onTouchStart={() => setActiveMobileCardIndex(index)}
+              onTouchEnd={() => setActiveMobileCardIndex(null)}
+              onMouseDown={() => setActiveMobileCardIndex(index)}
+              onMouseUp={() => setActiveMobileCardIndex(null)}
+              onMouseLeave={() => setActiveMobileCardIndex(null)}
+            >
+              <div className="w-full h-full relative">
+                <img
+                  src={doctor.src}
+                  alt={doctor.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
 

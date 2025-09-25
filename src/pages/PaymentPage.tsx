@@ -8,46 +8,111 @@ import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, CreditCard, Shield, CheckCircle, Clock, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useDummyNotifications } from "@/hooks/useDummyNotifications";
+// Frontend no longer sends Slack; backend posts to Slack on payment
+const USE_DUMMY_PAYMENT = true; // Toggle to simulate payment without backend
+
 const PaymentPage = () => {
   const navigate = useNavigate();
   const {
     toast
   } = useToast();
-  const {
-    sendPatientConfirmations,
-    sendTeamNotifications,
-    sendWhatsAppNotification
-  } = useDummyNotifications();
   const [isProcessing, setIsProcessing] = useState(false);
   const handlePayment = async () => {
     setIsProcessing(true);
 
-    // Get patient data for notifications
-    const patientData = JSON.parse(localStorage.getItem('patientDetails') || '{}');
+    try {
+      const ensureToken = () => {
+        const tokenRaw = localStorage.getItem('token');
+        return tokenRaw ? tokenRaw.replace(/^\"|\"$/g, '').trim() : null;
+      };
+      const token = ensureToken();
+      if (!token) throw new Error('Missing session. Please login again.');
 
-    // Simulate payment processing
-    setTimeout(() => {
-      toast({
-        title: "Payment Successful!",
-        description: "Your second opinion request has been submitted. You'll receive your report within 1-2 business days."
+      const ensureOwnedCase = async (): Promise<number> => {
+        const getMe = async () => {
+          const res = await fetch('http://127.0.0.1:8000/patients/me', { headers: { Authorization: `Bearer ${token}` } });
+          if (res.status === 404) throw new Error('No patient found. Please complete patient details.');
+          if (!res.ok) throw new Error('Unable to fetch patient.');
+          const me = await res.json();
+          return Number(me?.id);
+        };
+        const patientId = await getMe();
+        const existing = localStorage.getItem('currentCaseId');
+        if (existing) return Number(existing);
+        const res = await fetch('http://127.0.0.1:8000/cases', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ patient_id: patientId }),
+        });
+        const data = await res.json().catch(() => undefined);
+        if (!res.ok) throw new Error((data && (data.detail || data.message)) || 'Failed to create case');
+        const newId = Number(data.id);
+        localStorage.setItem('currentCaseId', String(newId));
+        return newId;
+      };
+
+      let case_id = (() => { const raw = localStorage.getItem('currentCaseId'); return raw ? Number(raw) : NaN; })();
+      if (!case_id || Number.isNaN(case_id)) case_id = await ensureOwnedCase();
+
+      if (USE_DUMMY_PAYMENT) {
+        // Simulate success without calling backend, but ensure case exists
+        await new Promise((r) => setTimeout(r, 600));
+        // Try fire WhatsApp test from backend (non-blocking)
+        try {
+          const meRes = await fetch('http://127.0.0.1:8000/patients/me', { headers: { Authorization: `Bearer ${token}` } });
+          const me = meRes.ok ? await meRes.json() : null;
+          const patientName = me ? `${me.first_name} ${me.last_name}`.trim() : 'Patient';
+          const phone = me?.phone ? String(me.phone) : '';
+          const qs = new URLSearchParams({ name: patientName, phone, case_id: String(case_id) }).toString();
+          fetch(`http://127.0.0.1:8000/test-whatsapp?${qs}`).catch(() => {});
+        } catch {}
+        toast({
+          title: 'Payment Successful!',
+          description: 'Dummy payment processed. Your case will be handled shortly.'
+        });
+        return navigate('/dashboard');
+      }
+      const payload = {
+        case_id,
+        order_id: `ORD-${Date.now()}`,
+        payment_status: 'success',
+        amount: 3000,
+      };
+      const sendPayment = async () => fetch('http://127.0.0.1:8000/payments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(payload),
       });
-
-      // Send thank you WhatsApp message after payment
-      const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
-      setTimeout(() => {
-        sendWhatsAppNotification(patientName, "Thank you for trusting us! You will see your report in your dashboard once ready.");
-      }, 1000);
-
-      // Send team notifications
-      sendTeamNotifications(patientData);
+      let res = await sendPayment();
+      let data = await res.json().catch(() => undefined);
+      if (!res.ok && String(data?.detail || '').toLowerCase().includes('not allowed for this case')) {
+        // Reset case and create a fresh one (ownership mismatch)
+        localStorage.removeItem('currentCaseId');
+        case_id = await ensureOwnedCase();
+        payload.case_id = case_id;
+        res = await sendPayment();
+        data = await res.json().catch(() => undefined);
+      }
+      if (!res.ok) {
+        const msg = (data && (data.detail || data.message)) || 'Payment failed';
+        throw new Error(msg);
+      }
+      toast({
+        title: 'Payment Successful!',
+        description: 'We have started processing your case. You will receive your report shortly.'
+      });
       navigate('/dashboard');
-    }, 2000);
+    } catch (e: any) {
+      toast({ title: 'Payment error', description: String(e?.message || e), variant: 'destructive' });
+    } finally {
+      setIsProcessing(false);
+    }
   };
   return <div className="min-h-screen bg-background animate-fade-in">
       <Header />
-      
-      <div className="container mx-auto px-4 py-12">
+
+      {/* Ensure content starts below the fixed header on small screens too */}
+      <div className="container mx-auto px-4 pt-24 pb-12 md:pt-12">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">Complete Your Order</h1>

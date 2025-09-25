@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +16,115 @@ import {
 
 const Success = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    // On payment success, trigger server to resolve study_id/status for the latest uploaded file
+    try {
+      const raw = localStorage.getItem('dicomUploadResponse');
+      const tokenRaw = localStorage.getItem('token');
+      const caseIdRaw = localStorage.getItem('currentCaseId');
+      if (!raw || !tokenRaw) return;
+      const fileId = Number(JSON.parse(raw)?.id);
+      const studyIuid = ((): string | null => { try { return String(JSON.parse(raw)?.study_iuid || '') || null; } catch { return null; } })();
+      const token = tokenRaw.replace(/^\"|\"$/g, '').trim();
+      const caseId = caseIdRaw ? Number(caseIdRaw) : null;
+      if (!fileId || !token) return;
+      // 1) Ensure a payment row exists for this case (auto success, 3000)
+      if (caseId) {
+        fetch('http://127.0.0.1:8000/payments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          credentials: 'include',
+          mode: 'cors',
+          body: JSON.stringify({ case_id: caseId, order_id: `AUTO-${caseId}`, payment_status: 'success', amount: 3000 })
+        }).catch(() => {});
+      }
+      // 2) Ask backend to refresh report status now
+      fetch(`http://127.0.0.1:8000/files/${fileId}/refresh-status`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        mode: 'cors',
+      }).catch(() => {});
+
+      // 3) Independently, resolve study_id via external API 2 and then trigger APIs 3 & 4 until a pdf_url is available
+      (async () => {
+        const apiBase = (import.meta as any)?.env?.VITE_FIVEC_API || 'https://api.5cnetwork.com';
+        const radId = (import.meta as any)?.env?.VITE_FIVEC_RAD_ID;
+        const externalAuth = (import.meta as any)?.env?.VITE_FIVEC_AUTH as string | undefined; // Authorization header
+
+        // helper: resolve study_id using API 2 (study/uid)
+        const resolveStudyId = async (): Promise<string | null> => {
+          if (!studyIuid) return null;
+          try {
+            const r = await fetch(`${apiBase}/study/uid/${encodeURIComponent(studyIuid)}`, {
+              headers: externalAuth ? { Authorization: externalAuth } : undefined,
+              mode: 'cors',
+            });
+            const d = await r.json().catch(() => undefined as any);
+            if (r.ok && d) {
+              const sid = d?.id ?? d?.study_id;
+              return sid ? String(sid) : null;
+            }
+          } catch {}
+          return null;
+        };
+
+        // helper: from study_id get pdf_url via APIs 3 & 4
+        const getPdfUrlOnce = async (studyId: string): Promise<string | null> => {
+          try {
+            // API 3: completed → report_ids
+            const c = await fetch(`${apiBase}/report/client/completed/${encodeURIComponent(studyId)}`, {
+              headers: externalAuth ? { Authorization: externalAuth } : undefined,
+              mode: 'cors',
+            });
+            const cd = await c.json().catch(() => undefined as any);
+            let reportIds: string[] = [];
+            if (c.ok && cd) {
+              if (Array.isArray(cd)) reportIds = cd.map((x: any) => String(x?.id)).filter(Boolean);
+              else if (cd?.id) reportIds = [String(cd.id)];
+            }
+            if (reportIds.length === 0) reportIds = [studyId];
+
+            // API 4: details → pdf_url
+            const params = new URLSearchParams({ send_pdf_url: 'true' });
+            for (const rid of reportIds) params.append('report_ids[]', rid);
+            if (radId) params.set('rad_id', String(radId));
+            const d = await fetch(`${apiBase}/report/details?${params.toString()}`, {
+              headers: externalAuth ? { Authorization: externalAuth } : undefined,
+              mode: 'cors',
+            });
+            const dd = await d.json().catch(() => undefined as any);
+            if (d.ok && dd) {
+              if (Array.isArray(dd)) {
+                for (const it of dd) { if (it?.pdf_url) return String(it.pdf_url); }
+              } else if (dd?.pdf_url) { return String(dd.pdf_url); }
+            }
+          } catch {}
+          return null;
+        };
+
+        // Poll sequence: resolve study_id then get pdf_url
+        let studyId: string | null = null;
+        for (let i = 0; i < 6 && !studyId; i++) { // up to ~1 min
+          studyId = await resolveStudyId();
+          if (studyId) break;
+          await new Promise(r => setTimeout(r, 10000));
+        }
+        if (!studyId) return;
+
+        for (let i = 0; i < 18; i++) { // up to ~3 minutes
+          const url = await getPdfUrlOnce(studyId);
+          if (url) {
+            try { localStorage.setItem(`reportPdfUrl:${studyId}`, url); } catch {}
+            break;
+          }
+          await new Promise(r => setTimeout(r, 10000));
+        }
+      })();
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const nextSteps = [
     {
@@ -100,9 +210,9 @@ const Success = () => {
             <Button 
               variant="hero" 
               size="lg"
-              onClick={() => navigate('/case/MC-2024-001')}
+              onClick={() => navigate('/dashboard')}
             >
-              Go to My Case
+              Go to Dashboard
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             

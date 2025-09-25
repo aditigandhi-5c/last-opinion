@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -25,12 +26,18 @@ import AdminReports from "./pages/admin/Reports";
 
 const queryClient = new QueryClient();
 
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('isAuthenticated') === 'true';
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/register" element={<Register />} />
@@ -44,7 +51,7 @@ const App = () => (
           <Route path="/upload" element={<Upload />} />
           <Route path="/questionnaire" element={<Questionnaire />} />
           <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           
           {/* Legacy route */}
           <Route path="/old-payment" element={<Payment />} />

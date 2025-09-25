@@ -8,10 +8,12 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, FileText, Stethoscope } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 const Questionnaire = () => {
   const navigate = useNavigate();
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [wantSubspecialist, setWantSubspecialist] = useState(false);
+  const { toast } = useToast();
   const handleNext = () => {
     // Store questionnaire data
     const questionnaireData = {
@@ -19,12 +21,29 @@ const Questionnaire = () => {
       wantSubspecialist
     };
     localStorage.setItem('questionnaireData', JSON.stringify(questionnaireData));
+    // Also update current case.medical_background via backend if we have a case
+    try {
+      const caseIdRaw = localStorage.getItem('currentCaseId');
+      const tokenRaw = localStorage.getItem('token');
+      const caseId = caseIdRaw ? Number(caseIdRaw) : null;
+      const token = tokenRaw ? tokenRaw.replace(/^\"|\"$/g, '').trim() : null;
+      if (caseId && token && additionalInfo.trim()) {
+        fetch(`http://127.0.0.1:8000/cases/${caseId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ medical_background: additionalInfo })
+        }).catch(() => {});
+      }
+    } catch (e) {
+      // ignore network errors; UI still proceeds
+    }
     navigate('/payment');
   };
   return <div className="min-h-screen bg-background animate-fade-in">
       <Header />
       
-      <div className="container mx-auto px-4 py-12">
+      {/* Ensure content starts below the fixed header on small screens too */}
+      <div className="container mx-auto px-4 pt-24 pb-12 md:pt-12">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">Additional Information</h1>

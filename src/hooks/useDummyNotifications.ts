@@ -1,5 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 
+// Prefer backend-driven notifications. Keep these as UI toasts only; Slack will be triggered server-side.
 export const useDummyNotifications = () => {
   const { toast } = useToast();
 
@@ -19,12 +20,9 @@ export const useDummyNotifications = () => {
     });
   };
 
-  const sendSlackNotification = (channel: string, message: string) => {
-    console.log(`[DUMMY] Slack to ${channel}: ${message}`);
-    toast({
-      title: "Slack Notification",
-      description: `Team notification sent to ${channel}`,
-    });
+  const sendSlackNotification = async (channel: string, message: string) => {
+    // Do not hit any test endpoints; real notifications fire from the backend on case creation
+    toast({ title: "Slack Notification (preview)", description: `Will send to ${channel}` });
   };
 
   const sendPatientConfirmations = (patientData: any) => {
@@ -52,10 +50,8 @@ export const useDummyNotifications = () => {
     
     // Team Slack notification
     setTimeout(() => {
-      sendSlackNotification(
-        "#medical-team",
-        `🔔 New second opinion request from ${patientName} - Case ID: #RXS${Date.now().toString().slice(-6)}`
-      );
+      // UI preview only; backend already sent the real Slack when case was created
+      sendSlackNotification("#last-opinion-website", `🔔 New request from ${patientName}`);
     }, 2000);
   };
 

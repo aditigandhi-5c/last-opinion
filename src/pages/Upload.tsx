@@ -11,11 +11,125 @@ const Upload = () => {
   const navigate = useNavigate();
   const [dicomFile, setDicomFile] = useState<File | null>(null);
   const [reportFile, setReportFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadResult, setUploadResult] = useState<any>(null);
+
+  const getToken = () => {
+    try {
+      const raw = localStorage.getItem('token');
+      return raw ? raw.replace(/^\"|\"$/g, "").trim() : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const ensureCase = async (): Promise<{ caseId: number; patientId: number }> => {
+    // Always resolve latest patient from backend for the logged-in user
+    const token = getToken();
+    if (!token) throw new Error('Missing bearer token. Please login again.');
+
+    // Get latest patient for current user
+    const meResp = await fetch('http://127.0.0.1:8000/patients/me', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+      mode: 'cors',
+    });
+    if (meResp.status === 401) {
+      throw new Error('Invalid or expired session. Please login again.');
+    }
+    if (meResp.status === 404) {
+      // Redirect user to patient details to create a patient once
+      navigate('/patient-details');
+      throw new Error('No patient found. Please complete patient details first.');
+    }
+    const me = await meResp.json().catch(() => undefined);
+    const patientId: number = Number(me?.id);
+    if (!patientId) throw new Error('Unable to resolve patient. Please retry.');
+
+    // Reuse existing case if present
+    const existing = localStorage.getItem('currentCaseId');
+    if (existing) return { caseId: Number(existing), patientId };
+
+    // Create a new case bound to this patient
+    const resp = await fetch('http://127.0.0.1:8000/cases', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ patient_id: patientId }),
+    });
+    const data = await resp.json().catch(() => undefined);
+    if (!resp.ok) {
+      const msg = (data && (data.detail || data.message)) || 'Failed to create case';
+      throw new Error(msg);
+    }
+    const caseId = Number(data.id);
+    localStorage.setItem('currentCaseId', String(caseId));
+    return { caseId, patientId };
+  };
+
+  const uploadDicom = async (file: File) => {
+    try {
+      setUploading(true);
+      setUploadError(null);
+      setUploadResult(null);
+      const { caseId, patientId } = await ensureCase();
+      const formData = new FormData();
+      formData.append("dicomFile", file);
+
+      const token = getToken();
+      const response = await fetch(`http://127.0.0.1:8000/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
+        method: "POST",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        body: formData,
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.detail || data?.message || "Upload failed");
+      }
+      setUploadResult(data);
+      localStorage.setItem("dicomUploadResponse", JSON.stringify(data));
+    } catch (err: any) {
+      const msg = String(err?.message || err || "Upload failed");
+      // If case ownership mismatch occurred, reset and retry once
+      if (msg.toLowerCase().includes("not allowed for this case")) {
+        try {
+          localStorage.removeItem('currentCaseId');
+          // retry once with fresh case
+          const { caseId, patientId } = await ensureCase();
+          const formData = new FormData();
+          formData.append("dicomFile", file);
+          const token = getToken();
+          const resp2 = await fetch(`http://127.0.0.1:8000/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
+            method: "POST",
+            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+            body: formData,
+          });
+          const data2 = await resp2.json();
+          if (!resp2.ok) throw new Error(data2?.detail || data2?.message || "Upload failed");
+          setUploadResult(data2);
+          localStorage.setItem("dicomUploadResponse", JSON.stringify(data2));
+          setUploadError(null);
+          return;
+        } catch (e2: any) {
+          setUploadError(String(e2?.message || e2 || msg));
+          return;
+        }
+      }
+      setUploadError(msg);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleDicomUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setDicomFile(file);
+      uploadDicom(file);
     }
   };
 
@@ -33,6 +147,7 @@ const Upload = () => {
       reportFile: reportFile ? { name: reportFile.name, size: reportFile.size } : null
     };
     localStorage.setItem('uploadData', JSON.stringify(uploadData));
+    // Go to Medical Background step before Payment
     navigate('/questionnaire');
   };
 
@@ -71,11 +186,24 @@ const Upload = () => {
                 <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
                   {dicomFile ? (
                     <div className="space-y-4">
-                      <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
+                      {!uploading && !uploadError && (
+                        <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
+                      )}
+                      {uploading && (
+                        <div className="text-sm text-muted-foreground">Uploading...</div>
+                      )}
+                      {uploadError && (
+                        <div className="text-sm text-red-600">{uploadError}</div>
+                      )}
                       <div>
                         <p className="font-semibold text-green-700">{dicomFile.name}</p>
                         <p className="text-sm text-muted-foreground">{formatFileSize(dicomFile.size)}</p>
                       </div>
+                      {uploadResult && (
+                        <div className="text-xs text-muted-foreground break-words">
+                          Upload complete
+                        </div>
+                      )}
                       <Button
                         variant="outline"
                         onClick={() => document.getElementById('dicom-upload')?.click()}

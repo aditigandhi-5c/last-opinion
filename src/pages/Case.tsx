@@ -5,17 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { 
-  ArrowLeft, 
-  FileText, 
-  User, 
-  Calendar, 
-  MapPin,
-  Clock,
-  Download,
-  Eye,
-  CheckCircle
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const Case = () => {
   const { id } = useParams();
@@ -34,13 +24,7 @@ const Case = () => {
     status: "Under Review"
   };
 
-  const uploadedFiles = [
-    { name: "Blood_Test_Report.pdf", size: "2.3 MB", type: "Medical Report" },
-    { name: "ECG_Report_Jan2024.pdf", size: "1.8 MB", type: "Medical Report" },
-    { name: "Chest_Xray.jpg", size: "4.1 MB", type: "Imaging" },
-    { name: "CT_Scan_DICOM.dcm", size: "12.5 MB", type: "DICOM Imaging" },
-    { name: "Previous_Consultation.pdf", size: "1.2 MB", type: "Prior Report" }
-  ];
+  // Files and report details intentionally omitted per simplified view
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -64,7 +48,7 @@ const Case = () => {
           <div className="mb-8">
             <Button 
               variant="ghost" 
-              onClick={() => navigate('/success')}
+              onClick={() => navigate('/dashboard')}
               className="mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -83,155 +67,9 @@ const Case = () => {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Patient Information */}
-              <Card className="medical-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5" />
-                    Patient Information
-                  </CardTitle>
-                  <CardDescription>
-                    Basic demographic and contact information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">Full Name</label>
-                      <p className="font-medium">{patientData.name}</p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">Age</label>
-                      <p className="font-medium">{patientData.age} years</p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">Gender</label>
-                      <p className="font-medium">{patientData.gender}</p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">Date of Birth</label>
-                      <p className="font-medium">{new Date(patientData.dateOfBirth).toLocaleDateString()}</p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">City</label>
-                      <p className="font-medium flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {patientData.city}
-                      </p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">PIN Code</label>
-                      <p className="font-medium">{patientData.pinCode}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Uploaded Files */}
-              <Card className="medical-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
-                    Uploaded Files
-                  </CardTitle>
-                  <CardDescription>
-                    Medical reports and documents you've submitted
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {uploadedFiles.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="font-medium text-sm">{file.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {file.type} • {file.size}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Download className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Second Opinion Report */}
-              <Card className="medical-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
-                    Second Opinion Report
-                  </CardTitle>
-                  <CardDescription>
-                    Expert medical opinion and recommendations
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12">
-                    <Clock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <h4 className="font-medium mb-2">Report in Progress</h4>
-                    <p className="text-muted-foreground max-w-md mx-auto">
-                      Our medical experts are carefully reviewing your case. 
-                      Your detailed second opinion report will appear here within 1-2 business days.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Case Summary */}
-              <Card className="medical-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg">Case Summary</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Case ID</label>
-                    <p className="font-mono text-sm">{patientData.caseId}</p>
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Submission Date</label>
-                    <p className="text-sm flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      {new Date(patientData.submissionDate).toLocaleDateString()}
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Files Uploaded</label>
-                    <p className="text-sm">{uploadedFiles.length} files</p>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Payment Status</label>
-                    <p className="text-sm flex items-center gap-1 text-accent">
-                      <CheckCircle className="h-4 w-4" />
-                      Completed
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Timeline */}
-              <Card className="medical-shadow">
+          <div className="space-y-6">
+            {/* Progress Timeline */}
+            <Card className="medical-shadow">
                 <CardHeader>
                   <CardTitle className="text-lg">Progress Timeline</CardTitle>
                 </CardHeader>
@@ -272,8 +110,8 @@ const Case = () => {
                 </CardContent>
               </Card>
 
-              {/* Contact Support */}
-              <Card className="bg-primary-light/20 border-primary/20">
+            {/* Need Help */}
+            <Card className="bg-primary-light/20 border-primary/20">
                 <CardContent className="pt-6">
                   <h4 className="font-medium mb-2">Need Help?</h4>
                   <p className="text-sm text-muted-foreground mb-4">
@@ -283,12 +121,11 @@ const Case = () => {
                     Contact Support
                   </Button>
                 </CardContent>
-              </Card>
-            </div>
+            </Card>
+          </div>
           </div>
         </div>
-      </div>
-
+      
       <Footer />
     </div>
   );

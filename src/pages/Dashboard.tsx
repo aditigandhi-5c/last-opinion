@@ -1,26 +1,246 @@
 import { useEffect, useState } from "react";
+import { fetchMyPatient } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { User, Upload, FileText, Clock, CheckCircle, Download, Mail } from "lucide-react";
+import { User, FileText, PlusCircle, Eye, Image as ImageIcon, Clock, CheckCircle, MessageCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [patientData, setPatientData] = useState<any>(null);
-  const [uploadData, setUploadData] = useState<any>(null);
   const [questionnaireData, setQuestionnaireData] = useState<any>(null);
+  const [fileStatus, setFileStatus] = useState<string | null>(null);
+  const [filesHistory, setFilesHistory] = useState<any[]>([]);
+  const [pdfByFileId, setPdfByFileId] = useState<Record<number, string>>({});
+
+  const statusClass = (s?: string) => {
+    const t = (s || '').toLowerCase();
+    if (t === 'completed') return 'bg-green-100 text-green-800';
+    if (t === 'processing') return 'bg-yellow-100 text-yellow-800';
+    if (t === 'failed') return 'bg-red-100 text-red-800';
+    return 'bg-gray-100 text-gray-800';
+  };
+
+  const getToken = () => {
+    try {
+      const raw = localStorage.getItem('token');
+      return raw ? raw.replace(/^\"|\"$/g, '').trim() : null;
+    } catch {
+      return null;
+    }
+  };
 
   useEffect(() => {
-    // Load data from localStorage
+    (async () => {
+      // Patient details
+      try {
+        const p = await fetchMyPatient();
+        setPatientData({
+          firstName: p.first_name,
+          lastName: p.last_name,
+          age: p.age,
+          gender: p.gender,
+          email: p.email,
+          phone: p.phone,
+          symptoms: p.symptoms,
+        });
+      } catch {
     const patient = localStorage.getItem('patientDetails');
-    const uploads = localStorage.getItem('uploadData');
-    const questionnaire = localStorage.getItem('questionnaireData');
+        if (patient) setPatientData(JSON.parse(patient));
+      }
 
-    if (patient) setPatientData(JSON.parse(patient));
-    if (uploads) setUploadData(JSON.parse(uploads));
+      // Reports from backend (all files across cases)
+      try {
+        const token = getToken();
+        if (token) {
+          const res = await fetch(`http://127.0.0.1:8000/files/mine`, {
+            headers: { Authorization: `Bearer ${token}` },
+            credentials: 'include',
+            mode: 'cors',
+          });
+          if (res.ok) {
+            const list = await res.json();
+            if (Array.isArray(list)) {
+              const mapped = list.map((f: any) => ({ id: f.id, case_id: f.case_id, study_iuid: f.study_iuid || null, study_id: f.study_id || null, status: f.status || null }));
+              setFilesHistory(mapped);
+              try { localStorage.setItem('filesHistory', JSON.stringify(mapped)); } catch { /* ignore */ }
+            }
+          }
+        }
+      } catch { /* ignore */ }
+
+      // Questionnaire (for bottom section)
+      try {
+    const questionnaire = localStorage.getItem('questionnaireData');
     if (questionnaire) setQuestionnaireData(JSON.parse(questionnaire));
+      } catch { /* ignore */ }
+
+      // Current upload quick status
+      try {
+        const dicomResp = localStorage.getItem('dicomUploadResponse');
+        if (dicomResp) {
+          const current = JSON.parse(dicomResp);
+          setFileStatus(current?.status || null);
+        }
+      } catch { /* ignore */ }
+    })();
   }, []);
+
+  // Live poll file status from backend if we have an uploaded file id
+  useEffect(() => {
+    const dicomResp = localStorage.getItem('dicomUploadResponse');
+    if (!dicomResp) return;
+    let fileId: number | null = null;
+    try { fileId = Number(JSON.parse(dicomResp)?.id) || null; } catch { /* ignore */ }
+    if (!fileId) return;
+    const token = getToken();
+    if (!token) return;
+
+    let cancelled = false;
+    const fetchStatus = async () => {
+      try {
+        const res = await fetch(`http://127.0.0.1:8000/files/${fileId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          credentials: 'include',
+          mode: 'cors',
+        });
+        const data = await res.json().catch(() => undefined);
+        if (!cancelled && res.ok && data) {
+          setFileStatus(data.status || null);
+        }
+      } catch {
+        // ignore transient errors
+      }
+    };
+    fetchStatus();
+    const interval = window.setInterval(fetchStatus, 30000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  // Periodically refresh files via /files/mine only (avoid per-id 403s)
+  useEffect(() => {
+    const token = getToken();
+    if (!token) return;
+    let cancelled = false;
+
+    const refreshMine = async () => {
+      try {
+        const res = await fetch(`http://127.0.0.1:8000/files/mine`, {
+          headers: { Authorization: `Bearer ${token}` },
+          credentials: 'include',
+          mode: 'cors',
+        });
+        if (!res.ok) return;
+        const list = await res.json().catch(() => undefined);
+        if (!Array.isArray(list)) return;
+        const mapped = list.map((f: any) => ({ id: f.id, case_id: f.case_id, study_iuid: f.study_iuid || null, study_id: f.study_id || null, status: f.status || null }));
+        if (!cancelled) {
+          setFilesHistory(mapped);
+          try { localStorage.setItem('filesHistory', JSON.stringify(mapped)); } catch { /* ignore */ }
+        }
+      } catch { /* ignore */ }
+    };
+
+    refreshMine();
+    const interval = window.setInterval(refreshMine, 30000);
+    return () => { cancelled = true; window.clearInterval(interval); };
+  }, []);
+
+  const startNewCase = () => {
+    localStorage.removeItem('currentCaseId');
+    localStorage.removeItem('dicomUploadResponse');
+    localStorage.removeItem('uploadData');
+    localStorage.removeItem('questionnaireData');
+    navigate('/upload');
+  };
+
+  const handleViewReport = async (_fileId: number, studyId?: string | null) => {
+    try {
+      const apiBase = (import.meta as any)?.env?.VITE_FIVEC_API || 'https://api.5cnetwork.com';
+      const radIdEnv = (import.meta as any)?.env?.VITE_FIVEC_RAD_ID;
+      const externalAuth = (import.meta as any)?.env?.VITE_FIVEC_AUTH || 'NWNuZXR3b3JrOjVjbmV0d29yaw=='; // default token
+
+      // 1) As requested: call completed -> get report_ids -> call details with send_pdf_url=true
+      if (studyId) {
+        try {
+          const completedResp = await fetch(`${apiBase}/report/client/completed/${encodeURIComponent(String(studyId))}` , {
+            headers: { Authorization: externalAuth, 'Content-Type': 'application/json' },
+            mode: 'cors',
+          });
+          const completed = await completedResp.json().catch(() => undefined as any);
+          let reportIds: string[] = [];
+          let radFromCompleted: string | undefined;
+          if (completedResp.ok && completed) {
+            if (Array.isArray(completed)) {
+              reportIds = completed.map((x: any) => String(x?.id)).filter(Boolean);
+              // pick first rad_fk present
+              const withRad = completed.find((x: any) => x && typeof x === 'object' && (x.rad_fk || x.rad_id));
+              if (withRad) radFromCompleted = String(withRad.rad_fk || withRad.rad_id);
+            } else if (typeof completed === 'object' && completed?.id) {
+              reportIds = [String(completed.id)];
+              if (completed.rad_fk || completed.rad_id) radFromCompleted = String(completed.rad_fk || completed.rad_id);
+            }
+          }
+          if (reportIds.length === 0) {
+            // fallback to using study_id directly
+            reportIds = [String(studyId)];
+          }
+
+          const params = new URLSearchParams({ send_pdf_url: 'true' });
+          for (const rid of reportIds) params.append('report_ids[]', rid);
+          const finalRadId = radFromCompleted || radIdEnv;
+          if (finalRadId) params.set('rad_id', String(finalRadId));
+          const detailsResp = await fetch(`${apiBase}/report/details?${params.toString()}`, {
+            headers: { Authorization: externalAuth, 'Content-Type': 'application/json' },
+            mode: 'cors',
+          });
+          const details = await detailsResp.json().catch(() => undefined as any);
+          if (detailsResp.ok && details) {
+            let url: string | null = null;
+            if (Array.isArray(details)) {
+              for (const it of details) {
+                if (it && typeof it === 'object' && it.pdf_url) { url = it.pdf_url; break; }
+              }
+            } else if (typeof details === 'object') {
+              url = details.pdf_url || null;
+            }
+            if (url) { window.open(url, '_blank'); return; }
+          }
+        } catch {}
+      }
+      toast({ title: 'Report not ready', description: 'Please check back soon.' });
+    } catch (e: any) {
+      toast({ title: 'Report not ready', description: 'Please check back soon.' });
+    }
+  };
+
+  const handleViewImages = async (studyIuid?: string | null) => {
+    try {
+      const token = getToken();
+      if (!token) { toast({ title: 'Login required', description: 'Please log in again.' }); return; }
+      if (!studyIuid) { toast({ title: 'Viewer unavailable', description: 'Study IUID missing.' }); return; }
+      const params = new URLSearchParams({ study_iuid: String(studyIuid) });
+      const res = await fetch(`http://127.0.0.1:8000/reports/viewer-link?${params.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        mode: 'cors',
+      });
+      const data = await res.json().catch(() => ({} as any));
+      if (!res.ok) throw new Error(data?.detail || data?.message || 'Link not available');
+      if (data?.viewer_url) window.open(data.viewer_url, '_blank');
+      else toast({ title: 'Viewer unavailable', description: 'Please check back later.' });
+    } catch (e: any) {
+      toast({ title: 'Viewer unavailable', description: 'Please check back later.' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background animate-fade-in">
@@ -35,30 +255,13 @@ const Dashboard = () => {
             </p>
           </div>
 
-          {/* Status Banner */}
-          <Card className="mb-8 border-0 shadow-lg bg-gradient-to-r from-primary to-secondary text-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-white/20 rounded-full">
-                    <Clock className="h-8 w-8" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold mb-1">Your report is under review</h2>
-                    <p className="opacity-90">
-                      Our expert radiologists are carefully analyzing your scans. 
-                      You'll receive your detailed report within 1-2 business days.
-                    </p>
-                  </div>
-                </div>
-                <Badge className="bg-white/20 text-white border-white/30 px-4 py-2">
-                  In Progress
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="flex justify-end mb-4 gap-2">
+            <Button onClick={startNewCase} className="bg-primary hover:bg-primary/90">
+              <PlusCircle className="mr-2 h-4 w-4" /> New Case
+            </Button>
+          </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-1 gap-8">
             {/* Patient Information */}
             <Card className="shadow-lg border-0">
               <CardHeader className="bg-primary/5">
@@ -92,12 +295,7 @@ const Dashboard = () => {
                       <span className="text-muted-foreground">Phone:</span>
                       <span className="font-medium">{patientData.phone}</span>
                     </div>
-                    {patientData.symptoms && (
-                      <div className="pt-3 border-t">
-                        <span className="text-muted-foreground block mb-2">Symptoms/Condition:</span>
-                        <p className="text-sm">{patientData.symptoms}</p>
-                      </div>
-                    )}
+                    
                   </div>
                 ) : (
                   <p className="text-muted-foreground">No patient data available</p>
@@ -105,166 +303,64 @@ const Dashboard = () => {
               </CardContent>
             </Card>
 
-            {/* Uploaded Files */}
+            {/* Reports List */}
             <Card className="shadow-lg border-0">
               <CardHeader className="bg-secondary/5">
                 <CardTitle className="flex items-center gap-2 text-secondary">
-                  <Upload className="h-5 w-5" />
-                  Uploaded Files
+                  <FileText className="h-5 w-5" />
+                  Reports
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                {uploadData ? (
-                  <div className="space-y-4">
-                    {uploadData.dicomFile && (
-                      <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                        <div className="flex items-center gap-3">
-                          <CheckCircle className="h-5 w-5 text-green-600" />
-                          <div>
-                            <p className="font-medium text-green-800">DICOM Scan</p>
-                            <p className="text-sm text-green-600">{uploadData.dicomFile.name}</p>
-                          </div>
-                        </div>
-                        <Badge className="bg-green-100 text-green-800">Uploaded</Badge>
-                      </div>
-                    )}
-                    
-                    {uploadData.reportFile && (
-                      <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
-                        <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-blue-600" />
-                          <div>
-                            <p className="font-medium text-blue-800">Additional Report</p>
-                            <p className="text-sm text-blue-600">{uploadData.reportFile.name}</p>
-                          </div>
-                        </div>
-                        <Badge className="bg-blue-100 text-blue-800">Uploaded</Badge>
-                      </div>
-                    )}
-                    
-                    {!uploadData.reportFile && (
-                      <div className="p-3 bg-muted/20 rounded-lg border border-muted">
-                        <p className="text-sm text-muted-foreground">No additional report uploaded</p>
-                      </div>
-                    )}
+              {filesHistory && filesHistory.filter(f => !!f && f.status !== '403').length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="text-left text-muted-foreground">
+                          <th className="py-2 pr-4">Case ID</th>
+                          <th className="py-2 pr-4">Study IUID</th>
+                          <th className="py-2 pr-4">View Report</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {filesHistory.filter(f => !!f && f.status !== '403').map((f) => (
+                          <tr key={f.id} className="border-t">
+                            <td className="py-2 pr-4">{f.case_id || '-'}</td>
+                            <td className="py-2 pr-4">{f.study_iuid || '-'}</td>
+                            <td className="py-2 pr-4">
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={async () => {
+                                  try {
+                                    const existing = pdfByFileId[f.id];
+                                    if (existing) { window.open(existing, '_blank'); return; }
+                                    await handleViewReport(Number(f.id), f.study_id);
+                                  } catch {
+                                    toast({ title: 'Report not ready', description: 'Please check back soon.' });
+                                  }
+                                }}
+                              >
+                                <Eye className="h-4 w-4 mr-1" /> View
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 ) : (
-                  <p className="text-muted-foreground">No upload data available</p>
+                  <p className="text-muted-foreground">No reports yet</p>
                 )}
               </CardContent>
             </Card>
 
-            {/* Payment Confirmation */}
-            <Card className="shadow-lg border-0">
-              <CardHeader className="bg-accent/5">
-                <CardTitle className="flex items-center gap-2 text-accent">
-                  <CheckCircle className="h-5 w-5" />
-                  Payment Confirmation
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Order ID:</span>
-                    <span className="font-medium">#RXS{Date.now().toString().slice(-6)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Amount Paid:</span>
-                    <span className="font-medium">₹3,000</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Payment Date:</span>
-                    <span className="font-medium">{new Date().toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Status:</span>
-                    <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* What's Next */}
-            <Card className="shadow-lg border-0">
-              <CardHeader className="bg-primary/5">
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <Clock className="h-5 w-5" />
-                  What's Next?
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold">
-                      1
-                    </div>
-                    <div>
-                      <p className="font-medium">Expert Review in Progress</p>
-                      <p className="text-sm text-muted-foreground">
-                        Your scans are being analyzed by our radiologist
-                      </p>
-                    </div>
                   </div>
                   
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center text-muted-foreground text-xs font-bold">
-                      2
-                    </div>
-                    <div>
-                      <p className="font-medium text-muted-foreground">Report Generation</p>
-                      <p className="text-sm text-muted-foreground">
-                        Detailed findings will be compiled into your report
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center text-muted-foreground text-xs font-bold">
-                      3
-                    </div>
-                    <div>
-                      <p className="font-medium text-muted-foreground">Delivery</p>
-                      <p className="text-sm text-muted-foreground">
-                        You'll receive your report here and via email
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Mail className="h-4 w-4 text-blue-600" />
-                    <p className="font-medium text-blue-800">Email Notification</p>
-                  </div>
-                  <p className="text-sm text-blue-700">
-                    We'll send you an email notification as soon as your report is ready.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          
 
-          {/* Additional Information */}
-          {questionnaireData?.additionalInfo && (
-            <Card className="mt-8 shadow-lg border-0">
-              <CardHeader className="bg-muted/20">
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Additional Information Provided
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <p className="text-sm leading-relaxed">{questionnaireData.additionalInfo}</p>
-                {questionnaireData.wantSubspecialist && (
-                  <div className="mt-4 p-3 bg-secondary/10 rounded-lg border border-secondary/20">
-                    <p className="text-sm font-medium text-secondary">
-                      ✓ Subspecialty radiologist review requested
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
+          
+
         </div>
       </div>
 

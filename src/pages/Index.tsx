@@ -74,62 +74,62 @@ const Index = () => {
   const doctorTestimonials = [
     {
       doctor: {
-        name: "Dr. Sarah Chen",
+        name: "Dr. Anil Rao",
         specialty: "Neuroradiology",
         image: doctor1
       },
       patient: {
-        text: "When my doctor told me something unusual showed up on my brain scan, I was terrified. Dr. Chen's detailed second opinion not only clarified what we were seeing but also provided the reassurance I desperately needed. Her expertise gave me peace of mind during the most frightening time of my life.",
-        author: "Maria Rodriguez, 42",
-        location: "Phoenix, AZ"
+        text: "When my doctor told me something unusual showed up on my brain scan, I was terrified. Dr. Rao's detailed second opinion not only clarified what we were seeing but also provided the reassurance I desperately needed. Her expertise gave me peace of mind during the most frightening time of my life.",
+        author: "Aisha Khan, 42",
+        location: "Mumbai, MH"
       }
     },
     {
       doctor: {
-        name: "Dr. Michael Thompson",
+        name: "Dr. Aarti Mehta",
         specialty: "Musculoskeletal Radiology",
         image: doctor2
       },
       patient: {
-        text: "After my MRI showed what looked like a serious spinal issue, I was told I might need major surgery. Dr. Thompson's second opinion revealed it was actually a much more manageable condition. His careful analysis saved me from unnecessary surgery and changed my entire treatment path.",
-        author: "James Wilson, 58",
-        location: "Denver, CO"
+        text: "After my MRI showed what looked like a serious spinal issue, I was told I might need major surgery. Dr. Mehta's second opinion revealed it was actually a much more manageable condition. His careful analysis saved me from unnecessary surgery and changed my entire treatment path.",
+        author: "Rakesh Verma, 58",
+        location: "New Delhi, DL"
       }
     },
     {
       doctor: {
-        name: "Dr. Emily Rodriguez",
+        name: "Dr. Pranav Sharma",
         specialty: "Breast Imaging",
         image: doctor3
       },
       patient: {
-        text: "The mammogram results were unclear and my local radiologist recommended immediate biopsy. Dr. Rodriguez's expert review showed it was likely benign and suggested follow-up imaging instead. Six months later, she was proven right. Her expertise saved me from an invasive procedure.",
-        author: "Linda Chen, 51",
-        location: "San Francisco, CA"
+        text: "The mammogram results were unclear and my local radiologist recommended immediate biopsy. Dr. Sharma's expert review showed it was likely benign and suggested follow-up imaging instead. Six months later, she was proven right. Her expertise saved me from an invasive procedure.",
+        author: "Lakshmi Menon, 51",
+        location: "Chennai, TN"
       }
     },
     {
       doctor: {
-        name: "Dr. David Park",
+        name: "Dr. Riya Iyer",
         specialty: "Abdominal Radiology",
         image: doctor4
       },
       patient: {
-        text: "My CT scan showed something concerning in my abdomen, and my doctor was worried about cancer. Dr. Park's thorough second opinion identified it as a benign condition that just needed monitoring. His detailed explanation helped me understand exactly what was happening in my body.",
-        author: "Robert Martinez, 65",
-        location: "Miami, FL"
+        text: "My CT scan showed something concerning in my abdomen, and my doctor was worried about cancer. Dr. Iyer's thorough second opinion identified it as a benign condition that just needed monitoring. His detailed explanation helped me understand exactly what was happening in my body.",
+        author: "Rajiv Patel, 65",
+        location: "Ahmedabad, GJ"
       }
     },
     {
       doctor: {
-        name: "Dr. Jennifer Kim",
+        name: "Dr. Neeraj Kapoor",
         specialty: "Cardiac Imaging",
         image: doctor5
       },
       patient: {
-        text: "After my cardiac CT, I was told I might need immediate intervention. Dr. Kim's second opinion provided a more nuanced view that allowed for conservative management first. Her expertise helped me avoid rushing into a procedure I didn't actually need.",
-        author: "Angela Thompson, 47",
-        location: "Boston, MA"
+        text: "After my cardiac CT, I was told I might need immediate intervention. Dr. Kapoor's second opinion provided a more nuanced view that allowed for conservative management first. Her expertise helped me avoid rushing into a procedure I didn't actually need.",
+        author: "Anita Desai, 47",
+        location: "Bengaluru, KA"
       }
     }
   ];
@@ -142,6 +142,19 @@ const Index = () => {
 
     return () => clearInterval(timer);
   }, [doctorTestimonials.length]);
+
+  // Smooth scroll on hash navigation when landing on home
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, []);
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => {
@@ -162,12 +175,12 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-16 bg-gray-50 text-gray-900">
+      <section id="hero" className="py-12 md:py-16 bg-gradient-to-r from-primary/30 via-white to-primary/30 text-gray-900">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-5 gap-8 items-center max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 items-center max-w-7xl mx-auto">
             {/* Left Image */}
             <div className="hidden lg:block lg:col-span-1">
-              <div className="relative">
+              <div className="relative transform translate-x-3">
                 <img 
                   src="/lovable-uploads/50475260-1d3f-4f1f-b4c9-55dc52242839.png" 
                   alt="Happy patient reviewing medical results" 
@@ -178,30 +191,57 @@ const Index = () => {
             </div>
             
             {/* Center Content */}
-            <div className="lg:col-span-3 text-center">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-gray-900">
-                When Doubt Ends,<br />
-                Healing Begins.
-              </h1>
-              
-              <p className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto text-gray-700 px-4">
-                Get the most accurate interpretation of your scans, guided by subspecialty experts 
-                who care about your clarity and peace of mind.
+            <div className="lg:col-span-3 text-center px-2 flex flex-col items-center">
+              <div className="text-lg sm:text-xl md:text-2xl text-gray-600 font-light mb-0 md:mb-0 translate-y-2 md:translate-y-3">
+                Get a Radiology Opinion
+              </div>
+              {/* Replace text lockup with provided image */}
+              <div className="relative flex items-center justify-center mt-1 md:mt-2 mb-2 md:mb-3 h-32 sm:h-36 md:h-40 lg:h-44 xl:h-48 overflow-visible">
+                <img
+                  src="/Black%20and%20White%20Minimalist%20Modern%20Creative%20Design%20Logo%20(2).png"
+                  alt="Second Opinion / Last Opinion logo"
+                  className="h-full w-auto object-contain mix-blend-multiply opacity-95 scale-[1.8] md:scale-[2.2] lg:scale-[2.4] translate-y-2 md:translate-y-3 pointer-events-none select-none"
+                />
+              </div>
+
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 max-w-3xl mx-auto text-gray-700 px-2 sm:px-4">
+                When Doubt Ends, Healing Begins.
               </p>
+
+              {/* Benefits row above CTA */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 items-center justify-items-center mb-6">
+                <div className="flex items-center gap-1 text-gray-800 text-sm md:text-base font-medium">
+                  <CheckCircle className="h-5 w-5 text-green-700" />
+                  <span>India’s Largest Network of Expert Radiologists</span>
+                </div>
+                <div className="flex items-center gap-1 text-gray-800 text-sm md:text-base font-medium">
+                  <CheckCircle className="h-5 w-5 text-green-700" />
+                  <span>Accurate, Reliable Reports Delivered Nationwide</span>
+                </div>
+                <div className="flex items-center gap-1 text-gray-800 text-sm md:text-base font-medium">
+                  <CheckCircle className="h-5 w-5 text-green-700" />
+                  <span>Reports Delivered in 1–2 Business Days</span>
+                </div>
+              </div>
               
               <Button 
                 size="lg" 
-                className="bg-primary text-white hover:bg-primary/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold"
-                onClick={() => navigate('/patient-details')}
+                className="bg-primary text-white hover:bg-primary/90 px-5 sm:px-6 md:px-8 py-3 md:py-4 text-sm sm:text-base md:text-lg font-semibold"
+                onClick={() => navigate('/register')}
               >
                 Get Started
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
               </Button>
+
+              {/* Price subtext below CTA */}
+              <div className="mt-3 text-xs sm:text-sm text-gray-500">
+                Comprehensive Reports from just ₹3000
+              </div>
             </div>
             
             {/* Right Image */}
             <div className="hidden lg:block lg:col-span-1">
-              <div className="relative">
+              <div className="relative transform -translate-x-3">
                 <img 
                   src="/lovable-uploads/611f445b-c405-4176-b2b2-32c37525b9e5.png" 
                   alt="Happy couple looking at laptop computer together" 
@@ -245,6 +285,7 @@ const Index = () => {
 
       {/* Why Choose Us Section with Three Service Boxes */}
       <section 
+        id="why-trust-us"
         ref={serviceCardsAnimation.ref}
         className={`py-16 md:py-20 bg-primary transition-all duration-1000 ${
           serviceCardsAnimation.isVisible 
@@ -314,6 +355,7 @@ const Index = () => {
 
       {/* Precision Starts with The Right Doctor Section */}
       <section 
+        id="how-it-works"
         ref={doctorAnimation.ref}
         className={`py-16 bg-background transition-all duration-1000 delay-200 ${
           doctorAnimation.isVisible 
@@ -335,8 +377,9 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Workflow Slideshow Section */}
+      {/* Workflow Slideshow Section (Experts' Second Opinions anchor, original copy) */}
       <section 
+        id="experts-second-opinions"
         ref={workflowAnimation.ref}
         className={`py-16 bg-white transition-all duration-1000 delay-300 ${
           workflowAnimation.isVisible 
@@ -360,6 +403,7 @@ const Index = () => {
 
       {/* Statistics Section - DocPanel Style */}
       <section 
+        id="our-stories"
         ref={statsAnimation.ref}
         className={`py-16 md:py-20 bg-background transition-all duration-1000 delay-400 ${
           statsAnimation.isVisible 
@@ -382,7 +426,7 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="bg-primary text-white hover:bg-primary/90 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold w-fit"
-                onClick={() => navigate('/patient-details')}
+                onClick={() => navigate('/register')}
               >
                 Get Started
               </Button>
@@ -443,6 +487,7 @@ const Index = () => {
 
       {/* Doctor Testimonials Carousel Section */}
       <section 
+        id="expert-second-opinions"
         ref={patientStoryAnimation.ref}
         className={`py-16 md:py-20 bg-white transition-all duration-1000 delay-500 ${
           patientStoryAnimation.isVisible 
@@ -471,7 +516,7 @@ const Index = () => {
                         <div className="relative mb-6">
                           <img 
                             key={currentTestimonial}
-                            src={doctorTestimonials[currentTestimonial].doctor.image} 
+                            src={doctorTestimonials[currentTestimonial].doctor.image}
                             alt={doctorTestimonials[currentTestimonial].doctor.name} 
                             className="w-48 h-48 object-cover rounded-full mx-auto shadow-lg border-4 border-primary/20 transition-all duration-500 ease-in-out"
                           />
@@ -550,6 +595,7 @@ const Index = () => {
 
       {/* FAQ Section */}
       <section 
+        id="faqs"
         ref={faqAnimation.ref}
         className={`py-16 bg-gray-50 transition-all duration-1000 delay-600 ${
           faqAnimation.isVisible 
@@ -626,7 +672,7 @@ const Index = () => {
             size="lg" 
             variant="secondary"
             className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
-            onClick={() => navigate('/patient-details')}
+            onClick={() => navigate('/register')}
           >
             Get Your Second Opinion
             <ArrowRight className="ml-2 h-5 w-5" />

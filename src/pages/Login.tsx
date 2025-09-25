@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,11 +8,15 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
+import { login as apiLogin, exchangeFirebaseIdToken } from "@/lib/api";
+import { getFirebaseApp } from "@/lib/firebase";
 
 const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  // Keep login simple: do not auto-redirect away from login
+
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -22,15 +26,29 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Try Firebase-first to sign in, then exchange ID token for backend JWT
+      try {
+        await getFirebaseApp();
+        const { getAuth, signInWithEmailAndPassword } = await import("firebase/auth");
+        const auth = getAuth();
+        const cred = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+        const idToken = await cred.user.getIdToken();
+        await exchangeFirebaseIdToken(idToken);
+      } catch (firebaseErr) {
+        // Fallback to existing API login so flow never breaks
+        await apiLogin({ email: formData.email, password: formData.password });
+      }
       setIsLoading(false);
-      toast({
-        title: "Login Successful!",
-        description: "Welcome back to EchoMed.",
-      });
-      navigate('/intake');
-    }, 1500);
+      toast({ title: "Login Successful!", description: `You're now signed in.` });
+      localStorage.setItem('isAuthenticated', 'true');
+      const url = new URL(window.location.href);
+      const next = url.searchParams.get('next');
+      navigate(next || '/dashboard');
+    } catch (err: any) {
+      setIsLoading(false);
+      toast({ title: "Login failed", description: String(err?.message || err), variant: "destructive" });
+    }
   };
 
   return (
@@ -101,11 +119,23 @@ const Login = () => {
                 <Button 
                   variant="link" 
                   className="text-sm"
-                  onClick={() => {
-                    toast({
-                      title: "Password Reset",
-                      description: "Password reset functionality will be available soon.",
-                    });
+                  onClick={async () => {
+                    try {
+                      await getFirebaseApp();
+                      const { getAuth, sendPasswordResetEmail } = await import("firebase/auth");
+                      const auth = getAuth();
+                      await sendPasswordResetEmail(auth, formData.email || "");
+                      toast({
+                        title: "Reset email sent",
+                        description: "Check your email for password reset instructions.",
+                      });
+                    } catch (error: any) {
+                      toast({
+                        title: "Reset failed",
+                        description: error.message || "Failed to send reset email. Please try again.",
+                        variant: "destructive",
+                      });
+                    }
                   }}
                 >
                   Forgot your password?
