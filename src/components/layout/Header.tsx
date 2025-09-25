@@ -42,20 +42,18 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between max-w-7xl mx-auto bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border border-border/50 rounded-full px-6 medical-shadow">
           {/* Logo */}
           <div 
-            className="flex items-center space-x-2 cursor-pointer transition-smooth hover:scale-105"
+            className="flex items-center cursor-pointer transition-smooth hover:scale-105"
             onClick={() => navigate('/')}
           >
-            {/* Preview brand: LAST with OPINION pill overlay */}
-            <div className="relative inline-block leading-none">
-              <span className="text-emerald-900/70 font-serif font-extrabold uppercase tracking-wide select-none text-4xl md:text-5xl">
-                LAST
-              </span>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="z-10 whitespace-nowrap px-1.5 md:px-2 py-[2px] bg-white opacity-100 text-emerald-900 uppercase font-sans tracking-[0.2em] rounded-none border border-emerald-900/10 shadow-sm text-[9px] md:text-[10px] leading-none pointer-events-none">
-                  OPINION
-                </span>
-              </div>
-            </div>
+            <img
+              src="/second (6).png"
+              alt="LAST OPINION"
+              className="h-24 w-auto object-contain -translate-y-1"
+              style={{ 
+                mixBlendMode: 'multiply',
+                clipPath: 'inset(15% 0 15% 0)'
+              }}
+            />
           </div>
 
           {/* Desktop Navigation */}
