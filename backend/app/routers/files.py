@@ -59,7 +59,7 @@ async def upload_dicom(
     """Proxy DICOM upload to 5C router and persist StudyIUID and response."""
     external_url = os.getenv(
         "DICOM_UPLOAD_URL",
-        "https://router.5cn.co.in/api/dicom/upload?callingAET=JEEVAN",
+        "https://router.5cn.co.in/api/dicom/upload?callingAET=secondopinion",
     )
 
     try:

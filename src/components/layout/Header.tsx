@@ -29,7 +29,14 @@ const Header = () => {
     }
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const headerOffset = 100;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     } else {
       // Fallback to updating hash; Index will handle scroll on mount
       navigate(`/#${sectionId}`);
@@ -37,18 +44,23 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="sticky top-0 z-50 w-full bg-white">
       <div className="container mx-auto px-6 lg:px-8 pt-4">
-        <div className="flex h-16 items-center justify-between max-w-7xl mx-auto bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border border-border/50 rounded-full px-6 medical-shadow">
+        <div className="flex h-16 items-center justify-center max-w-7xl mx-auto bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 border border-border/50 rounded-full px-6 medical-shadow">
           {/* Logo */}
           <div 
-            className="flex items-center cursor-pointer transition-smooth hover:scale-105"
-            onClick={() => navigate('/')}
+            className="absolute left-6 flex items-center justify-center cursor-pointer transition-smooth hover:scale-105"
+            onClick={() => {
+              navigate('/');
+              setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }, 100);
+            }}
           >
             <img
-              src="/second (6).png"
+              src="/EFAA6442-2539-4E4A-A201-133D749F20C5.png"
               alt="LAST OPINION"
-              className="h-24 w-auto object-contain -translate-y-1"
+              className="h-20 w-auto object-contain"
               style={{ 
                 mixBlendMode: 'multiply',
                 clipPath: 'inset(15% 0 15% 0)'
@@ -56,24 +68,27 @@ const Header = () => {
             />
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Centered */}
           <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => goTo('how-it-works')} className="text-base md:text-lg font-medium text-foreground hover:text-primary transition-smooth">
-              How It Works
-            </button>
-            <button onClick={() => goTo('why-trust-us')} className="text-base md:text-lg font-medium text-foreground hover:text-primary transition-smooth">
+            <button onClick={() => goTo('why-trust-us')} className="text-base font-medium text-foreground hover:text-primary transition-smooth">
               Why Trust Us
             </button>
-            <button onClick={() => goTo('expert-second-opinions')} className="text-base md:text-lg font-medium text-foreground hover:text-primary transition-smooth">
-              Our Stories
+            <button onClick={() => goTo('our-experts')} className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              Our Experts
             </button>
-            <button onClick={() => goTo('faqs')} className="text-base md:text-lg font-medium text-foreground hover:text-primary transition-smooth">
+            <button onClick={() => goTo('features')} className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              How It Works
+            </button>
+            <button onClick={() => goTo('expert-second-opinions')} className="text-base font-medium text-foreground hover:text-primary transition-smooth">
+              Reviews
+            </button>
+            <button onClick={() => goTo('faqs')} className="text-base font-medium text-foreground hover:text-primary transition-smooth">
               FAQs
             </button>
           </nav>
 
           {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="absolute right-6 hidden md:flex items-center space-x-3">
             {!isAuthPage && !isAuthenticated && (
               <>
                 <Button 
@@ -85,7 +100,7 @@ const Header = () => {
                 </Button>
                 <Button 
                   variant="hero" 
-                  onClick={() => navigate('/login?next=/patient-details')}
+                  onClick={() => navigate('/register')}
                   className="text-base md:text-lg"
                 >
                   Get Started
@@ -122,14 +137,17 @@ const Header = () => {
               </SheetTrigger>
               <SheetContent side="right" className="w-80">
                 <nav className="flex flex-col space-y-4 mt-8">
-                  <button onClick={() => goTo('how-it-works')} className="text-base text-foreground text-left hover:text-primary transition-smooth">
-                    How It Works
-                  </button>
                   <button onClick={() => goTo('why-trust-us')} className="text-base text-foreground text-left hover:text-primary transition-smooth">
                     Why Trust Us
                   </button>
+                  <button onClick={() => goTo('our-experts')} className="text-base text-foreground text-left hover:text-primary transition-smooth">
+                    Our Experts
+                  </button>
+                  <button onClick={() => goTo('features')} className="text-base text-foreground text-left hover:text-primary transition-smooth">
+                    How It Works
+                  </button>
                   <button onClick={() => goTo('expert-second-opinions')} className="text-base text-foreground text-left hover:text-primary transition-smooth">
-                    Our Stories
+                    Reviews
                   </button>
                   <button onClick={() => goTo('faqs')} className="text-base text-foreground text-left hover:text-primary transition-smooth">
                     FAQs
@@ -145,7 +163,7 @@ const Header = () => {
                       </Button>
                       <Button 
                         variant="hero" 
-                        onClick={() => navigate('/login?next=/patient-details')}
+                        onClick={() => navigate('/register')}
                         className="text-base"
                       >
                         Get Started

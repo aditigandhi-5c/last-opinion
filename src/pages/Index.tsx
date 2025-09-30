@@ -20,7 +20,8 @@ import {
   Heart,
   Zap,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  MessageCircle
 } from "lucide-react";
 import WorkflowSlideshow from "@/components/WorkflowSlideshow";
 import ChatBot from "@/components/ChatBot";
@@ -52,6 +53,7 @@ const Index = () => {
   const statsAnimation = useScrollAnimation(0.1);
   const patientStoryAnimation = useScrollAnimation(0.1);
   const faqAnimation = useScrollAnimation(0.1);
+  const whyUsAnimation = useScrollAnimation(0.1);
   
   const finalCtaAnimation = useScrollAnimation(0.1);
 
@@ -179,14 +181,14 @@ const Index = () => {
       {/* Hero Section */}
       <section id="hero" className="py-12 md:py-16 bg-gradient-to-r from-primary/30 via-white to-primary/30 text-gray-900">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 items-center max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-1 lg:grid-cols-7 gap-6 md:gap-8 items-center max-w-7xl mx-auto">
             {/* Left Image */}
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="relative transform translate-x-3">
+            <div className="hidden lg:block lg:col-span-2">
+              <div className="relative transform translate-x-3 -translate-y-4">
                 <img 
-                  src="/lovable-uploads/50475260-1d3f-4f1f-b4c9-55dc52242839.png" 
+                  src="/h1.png" 
                   alt="Happy patient reviewing medical results" 
-                  className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl"
+                  className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl scale-105"
                 />
                 <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-primary rounded-full"></div>
               </div>
@@ -209,22 +211,6 @@ const Index = () => {
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 max-w-3xl mx-auto text-gray-700 px-2 sm:px-4">
                 When Doubt Ends, Healing Begins.
               </p>
-
-              {/* Benefits row above CTA */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 items-center justify-items-center mb-6">
-                <div className="flex items-center gap-1 text-gray-800 text-sm md:text-base font-medium">
-                  <CheckCircle className="h-5 w-5 text-green-700" />
-                  <span>India’s Largest Network of Expert Radiologists</span>
-                </div>
-                <div className="flex items-center gap-1 text-gray-800 text-sm md:text-base font-medium">
-                  <CheckCircle className="h-5 w-5 text-green-700" />
-                  <span>Accurate, Reliable Reports Delivered Nationwide</span>
-                </div>
-                <div className="flex items-center gap-1 text-gray-800 text-sm md:text-base font-medium">
-                  <CheckCircle className="h-5 w-5 text-green-700" />
-                  <span>Reports Delivered in 1–2 Business Days</span>
-                </div>
-              </div>
               
               <Button 
                 size="lg" 
@@ -239,13 +225,28 @@ const Index = () => {
               <div className="mt-3 text-xs sm:text-sm text-gray-500">
                 Comprehensive Reports from just ₹3000
               </div>
+
+              {/* Static Benefits Banner */}
+                <div className="mt-12 lg:mx-8 xl:mx-12">
+                  <div className="flex items-center justify-center gap-8 text-center whitespace-nowrap">
+                    <span className="text-green-800 text-sm md:text-base font-medium">
+                      ✓ India's Largest Network of Expert Radiologists
+                    </span>
+                    <span className="text-green-800 text-sm md:text-base font-medium">
+                      ✓ Accurate, Reliable Reports Delivered Nationwide
+                    </span>
+                    <span className="text-green-800 text-sm md:text-base font-medium">
+                      ✓ Reports Delivered in 1–2 Business Days
+                    </span>
+                  </div>
+              </div>
             </div>
             
             {/* Right Image */}
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="relative transform -translate-x-3">
+            <div className="hidden lg:block lg:col-span-2">
+              <div className="relative transform -translate-x-3 -translate-y-4">
                 <img 
-                  src="/lovable-uploads/611f445b-c405-4176-b2b2-32c37525b9e5.png" 
+                  src="/h2.png" 
                   alt="Happy couple looking at laptop computer together" 
                   className="w-full h-[350px] object-cover rounded-2xl border-4 border-primary shadow-xl"
                 />
@@ -289,14 +290,14 @@ const Index = () => {
       <section 
         id="why-trust-us"
         ref={serviceCardsAnimation.ref}
-        className={`py-16 md:py-20 bg-primary transition-all duration-1000 ${
+        className={`py-4 md:py-6 bg-primary transition-all duration-1000 ${
           serviceCardsAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
         }`}
       >
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-12 lg:mb-16 gap-8">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-4 lg:mb-6 gap-3">
             <div className="flex-1">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 The Last Opinion<br />You'll Ever Need.
@@ -308,57 +309,107 @@ const Index = () => {
               </p>
             </div>
           </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant bg-gray-50">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-10"
-                style={{ backgroundImage: `url(${medicalCareBg})` }}
-              />
-              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
-                <Heart className="h-12 w-12 mb-6 text-primary" />
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Trusted Care</h3>
-                <p className="text-gray-700">
-                  Board-certified radiologists with decades of experience in medical imaging analysis
-                </p>
-              </CardContent>
-            </Card>
+        </div>
+      </section>
 
-            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant bg-gray-50">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-10"
-                style={{ backgroundImage: `url(${medicalReportBg})` }}
+      {/* Why Us Section */}
+      <section 
+        ref={whyUsAnimation.ref}
+        className={`py-8 md:py-12 bg-white transition-all duration-1000 ${
+          whyUsAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left - Doctor Image */}
+            <div className="relative">
+              <img 
+                src="/Gemini_Generated_Image_3mmn7a3mmn7a3mmn.png" 
+                alt="Expert radiologist" 
+                className="w-full h-[350px] object-cover rounded-2xl shadow-xl"
               />
-              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
-                <FileText className="h-12 w-12 mb-6 text-primary" />
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Detailed Reports</h3>
-                <p className="text-gray-700">
-                  Comprehensive analysis with clear explanations you can understand and trust
-                </p>
-              </CardContent>
-            </Card>
+            </div>
 
-            <Card className="relative h-80 overflow-hidden group border-0 shadow-elegant bg-gray-50">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-10"
-                style={{ backgroundImage: `url(${medicalTechBg})` }}
-              />
-              <CardContent className="relative z-10 p-8 h-full flex flex-col justify-center">
-                <Zap className="h-12 w-12 mb-6 text-primary" />
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Fast Results</h3>
-                <p className="text-gray-700">
-                  Get your expert second opinion within 24 hours, not weeks
+            {/* Right - Why Us Content */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                  Why Us?
+                </h3>
+                <p className="text-lg text-gray-600 mb-6">
+                  World-class care at your fingertips. Expert medical opinions made simple, secure, and stress-free.
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <MessageCircle className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                      Quick, Reliable Second Opinions
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Obtain trusted medical insights from leading specialists within hours — without the hassle of travel or waiting rooms.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Heart className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                      Confidential & Compassionate Care
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Every consultation is conducted with the highest regard for your privacy and comfort.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Zap className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                      AI-Enhanced Expertise
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      Advanced AI support enables sharper, more accurate diagnostic insights
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-center">
+                <Button 
+                  size="lg" 
+                  className="bg-primary text-white hover:bg-primary/90 px-6 py-3 text-base font-semibold"
+                  onClick={() => navigate('/register')}
+                >
+                  Get Started
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Precision Starts with The Right Doctor Section */}
       <section 
-        id="how-it-works"
-        className="py-16 bg-white"
+        id="our-experts"
+        ref={doctorAnimation.ref}
+        className={`py-16 bg-white transition-all duration-1000 ${
+          doctorAnimation.isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-10'
+        }`}
       >
         <div className="max-w-6xl mx-auto px-8">
           {/* Headline */}
@@ -378,9 +429,9 @@ const Index = () => {
 
       {/* Workflow Slideshow Section (Experts' Second Opinions anchor, original copy) */}
       <section 
-        id="experts-second-opinions"
+        id="features"
         ref={workflowAnimation.ref}
-        className={`py-16 bg-white transition-all duration-1000 delay-300 ${
+        className={`py-16 bg-gradient-to-r from-primary/40 via-white to-primary/40 transition-all duration-1000 delay-300 ${
           workflowAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
@@ -402,7 +453,7 @@ const Index = () => {
 
       {/* Statistics Section - DocPanel Style */}
       <section 
-        id="our-stories"
+        id="reviews"
         ref={statsAnimation.ref}
         className={`py-16 md:py-20 bg-background transition-all duration-1000 delay-400 ${
           statsAnimation.isVisible 
@@ -488,7 +539,7 @@ const Index = () => {
       <section 
         id="expert-second-opinions"
         ref={patientStoryAnimation.ref}
-        className={`py-16 md:py-20 bg-white transition-all duration-1000 delay-500 ${
+        className={`py-16 md:py-20 bg-gradient-to-r from-primary/50 via-white to-primary/50 transition-all duration-1000 delay-500 ${
           patientStoryAnimation.isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-10'
@@ -605,7 +656,7 @@ const Index = () => {
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
+              You've Got Questions.<br />We Have Answers
             </h2>
             <p className="text-lg text-gray-600">
               Everything you need to know about our second opinion service
@@ -615,13 +666,29 @@ const Index = () => {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
+                What is a radiology second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                A radiology second opinion is when a board-certified radiologist reviews your medical images and provides an independent interpretation of your scans. This helps ensure accuracy and gives you confidence in your diagnosis and treatment plan.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
+                Why should I get a second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Getting a second opinion can provide clarity and peace of mind. Even great doctors occasionally miss things on scans, and a second opinion can help confirm your diagnosis, catch missed details, or provide alternative perspectives on your condition.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
                 What types of medical images can you review?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 We review all types of medical imaging including CT scans, MRIs, X-rays, ultrasounds, mammograms, and nuclear medicine studies. Our radiologists are subspecialty-trained in various areas of imaging.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2" className="border-gray-200">
+            <AccordionItem value="item-4" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
                 How long does it take to get my second opinion?
               </AccordionTrigger>
@@ -629,7 +696,7 @@ const Index = () => {
                 Most second opinions are delivered within 24 hours of receiving your complete medical images and information.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-3" className="border-gray-200">
+            <AccordionItem value="item-5" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
                 Are your radiologists board-certified?
               </AccordionTrigger>
@@ -637,12 +704,20 @@ const Index = () => {
                 Yes, all of our radiologists are board-certified and fellowship-trained subspecialists with extensive experience in their areas of expertise.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-4" className="border-gray-200">
+            <AccordionItem value="item-6" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
                 Is my medical information secure?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 Absolutely. We are HIPAA compliant and use enterprise-grade security measures to protect your medical information. Your data is encrypted in transit and at rest.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-7" className="border-gray-200">
+              <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
+                What if I have questions after I get my second opinion?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                We're here to help! You can reach out to our support team with any questions about your report. We recommend asking your doctors to provide follow-up reports to track your progress and ensure continuity of care.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

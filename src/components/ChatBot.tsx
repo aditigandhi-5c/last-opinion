@@ -69,7 +69,7 @@ const ChatBot = () => {
     {
       id: "reviewer",
       question: "Who is reviewing my case?",
-      answer: "A board-certified subspecialist radiologist.",
+      answer: "A registered medical practitioner and subspecialist radiologist.",
       icon: <Shield className="h-4 w-4" />
     },
     {
