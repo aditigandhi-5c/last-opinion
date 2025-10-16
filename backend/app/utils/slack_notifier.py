@@ -1,6 +1,6 @@
 import requests
 from functools import lru_cache
-from config import SLACK_BOT_TOKEN, SLACK_CHANNEL
+from config import SLACK_BOT_TOKEN, SLACK_CHANNEL, SLACK_PATIENT_QUESTIONS_CHANNEL
 
 
 @lru_cache(maxsize=1)
@@ -58,6 +58,48 @@ def notify_new_case(patient_name: str, case_id: str):
         return result
     except Exception as e:
         print(f"Slack notification error: {e}")
+        return {"ok": False, "error": "non_json_response", "status": response.status_code}
+
+
+def notify_patient_consultation_request(
+    patient_id: int, 
+    patient_name: str, 
+    patient_phone: str, 
+    preferred_datetime: str
+):
+    """
+    Send notification to #lastopinion-patient-questions channel when a patient 
+    requests to connect with a radiologist.
+    """
+    if not SLACK_BOT_TOKEN:
+        return {"ok": False, "error": "no_token_configured"}
+
+    channel = _resolve_channel_id(SLACK_PATIENT_QUESTIONS_CHANNEL)
+
+    # Format the message with patient details
+    message = (
+        f"🩺 *New Patient Consultation Request*\n\n"
+        f"*Patient ID:* {patient_id}\n"
+        f"*Patient Name:* {patient_name}\n"
+        f"*Phone Number:* {patient_phone}\n"
+        f"*Preferred Date & Time:* {preferred_datetime}"
+    )
+
+    url = "https://slack.com/api/chat.postMessage"
+    headers = {
+        "Authorization": f"Bearer {SLACK_BOT_TOKEN}",
+        "Content-Type": "application/json; charset=utf-8",
+    }
+    payload = {"channel": channel, "text": message}
+
+    response = requests.post(url, headers=headers, json=payload, timeout=8)
+    try:
+        result = response.json()
+        # Debug logging
+        print(f"Slack patient consultation notification: channel={channel}, response={result}")
+        return result
+    except Exception as e:
+        print(f"Slack patient consultation notification error: {e}")
         return {"ok": False, "error": "non_json_response", "status": response.status_code}
 
 

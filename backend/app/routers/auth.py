@@ -16,10 +16,13 @@ router = APIRouter(
     tags=["Authentication"]
 )
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+pwd_context = CryptContext(
+    schemes=["pbkdf2_sha256", "bcrypt_sha256", "bcrypt"],
+    deprecated="auto",
+)
+env_path='.env'
 # Load env values
-load_dotenv()
+load_dotenv(dotenv_path=env_path)
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
@@ -112,7 +115,6 @@ def magic_link_request(payload: MagicLinkRequest, db: Session = Depends(database
             gender=(payload.gender or "").capitalize() if isinstance(payload.gender, str) else payload.gender,
             email=str(payload.email),
             phone=payload.phone,
-            symptoms=payload.symptoms,
         )
         db.add(patient)
         db.commit()
@@ -125,8 +127,6 @@ def magic_link_request(payload: MagicLinkRequest, db: Session = Depends(database
         existing_patient.gender = (payload.gender or existing_patient.gender)
         existing_patient.email = str(payload.email)
         existing_patient.phone = payload.phone or existing_patient.phone
-        if payload.symptoms:
-            existing_patient.symptoms = payload.symptoms
         db.add(existing_patient)
         db.commit()
         patient = existing_patient
@@ -153,7 +153,6 @@ def magic_link_request(payload: MagicLinkRequest, db: Session = Depends(database
             "gender": patient.gender,
             "email": patient.email,
             "phone": patient.phone,
-            "symptoms": patient.symptoms,
         },
     }
 
@@ -169,13 +168,24 @@ def firebase_exchange_token(payload: FirebaseTokenRequest, db: Session = Depends
 
     Safe and additive: if FIREBASE_ENABLED or GOOGLE_APPLICATION_CREDENTIALS not set, returns 400.
     """
+    print(os.getenv("FIREBASE_ENABLED", "false"))
     if not os.getenv("FIREBASE_ENABLED", "false").lower() == "true":
         raise HTTPException(status_code=400, detail="Firebase not enabled")
     try:
         import firebase_admin
-        from firebase_admin import auth as fb_auth
+        from firebase_admin import auth as fb_auth, credentials
+        
         if not firebase_admin._apps:
-            firebase_admin.initialize_app()
+            cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+            if not cred_path:
+                raise HTTPException(status_code=500, detail="Firebase credentials not configured")
+            
+            if not os.path.exists(cred_path):
+                raise HTTPException(status_code=500, detail=f"Firebase credentials file not found: {cred_path}")
+            
+            cred = credentials.Certificate(cred_path)
+            firebase_admin.initialize_app(cred)
+        
         decoded = fb_auth.verify_id_token(payload.id_token)
         email = decoded.get("email")
         firebase_uid = decoded.get("uid")
@@ -185,11 +195,16 @@ def firebase_exchange_token(payload: FirebaseTokenRequest, db: Session = Depends
         user = db.query(models.User).filter(models.User.email == email).first()
         if not user:
             # Create a placeholder password hash for consistency; log it's Firebase-managed
-            placeholder = os.urandom(9).hex()
-            user = models.User(email=email, password_hash=get_password_hash(placeholder), firebase_uid=firebase_uid)
-            db.add(user)
-            db.commit()
-            db.refresh(user)
+            try:
+                placeholder = os.urandom(9).hex()
+                user = models.User(email=email, password_hash=get_password_hash(placeholder), firebase_uid=firebase_uid)
+                db.add(user)
+                db.commit()
+                db.refresh(user)
+            except Exception as db_error:
+                db.rollback()
+                logging.getLogger(__name__).error(f"Database error creating user: {db_error}")
+                raise HTTPException(status_code=500, detail="Database error: unable to create user")
         else:
             # Attach firebase uid if not already present
             try:
@@ -199,6 +214,11 @@ def firebase_exchange_token(payload: FirebaseTokenRequest, db: Session = Depends
                     db.commit()
             except Exception:
                 db.rollback()
+        
+        # Safety check - if user is still None, something went wrong
+        if not user:
+            raise HTTPException(status_code=500, detail="Failed to retrieve or create user")
+        
         # Mint our existing JWT for compatibility
         access_token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
         return {"access_token": access_token, "token_type": "bearer"}

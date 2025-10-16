@@ -30,7 +30,6 @@ class Patient(Base):
     gender = Column(String(10))
     email = Column(String(100))
     phone = Column(String(15))
-    symptoms = Column(String)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     # Relationships
@@ -100,4 +99,17 @@ class Report(Base):
     file = relationship("File")
 
 
+
+
+# Structured reports submitted from the external "opinion report" site
+class StructuredReport(Base):
+    __tablename__ = "structured_reports"
+
+    id = Column(Integer, primary_key=True, index=True)
+    patient_id = Column(Integer, index=True, nullable=False)
+    status = Column(String, nullable=True)
+    structured = Column(Text, nullable=True)
+    original_report_pdf = Column(Text, nullable=True)  # can be base64 text or raw bytes repr
+    generated_report_pdf = Column(Text, nullable=True) # can be base64 text or raw bytes repr
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

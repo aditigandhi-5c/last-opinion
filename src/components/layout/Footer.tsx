@@ -41,18 +41,18 @@ const Footer = () => {
             {/* Column 1 */}
             <div>
               <ul className="space-y-3 text-primary-foreground">
-                <li><a href="/about" className="hover:text-primary-foreground/80 transition-smooth">About</a></li>
-                <li><a href="#why-trust-us" className="hover:text-primary-foreground/80 transition-smooth">Why Trust Us</a></li>
-                <li><a href="#our-experts" className="hover:text-primary-foreground/80 transition-smooth">Our Experts</a></li>
+                <li><a href="/about" className="hover:text-primary-foreground/80 transition-smooth">About Us</a></li>
+                <li><a href="/#why-trust-us" className="hover:text-primary-foreground/80 transition-smooth">Why Trust Us</a></li>
+                <li><a href="/#our-experts" className="hover:text-primary-foreground/80 transition-smooth">Our Experts</a></li>
               </ul>
             </div>
 
             {/* Column 2 */}
             <div>
               <ul className="space-y-3 text-primary-foreground">
-                <li><a href="#features" className="hover:text-primary-foreground/80 transition-smooth">How It Works</a></li>
-                <li><a href="#expert-second-opinions" className="hover:text-primary-foreground/80 transition-smooth">Reviews</a></li>
-                <li><a href="#faqs" className="hover:text-primary-foreground/80 transition-smooth">FAQs</a></li>
+                <li><a href="/#features" className="hover:text-primary-foreground/80 transition-smooth">How It Works</a></li>
+                <li><a href="/#expert-second-opinions" className="hover:text-primary-foreground/80 transition-smooth">Reviews</a></li>
+                <li><a href="/#faqs" className="hover:text-primary-foreground/80 transition-smooth">FAQs</a></li>
               </ul>
             </div>
 
@@ -82,11 +82,16 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 mt-6 pt-4 flex justify-between items-center max-w-7xl mx-auto">
-          <p className="text-primary-foreground/60">© 2024 5C Second Opinion. All rights reserved.</p>
-          <div className="flex gap-8">
-            <a href="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground transition-smooth">Privacy Policy</a>
-            <a href="/terms" className="text-primary-foreground/60 hover:text-primary-foreground transition-smooth">Terms & Conditions</a>
+        <div className="border-t border-primary-foreground/20 mt-6 pt-4 max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-3">
+            <p className="text-primary-foreground/60">© 2024 5C Last Opinion. All rights reserved.</p>
+            <div className="flex gap-8">
+              <a href="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground transition-smooth">Privacy Policy</a>
+              <a href="/terms" className="text-primary-foreground/60 hover:text-primary-foreground transition-smooth">Terms & Conditions</a>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-primary-foreground/50 text-sm">Powered by 5C Network. All Rights Reserved.</p>
           </div>
         </div>
       </div>

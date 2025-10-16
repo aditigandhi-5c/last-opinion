@@ -13,6 +13,7 @@ from .routers.payments import router as payments_router
 from .routers.payments import router as payments_router
 
 from .routers import reports as reports_router
+from .routers import storage as storage_router
 from .database import Base, engine
 from .database import SessionLocal
 from . import models as _models
@@ -48,8 +49,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins or ["*"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
@@ -69,6 +71,7 @@ app.include_router(cases_router.router)
 app.include_router(slack_test_router.router)
 app.include_router(whatsapp_test_router.router)
 app.include_router(whatsapp_webhook_router.router)
+app.include_router(storage_router.router)
 
 
 @app.get("/health")

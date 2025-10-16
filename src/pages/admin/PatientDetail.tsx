@@ -47,7 +47,7 @@ const AdminPatientDetail = () => {
   const handleUploadReport = () => {
     toast({
       title: "Report Uploaded Successfully",
-      description: "The second opinion report has been uploaded (placeholder functionality)",
+      description: "The last opinion report has been uploaded (placeholder functionality)",
     });
   };
 

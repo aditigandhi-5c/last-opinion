@@ -57,7 +57,7 @@ const Payment = () => {
   const features = [
     {
       icon: <FileText className="h-5 w-5" />,
-      text: "Detailed written second opinion report"
+      text: "Detailed written last opinion report"
     },
     {
       icon: <Users className="h-5 w-5" />,
@@ -90,7 +90,7 @@ const Payment = () => {
             </Button>
             <h1 className="text-3xl font-bold mb-2">Complete Your Payment</h1>
             <p className="text-muted-foreground">
-              Secure payment to get your expert second opinion
+              Secure payment to get your expert last opinion
             </p>
           </div>
 
@@ -103,7 +103,7 @@ const Payment = () => {
                   Order Summary
                 </CardTitle>
                 <CardDescription>
-                  Review your second opinion consultation details
+                  Review your last opinion consultation details
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -204,7 +204,7 @@ const Payment = () => {
 
             <p className="text-xs text-center text-muted-foreground">
               By proceeding with payment, you agree to our Terms of Service and Privacy Policy. 
-              You will receive your second opinion report within 1-2 business days of successful payment.
+              You will receive your last opinion report within 1-2 business days of successful payment.
             </p>
           </div>
         </div>

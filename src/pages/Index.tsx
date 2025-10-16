@@ -83,7 +83,7 @@ const Index = () => {
         image: doctor1
       },
       patient: {
-        text: "When my doctor told me something unusual showed up on my brain scan, I was terrified. Dr. Rao's detailed second opinion not only clarified what we were seeing but also provided the reassurance I desperately needed. Her expertise gave me peace of mind during the most frightening time of my life.",
+        text: "When my doctor told me something unusual showed up on my brain scan, I was terrified. Dr. Rao's detailed last opinion not only clarified what we were seeing but also provided the reassurance I desperately needed. Her expertise gave me peace of mind during the most frightening time of my life.",
         author: "Aisha Khan, 42",
         location: "Mumbai, MH"
       }
@@ -95,7 +95,7 @@ const Index = () => {
         image: doctor2
       },
       patient: {
-        text: "After my MRI showed what looked like a serious spinal issue, I was told I might need major surgery. Dr. Mehta's second opinion revealed it was actually a much more manageable condition. His careful analysis saved me from unnecessary surgery and changed my entire treatment path.",
+        text: "After my MRI showed what looked like a serious spinal issue, I was told I might need major surgery. Dr. Mehta's last opinion revealed it was actually a much more manageable condition. His careful analysis saved me from unnecessary surgery and changed my entire treatment path.",
         author: "Rakesh Verma, 58",
         location: "New Delhi, DL"
       }
@@ -119,7 +119,7 @@ const Index = () => {
         image: doctor4
       },
       patient: {
-        text: "My CT scan showed something concerning in my abdomen, and my doctor was worried about cancer. Dr. Iyer's thorough second opinion identified it as a benign condition that just needed monitoring. His detailed explanation helped me understand exactly what was happening in my body.",
+        text: "My CT scan showed something concerning in my abdomen, and my doctor was worried about cancer. Dr. Iyer's thorough last opinion identified it as a benign condition that just needed monitoring. His detailed explanation helped me understand exactly what was happening in my body.",
         author: "Rajiv Patel, 65",
         location: "Ahmedabad, GJ"
       }
@@ -131,7 +131,7 @@ const Index = () => {
         image: doctor5
       },
       patient: {
-        text: "After my cardiac CT, I was told I might need immediate intervention. Dr. Kapoor's second opinion provided a more nuanced view that allowed for conservative management first. Her expertise helped me avoid rushing into a procedure I didn't actually need.",
+        text: "After my cardiac CT, I was told I might need immediate intervention. Dr. Kapoor's last opinion provided a more nuanced view that allowed for conservative management first. Her expertise helped me avoid rushing into a procedure I didn't actually need.",
         author: "Anita Desai, 47",
         location: "Bengaluru, KA"
       }
@@ -203,7 +203,7 @@ const Index = () => {
               <div className="relative flex items-center justify-center mt-1 md:mt-2 mb-2 md:mb-3 h-32 sm:h-36 md:h-40 lg:h-44 xl:h-48 overflow-visible">
                 <img
                   src="/Black%20and%20White%20Minimalist%20Modern%20Creative%20Design%20Logo%20(2).png"
-                  alt="Second Opinion / Last Opinion logo"
+                  alt="Last Opinion / Last Opinion logo"
                   className="h-full w-auto object-contain mix-blend-multiply opacity-95 scale-[1.8] md:scale-[2.2] lg:scale-[2.4] translate-y-2 md:translate-y-3 pointer-events-none select-none"
                 />
               </div>
@@ -305,7 +305,7 @@ const Index = () => {
             </div>
             <div className="flex-1 lg:ml-8">
               <p className="text-lg md:text-xl text-white/80">
-                Our radiologists provide comprehensive, expert second opinions using cutting-edge technology to give you the clarity you deserve.
+                Our radiologists provide comprehensive, expert last opinions using cutting-edge technology to give you the clarity you deserve.
               </p>
             </div>
           </div>
@@ -350,7 +350,7 @@ const Index = () => {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-900 mb-1">
-                      Quick, Reliable Second Opinions
+                      Quick, Reliable Last Opinions
                     </h4>
                     <p className="text-gray-600 text-sm">
                       Obtain trusted medical insights from leading specialists within hours — without the hassle of travel or waiting rooms.
@@ -427,7 +427,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Workflow Slideshow Section (Experts' Second Opinions anchor, original copy) */}
+      {/* Workflow Slideshow Section (Experts' Last Opinions anchor, original copy) */}
       <section 
         id="features"
         ref={workflowAnimation.ref}
@@ -507,7 +507,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold mb-4 leading-tight">
-                    96% of EchoMed's second opinions clarify results
+                    96% of EchoMed's last opinions clarify results
                   </h3>
                   <p className="text-white/80 text-base">
                     Even great doctors occasionally miss things on scans.
@@ -548,7 +548,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Expert Second Opinions
+              Expert Last Opinions
             </h2>
             <p className="text-lg text-muted-foreground">
               Real patient stories and the doctors who provided clarity
@@ -659,25 +659,25 @@ const Index = () => {
               You've Got Questions.<br />We Have Answers
             </h2>
             <p className="text-lg text-gray-600">
-              Everything you need to know about our second opinion service
+              Everything you need to know about our last opinion service
             </p>
           </div>
           
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
-                What is a radiology second opinion?
+                What is a radiology last opinion?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                A radiology second opinion is when a board-certified radiologist reviews your medical images and provides an independent interpretation of your scans. This helps ensure accuracy and gives you confidence in your diagnosis and treatment plan.
+                A radiology last opinion is when a board-certified radiologist reviews your medical images and provides an independent interpretation of your scans. This helps ensure accuracy and gives you confidence in your diagnosis and treatment plan.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
-                Why should I get a second opinion?
+                Why should I get a last opinion?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Getting a second opinion can provide clarity and peace of mind. Even great doctors occasionally miss things on scans, and a second opinion can help confirm your diagnosis, catch missed details, or provide alternative perspectives on your condition.
+                Getting a last opinion can provide clarity and peace of mind. Even great doctors occasionally miss things on scans, and a last opinion can help confirm your diagnosis, catch missed details, or provide alternative perspectives on your condition.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3" className="border-gray-200">
@@ -690,10 +690,10 @@ const Index = () => {
             </AccordionItem>
             <AccordionItem value="item-4" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
-                How long does it take to get my second opinion?
+                How long does it take to get my last opinion?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Most second opinions are delivered within 24 hours of receiving your complete medical images and information.
+                Most last opinions are delivered within 24 hours of receiving your complete medical images and information.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5" className="border-gray-200">
@@ -714,7 +714,7 @@ const Index = () => {
             </AccordionItem>
             <AccordionItem value="item-7" className="border-gray-200">
               <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-primary">
-                What if I have questions after I get my second opinion?
+                What if I have questions after I get my last opinion?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
                 We're here to help! You can reach out to our support team with any questions about your report. We recommend asking your doctors to provide follow-up reports to track your progress and ensure continuity of care.
@@ -748,7 +748,7 @@ const Index = () => {
             className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             onClick={() => navigate('/register')}
           >
-            Get Your Second Opinion
+            Get Your Last Opinion
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>

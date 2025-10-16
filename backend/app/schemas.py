@@ -29,7 +29,6 @@ class PatientCreate(BaseModel):
     age: int
     gender: str
     phone: str
-    symptoms: Optional[str] = None
 
     # Normalize gender to capitalize first letter (e.g., 'female' -> 'Female')
     @field_validator("gender")
@@ -51,7 +50,6 @@ class PatientOut(BaseModel):
     gender: str
     email: EmailStr
     phone: str
-    symptoms: Optional[str] = None
 
 
 class CaseBase(BaseModel):

@@ -16,6 +16,9 @@ FLASK_ENV = os.getenv("FLASK_ENV", "development")
 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 SLACK_CHANNEL = os.getenv("SLACK_CHANNEL", "C036W170951")
 
+# Slack integration for patient-questions (separate channel)
+SLACK_PATIENT_QUESTIONS_CHANNEL = os.getenv("SLACK_PATIENT_QUESTIONS_CHANNEL", "#lastopinion-patient-questions")
+
 # Gupshup WhatsApp integration
 # NOTE: Avoid hardcoding secrets; prefer environment variables.
 GUPSHUP_API_KEY = os.getenv("GUPSHUP_API_KEY")

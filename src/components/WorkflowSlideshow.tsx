@@ -41,7 +41,7 @@ const WorkflowSlideshow = () => {
     {
       id: "view-report",
       title: "View Full Report",
-      description: "Receive your comprehensive second opinion report within 1-2 business days",
+      description: "Receive your comprehensive last opinion report within 1-2 business days",
       icon: <FileText className="h-12 w-12" />,
     },
   ];

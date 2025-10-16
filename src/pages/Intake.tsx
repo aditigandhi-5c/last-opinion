@@ -170,7 +170,7 @@ const Intake = () => {
             
             <FileUpload
               label="Prior Consultation Reports"
-              description="Upload any previous consultation reports or second opinions you may have (PDF, JPG, PNG)"
+              description="Upload any previous consultation reports or last opinions you may have (PDF, JPG, PNG)"
               accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
               multiple={true}
               onFilesSelected={(files) => setFormData({ ...formData, priorReports: files })}
@@ -223,7 +223,7 @@ const Intake = () => {
             </Button>
             <h1 className="text-3xl font-bold mb-2">Medical Information</h1>
             <p className="text-muted-foreground">
-              Please provide your medical information to help our experts give you the best second opinion
+              Please provide your medical information to help our experts give you the best last opinion
             </p>
           </div>
 

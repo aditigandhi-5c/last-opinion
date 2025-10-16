@@ -17,10 +17,10 @@ def create_case(payload: schemas.CaseCreate, background_tasks: BackgroundTasks, 
     if not patient or patient.user_id != current_user.id:
         raise HTTPException(status_code=404, detail="Patient not found")
 
-    # Derive symptoms from patient; keep optional fields from payload if provided
+    # Create case with medical background (symptoms are now handled in medical_background)
     case = models.Case(
         patient_id=payload.patient_id,
-        symptoms=patient.symptoms,
+        symptoms=payload.symptoms,  # Optional symptoms from payload
         medical_background=payload.medical_background,
         status="processing",  # case moves to processing after payment+creation flow
     )

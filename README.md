@@ -1,4 +1,4 @@
-# EchoMed Second Opinion Nexus
+# EchoMed Last Opinion Nexus
 
 ## Development
 

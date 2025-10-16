@@ -112,7 +112,7 @@ const DoctorShowcase = () => {
       {/* Descriptive Text */}
       <div className="text-center max-w-4xl mx-auto mt-12">
         <p className="text-base text-gray-600 leading-relaxed" style={{ fontFamily: 'sans-serif' }}>
-          Last Opinion second opinion radiologists are board certified and fellowship trained
+          Last Opinion last opinion radiologists are board certified and fellowship trained
         </p>
         <p className="text-base text-gray-600 leading-relaxed" style={{ fontFamily: 'sans-serif' }}>
           — so you can choose with confidence, knowing your case is in expert hands.

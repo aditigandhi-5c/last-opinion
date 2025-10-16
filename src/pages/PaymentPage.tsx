@@ -117,7 +117,7 @@ const PaymentPage = () => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">Complete Your Order</h1>
             <p className="text-muted-foreground">
-              Secure payment for your expert medical second opinion.
+              Secure payment for your expert medical last opinion.
             </p>
           </div>
 
@@ -272,7 +272,7 @@ const PaymentPage = () => {
               <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
             </p>
             <p className="mt-2">
-              Your expert second opinion report will be delivered within 1-2 business days to your dashboard.
+              Your expert last opinion report will be delivered within 1-2 business days to your dashboard.
             </p>
           </div>
         </div>

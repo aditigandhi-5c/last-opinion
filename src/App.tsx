@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
+import About from "./pages/About";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Intake from "./pages/Intake";
@@ -23,6 +24,7 @@ import AdminPatients from "./pages/admin/Patients";
 import AdminPatientDetail from "./pages/admin/PatientDetail";
 import AdminPayments from "./pages/admin/Payments";
 import AdminReports from "./pages/admin/Reports";
+import GeneratedReport from "./pages/GeneratedReport";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/intake" element={<Intake />} />
@@ -47,11 +50,12 @@ const App = () => (
           <Route path="/case/:id" element={<Case />} />
           
           {/* New Multi-Step Flow */}
-          <Route path="/patient-details" element={<PatientDetails />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/questionnaire" element={<Questionnaire />} />
-          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/patient-details" element={<ProtectedRoute><PatientDetails /></ProtectedRoute>} />
+          <Route path="/upload" element={<ProtectedRoute><Upload /></ProtectedRoute>} />
+          <Route path="/questionnaire" element={<ProtectedRoute><Questionnaire /></ProtectedRoute>} />
+          <Route path="/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/generated-report" element={<ProtectedRoute><GeneratedReport /></ProtectedRoute>} />
           
           {/* Legacy route */}
           <Route path="/old-payment" element={<Payment />} />

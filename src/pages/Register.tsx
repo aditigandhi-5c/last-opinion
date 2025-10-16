@@ -96,7 +96,7 @@ const Register = () => {
               <CardHeader>
                 <CardTitle>Register</CardTitle>
                 <CardDescription>
-                  Create your account to begin your second opinion request
+                  Create your account to begin your last opinion request
                 </CardDescription>
               </CardHeader>
               <CardContent>

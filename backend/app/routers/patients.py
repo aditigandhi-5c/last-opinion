@@ -7,6 +7,7 @@ import logging
 
 from .. import schemas, models
 from ..utils.whatsapp_gupshup import opt_in_whatsapp
+from ..utils.slack_notifier import notify_patient_consultation_request
 from ..database import get_db
 
 
@@ -28,15 +29,15 @@ def get_current_user(
         subject = payload.get("sub")
         if not subject or not isinstance(subject, str):
             raise HTTPException(status_code=401, detail="Invalid token")
-        # Case-insensitive email match
+        # Case-insensitive email match - get the first user if multiple exist
         from sqlalchemy import select, func
         from ..models import User
-        row = db.execute(
+        result = db.execute(
             select(User).where(func.lower(User.email) == func.lower(subject))
-        ).scalar_one_or_none()
-        if row is None:
+        ).first()
+        if result is None:
             raise HTTPException(status_code=401, detail="User not found for token")
-        return row
+        return result[0]  # Extract the User object from the result tuple
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
@@ -57,7 +58,6 @@ def create_patient(
             gender=(payload.gender or "").capitalize() if isinstance(payload.gender, str) else payload.gender,
             email=current_user.email,
             phone=payload.phone,
-            symptoms=payload.symptoms,
         )
         db.add(patient)
         db.commit()
@@ -78,7 +78,6 @@ def create_patient(
             "gender": patient.gender,
             "email": patient.email,
             "phone": patient.phone,
-            "symptoms": patient.symptoms,
         }
     except Exception as e:
         db.rollback()
@@ -108,7 +107,6 @@ def get_my_patient(
             "gender": patient.gender,
             "email": patient.email,
             "phone": patient.phone,
-            "symptoms": patient.symptoms,
         }
     except HTTPException:
         raise
@@ -116,6 +114,56 @@ def get_my_patient(
         logging.getLogger(__name__).exception("Failed to fetch patient")
         raise HTTPException(status_code=400, detail=str(e))
 
+
+@router.post("/consultation-request", status_code=status.HTTP_200_OK)
+def request_consultation(
+    payload: dict,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user),
+):
+    """
+    Handle patient consultation request and send notification to Slack #lastopinion-patient-questions channel.
+    Expects: { "preferred_datetime": "Monday, October 16, 2025, 10:00 AM" }
+    """
+    try:
+        # Get the patient record for current user
+        from sqlalchemy import select, desc
+        patient = db.execute(
+            select(models.Patient)
+            .where(models.Patient.user_id == current_user.id)
+            .order_by(desc(models.Patient.id))
+        ).scalar_one_or_none()
+        
+        if not patient:
+            raise HTTPException(status_code=404, detail="No patient found for user")
+        
+        # Extract preferred datetime from payload
+        preferred_datetime = payload.get("preferred_datetime", "Not specified")
+        
+        # Send Slack notification to #lastopinion-patient-questions
+        patient_full_name = f"{patient.first_name} {patient.last_name}"
+        slack_result = notify_patient_consultation_request(
+            patient_id=patient.id,
+            patient_name=patient_full_name,
+            patient_phone=patient.phone or "Not provided",
+            preferred_datetime=preferred_datetime
+        )
+        
+        logging.getLogger(__name__).info(
+            f"Consultation request from patient {patient.id}: {preferred_datetime}, Slack result: {slack_result}"
+        )
+        
+        return {
+            "success": True,
+            "message": "Consultation request received. Our radiologist will contact you soon.",
+            "slack_notification": slack_result.get("ok", False)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.getLogger(__name__).exception("Failed to process consultation request")
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 

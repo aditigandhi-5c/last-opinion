@@ -135,7 +135,7 @@ const Success = () => {
     {
       icon: <Clock className="h-5 w-5" />,
       title: "Analysis in Progress", 
-      description: "Detailed analysis and second opinion report preparation (1-2 business days)"
+      description: "Detailed analysis and last opinion report preparation (1-2 business days)"
     },
     {
       icon: <Bell className="h-5 w-5" />,
@@ -171,7 +171,7 @@ const Success = () => {
             <CardHeader>
               <CardTitle>What Happens Next?</CardTitle>
               <CardDescription>
-                Your journey to getting a trusted second opinion
+                Your journey to getting a trusted last opinion
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -196,7 +196,7 @@ const Success = () => {
             <CardContent className="pt-6">
               <h4 className="font-medium mb-3">Important Information</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• You will receive your detailed second opinion report within 1-2 business days</li>
+                <li>• You will receive your detailed last opinion report within 1-2 business days</li>
                 <li>• Notifications will be sent via WhatsApp and email</li>
                 <li>• You can track your case status in your dashboard</li>
                 <li>• Our experts are now reviewing your medical information</li>

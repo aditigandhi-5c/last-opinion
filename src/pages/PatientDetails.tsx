@@ -15,15 +15,13 @@ import { ArrowRight, ArrowLeft, User, Phone, Mail, Calendar } from "lucide-react
 const PatientDetails = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const GUPSHUP_OPTIN_URL = "https://apps.gupshup.io/whatsapp/optin?bId=ca57b242-b204-4586-b5ba-c6d8cae48c9d&bName=th1itv15qyTQvEcFAQT9guJv&s=URL&lang=en_US";
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     age: "",
     gender: "",
     email: "",
-    phone: "",
-    symptoms: ""
+    phone: ""
   });
   const [whatsappConsent, setWhatsappConsent] = useState(false);
 
@@ -41,7 +39,6 @@ const PatientDetails = () => {
           gender: pd.gender || prev.gender,
           email: pd.email || prev.email,
           phone: pd.phone || prev.phone,
-          symptoms: pd.symptoms || prev.symptoms,
         }));
         return;
       }
@@ -78,12 +75,10 @@ const PatientDetails = () => {
         age: Number(formData.age),
         gender: formData.gender,
         phone: formData.phone,
-        symptoms: formData.symptoms || undefined,
       };
       const saved = await createPatient(payload);
-      // Fire opt-in (best-effort)
+      // Fire WhatsApp opt-in automatically (best-effort)
       try { await optInWhatsApp(String(saved.phone || formData.phone)); } catch {}
-      try { window.open(GUPSHUP_OPTIN_URL, "_blank", "noopener,noreferrer"); } catch {}
       localStorage.setItem('patientDetails', JSON.stringify({ ...formData, id: saved.id }));
       toast({ title: 'Saved', description: `Patient #${saved.id} created.` });
       navigate('/upload');
@@ -104,7 +99,7 @@ const PatientDetails = () => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">Patient Details</h1>
             <p className="text-muted-foreground">
-              Let's start with your basic information for a personalized second opinion.
+              Let's start with your basic information for a personalized last opinion.
             </p>
           </div>
 
@@ -198,16 +193,6 @@ const PatientDetails = () => {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="symptoms">Symptoms/Condition</Label>
-                <Textarea
-                  id="symptoms"
-                  placeholder="Briefly describe your symptoms or medical condition (optional)"
-                  rows={3}
-                  value={formData.symptoms}
-                  onChange={(e) => handleInputChange('symptoms', e.target.value)}
-                />
-              </div>
 
               <div className="flex items-start gap-3">
                 <input id="wa-consent" type="checkbox" className="mt-1"
@@ -218,12 +203,6 @@ const PatientDetails = () => {
                   <Label htmlFor="wa-consent" className="cursor-pointer">
                     I agree to receive important updates about my case via WhatsApp to the phone number provided. This consent is required to proceed.
                   </Label>
-                  <div className="mt-2">
-                    <a href={GUPSHUP_OPTIN_URL} target="_blank" rel="noreferrer" className="text-primary underline">
-                      Open WhatsApp to complete opt-in
-                    </a>
-                    <span className="text-muted-foreground ml-2 text-xs">(opens in new tab)</span>
-                  </div>
                 </div>
               </div>
 

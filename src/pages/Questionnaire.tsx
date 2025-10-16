@@ -1,24 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, FileText, Stethoscope } from "lucide-react";
+import { ArrowRight, ArrowLeft, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 const Questionnaire = () => {
   const navigate = useNavigate();
+  const [symptoms, setSymptoms] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [wantSubspecialist, setWantSubspecialist] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Load existing questionnaire data if available
+    try {
+      const existing = localStorage.getItem('questionnaireData');
+      if (existing) {
+        const data = JSON.parse(existing);
+        setSymptoms(data.symptoms || "");
+        setAdditionalInfo(data.additionalInfo || "");
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
   const handleNext = () => {
     // Store questionnaire data
     const questionnaireData = {
-      additionalInfo,
-      wantSubspecialist
+      symptoms,
+      additionalInfo
     };
     localStorage.setItem('questionnaireData', JSON.stringify(questionnaireData));
     // Also update current case.medical_background via backend if we have a case
@@ -27,11 +40,14 @@ const Questionnaire = () => {
       const tokenRaw = localStorage.getItem('token');
       const caseId = caseIdRaw ? Number(caseIdRaw) : null;
       const token = tokenRaw ? tokenRaw.replace(/^\"|\"$/g, '').trim() : null;
-      if (caseId && token && additionalInfo.trim()) {
+      if (caseId && token && (symptoms.trim() || additionalInfo.trim())) {
         fetch(`http://127.0.0.1:8000/cases/${caseId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ medical_background: additionalInfo })
+          body: JSON.stringify({ 
+            symptoms: symptoms.trim() || null,
+            medical_background: additionalInfo.trim() || null
+          })
         }).catch(() => {});
       }
     } catch (e) {
@@ -46,9 +62,9 @@ const Questionnaire = () => {
       <div className="container mx-auto px-4 pt-24 pb-12 md:pt-12">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-4">Additional Information</h1>
+            <h1 className="text-3xl font-bold mb-4">Tell Us About Your Health</h1>
             <p className="text-muted-foreground">
-              Help our radiologists provide the most accurate second opinion.
+              Share your medical history and questions to help our radiologists provide the most accurate last opinion.
             </p>
           </div>
 
@@ -56,34 +72,42 @@ const Questionnaire = () => {
             <CardHeader className="bg-primary/5">
               <CardTitle className="flex items-center gap-2 text-primary">
                 <FileText className="h-5 w-5" />
-                Medical Background
+                Medical History & Questions
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6 space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="additional-info">
-                  Share more information about your condition or questions
+                <Label htmlFor="symptoms">
+                  What symptoms or condition are you experiencing? *
                 </Label>
-                <Textarea id="additional-info" placeholder="Please describe your symptoms, concerns, or any specific questions you have about your scans. Include relevant medical history, current medications, or previous treatments if applicable." rows={6} value={additionalInfo} onChange={e => setAdditionalInfo(e.target.value)} className="resize-none" />
+                <Textarea 
+                  id="symptoms" 
+                  placeholder="Describe your symptoms or the medical condition you're concerned about" 
+                  rows={3} 
+                  value={symptoms} 
+                  onChange={e => setSymptoms(e.target.value)} 
+                  className="resize-none" 
+                />
                 <p className="text-xs text-muted-foreground">
-                  The more details you provide, the more comprehensive your second opinion will be.
+                  Please describe your main symptoms or the condition you're seeking a last opinion for.
                 </p>
               </div>
 
-              <div className="border-t pt-6">
-                <div className="flex items-start space-x-3">
-                  <Checkbox id="subspecialist" checked={wantSubspecialist} onCheckedChange={checked => setWantSubspecialist(checked as boolean)} />
-                  <div className="space-y-1">
-                    <Label htmlFor="subspecialist" className="flex items-center gap-2 cursor-pointer font-medium">
-                      <Stethoscope className="h-4 w-4 text-secondary" />
-                      Do you want a subspecialty radiologist to review?
-                    </Label>
-                    <p className="text-sm text-muted-foreground">
-                      Subspecialty radiologists have additional specialized training in specific areas 
-                      (e.g., neuroradiology, musculoskeletal, cardiac imaging). Recommended for complex cases.
-                    </p>
-                  </div>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="additional-info">
+                  Medical History & Questions *
+                </Label>
+                <Textarea 
+                  id="additional-info" 
+                  placeholder="Please share your medical history, current medications, previous treatments, and any specific questions you have about your scans or condition." 
+                  rows={6} 
+                  value={additionalInfo} 
+                  onChange={e => setAdditionalInfo(e.target.value)} 
+                  className="resize-none" 
+                />
+                <p className="text-xs text-muted-foreground">
+                  Include any relevant medical history, medications, treatments, and specific questions you'd like our radiologists to address.
+                </p>
               </div>
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -101,7 +125,11 @@ const Questionnaire = () => {
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
-                <Button onClick={handleNext} className="flex-1 bg-primary hover:bg-primary/90">
+                <Button 
+                  onClick={handleNext} 
+                  disabled={!symptoms.trim() || !additionalInfo.trim()}
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                >
                   Continue to Payment
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

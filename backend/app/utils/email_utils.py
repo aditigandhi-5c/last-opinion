@@ -166,7 +166,7 @@ def send_welcome_email(to_email: str, user_name: Optional[str] = None) -> bool:
         email_body = f"""
 {greeting}
 
-Welcome to EchoMed! We're excited to have you join our community of patients seeking expert second opinions.
+Welcome to EchoMed! We're excited to have you join our community of patients seeking expert last opinions.
 
 Your account has been successfully created. You can now:
 - Upload your medical images and reports
