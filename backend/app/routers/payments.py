@@ -5,6 +5,7 @@ from ..database import get_db
 from .. import models, schemas
 from .patients import get_current_user
 from ..utils.slack_notifier import notify_new_case
+from ..utils.whatsapp_gupshup import send_whatsapp_case_update
 
 # Single router instance exported for main.py import
 router = APIRouter(prefix="/payments", tags=["payments"])
@@ -35,6 +36,18 @@ def create_payment(payload: schemas.PaymentCreate, db: Session = Depends(get_db)
             patient_name = (patient.first_name or "").strip() + (" " + (patient.last_name or "").strip() if patient.last_name else "")
             notify_new_case(patient_name.strip() or patient.email or f"patient:{patient.id}", str(case.id))
         except Exception:
+            pass
+        # Send WhatsApp notification on successful payment (once per case)
+        try:
+            if patient and patient.phone:
+                patient_full_name = f"{patient.first_name or ''} {patient.last_name or ''}".strip()
+                send_whatsapp_case_update(
+                    patient_full_name or patient.email or f"Patient {patient.id}",
+                    str(patient.phone),
+                    str(case.id),
+                )
+        except Exception:
+            # Do not block payment on WhatsApp errors
             pass
         try:
             # Find latest file(s) for this case and trigger a sync to populate reports

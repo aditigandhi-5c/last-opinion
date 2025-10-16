@@ -36,18 +36,8 @@ def create_case(payload: schemas.CaseCreate, background_tasks: BackgroundTasks, 
         # Do not block case creation on Slack errors
         pass
 
-    # Fire-and-forget WhatsApp notification via Gupshup (if configured)
-    try:
-        if case and patient and patient.phone:
-            background_tasks.add_task(
-                send_whatsapp_case_update,
-                f"{patient.first_name} {patient.last_name}".strip(),
-                str(patient.phone or ""),
-                str(case.id),
-            )
-    except Exception:
-        # Do not block case creation on WhatsApp errors
-        pass
+    # NOTE: WhatsApp notification moved to payment confirmation to avoid duplicate messages
+    # (case creation happens multiple times in the flow, but payment happens only once)
 
     return case
 
