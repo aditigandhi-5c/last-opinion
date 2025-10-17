@@ -1,6 +1,6 @@
 import requests
 from functools import lru_cache
-from config import SLACK_BOT_TOKEN, SLACK_CHANNEL, SLACK_PATIENT_QUESTIONS_CHANNEL
+from config import SLACK_BOT_TOKEN, SLACK_CHANNEL, SLACK_PATIENT_QUESTIONS_CHANNEL, SLACK_WEBSITE_CHANNEL
 
 
 @lru_cache(maxsize=1)
@@ -34,8 +34,8 @@ def notify_new_case(patient_name: str, case_id: str):
     if not SLACK_BOT_TOKEN:
         return {"ok": False, "error": "no_token_configured"}
 
-    # Use #last-opinion-website channel for case registration messages
-    channel = _resolve_channel_id("#last-opinion-website")
+    # Use SLACK_WEBSITE_CHANNEL for case registration messages
+    channel = _resolve_channel_id(SLACK_WEBSITE_CHANNEL)
 
     # Compact message per request
     message = (
@@ -77,9 +77,9 @@ def notify_patient_consultation_request(
 
     channel = _resolve_channel_id(SLACK_PATIENT_QUESTIONS_CHANNEL)
 
-    # Format the message with patient details (using stethoscope emoji)
+    # Format the message with patient details
     message = (
-        f":stethoscope: *New Patient Consultation Request*\n"
+        f"*New Patient Consultation Request*\n"
         f"*Patient ID:* {patient_id}\n"
         f"*Patient Name:* {patient_name}\n"
         f"*Phone Number:* {patient_phone}\n"

@@ -19,6 +19,9 @@ SLACK_CHANNEL = os.getenv("SLACK_CHANNEL", "C036W170951")
 # Slack integration for patient-questions (separate channel)
 SLACK_PATIENT_QUESTIONS_CHANNEL = os.getenv("SLACK_PATIENT_QUESTIONS_CHANNEL", "#lastopinion-patient-questions")
 
+# Slack integration for website registrations (separate channel)
+SLACK_WEBSITE_CHANNEL = os.getenv("SLACK_WEBSITE_CHANNEL", "#last-opinion-website")
+
 # Gupshup WhatsApp integration
 # NOTE: Avoid hardcoding secrets; prefer environment variables.
 GUPSHUP_API_KEY = os.getenv("GUPSHUP_API_KEY")

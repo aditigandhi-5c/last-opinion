@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from ..utils.slack_notifier import notify_new_case
+from ..utils.slack_notifier import notify_new_case, notify_patient_consultation_request
 
 
 
@@ -12,6 +12,17 @@ router = APIRouter(tags=["slack"])
 def test_slack():
     print("SLACK_BOT_TOKEN:", SLACK_BOT_TOKEN)  # ✅ debug print
     response = notify_new_case("Test Patient", "CASE-TEST-001")
+    return {"slack_response": response}
+
+@router.get("/test-consultation")
+def test_consultation():
+    """Test consultation request notification"""
+    response = notify_patient_consultation_request(
+        patient_id=999,
+        patient_name="Test Patient",
+        patient_phone="9876543210",
+        preferred_datetime="Monday, October 21, 2025, 10:30 AM"
+    )
     return {"slack_response": response}
 
 @router.get("/list-channels")
