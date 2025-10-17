@@ -34,7 +34,8 @@ def notify_new_case(patient_name: str, case_id: str):
     if not SLACK_BOT_TOKEN:
         return {"ok": False, "error": "no_token_configured"}
 
-    channel = _resolve_channel_id(SLACK_CHANNEL)
+    # Use #last-opinion-website channel for case registration messages
+    channel = _resolve_channel_id("#last-opinion-website")
 
     # Compact message per request
     message = (
@@ -76,9 +77,9 @@ def notify_patient_consultation_request(
 
     channel = _resolve_channel_id(SLACK_PATIENT_QUESTIONS_CHANNEL)
 
-    # Format the message with patient details
+    # Format the message with patient details (using stethoscope emoji)
     message = (
-        f"🩺 *New Patient Consultation Request*\n\n"
+        f":stethoscope: *New Patient Consultation Request*\n"
         f"*Patient ID:* {patient_id}\n"
         f"*Patient Name:* {patient_name}\n"
         f"*Phone Number:* {patient_phone}\n"

@@ -80,7 +80,7 @@ const PatientDetails = () => {
       // Fire WhatsApp opt-in automatically (best-effort)
       try { await optInWhatsApp(String(saved.phone || formData.phone)); } catch {}
       localStorage.setItem('patientDetails', JSON.stringify({ ...formData, id: saved.id }));
-      toast({ title: 'Saved', description: `Patient #${saved.id} created.` });
+      toast({ title: 'Details Saved', description: 'Your information has been securely saved.' });
       navigate('/upload');
     } catch (err: any) {
       toast({ title: 'Save failed', description: String(err?.message || err), variant: 'destructive' });

@@ -13,3 +13,4 @@ ALTER TABLE patients DROP COLUMN IF EXISTS symptoms;
 
 
 
+

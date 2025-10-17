@@ -261,13 +261,13 @@ const Dashboard = () => {
       // Send consultation request to backend (which notifies Slack)
       await requestConsultation(formattedDate);
 
-      toast({
-        title: "Call Scheduled Successfully!",
-        description: `Your call with our radiologist is scheduled for ${formattedDate}. We'll contact you at the scheduled time.`,
-      });
+    toast({
+      title: "Call Scheduled Successfully!",
+      description: `Your call with our radiologist is scheduled for ${formattedDate}. We'll contact you at the scheduled time.`,
+    });
 
-      setShowScheduleDialog(false);
-      setSelectedTimeSlot("");
+    setShowScheduleDialog(false);
+    setSelectedTimeSlot("");
     } catch (error) {
       console.error("Failed to schedule consultation:", error);
       toast({

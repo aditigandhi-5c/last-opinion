@@ -15,17 +15,10 @@ const Questionnaire = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load existing questionnaire data if available
-    try {
-      const existing = localStorage.getItem('questionnaireData');
-      if (existing) {
-        const data = JSON.parse(existing);
-        setSymptoms(data.symptoms || "");
-        setAdditionalInfo(data.additionalInfo || "");
-      }
-    } catch {
-      // ignore
-    }
+    // Always start with empty fields for privacy/UX
+    // (Previous data is stored in backend via case.medical_background)
+    setSymptoms("");
+    setAdditionalInfo("");
   }, []);
   const handleNext = () => {
     // Store questionnaire data
