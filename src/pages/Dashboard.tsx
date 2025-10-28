@@ -73,7 +73,7 @@ const Dashboard = () => {
       try {
         const token = getToken();
         if (token) {
-          const res = await fetch(`http://127.0.0.1:8000/files/mine`, {
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/mine`, {
             headers: { Authorization: `Bearer ${token}` },
             credentials: 'include',
             mode: 'cors',
@@ -119,7 +119,7 @@ const Dashboard = () => {
     let cancelled = false;
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/files/${fileId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/${fileId}`, {
           headers: { Authorization: `Bearer ${token}` },
           credentials: 'include',
           mode: 'cors',
@@ -148,7 +148,7 @@ const Dashboard = () => {
 
     const refreshMine = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/files/mine`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/mine`, {
           headers: { Authorization: `Bearer ${token}` },
           credentials: 'include',
           mode: 'cors',
@@ -285,7 +285,7 @@ const Dashboard = () => {
       if (token && patientId) {
         try {
           const latest = await getLatestStructuredReportByPatient(patientId);
-          const apiBase = "http://127.0.0.1:8000";
+          const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
           const url = `${apiBase}${latest.view_generated_url}`; // inline
           const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, credentials: 'include', mode: 'cors' });
           if (res.ok) {
@@ -362,7 +362,7 @@ const Dashboard = () => {
       if (token && patientId) {
         try {
           const latest = await getLatestStructuredReportByPatient(patientId);
-          const apiBase = "http://127.0.0.1:8000";
+          const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
           const url = `${apiBase}${latest.download_generated_url}`; // attachment
           const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, credentials: 'include', mode: 'cors' });
           if (res.ok) {
@@ -453,7 +453,7 @@ const Dashboard = () => {
   const handlePrintReport = async (_fileId: number, _studyId?: string | null) => {
     try {
       const latest = await getLatestStructuredReportByPatient(patientId!);
-      const apiBase = "http://127.0.0.1:8000";
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
       // Prefer the public inline route in demo to leverage browser viewer directly
       const objectUrl = `${apiBase}/reports/${latest.id}/public?type=generated&disposition=inline`;
       // Open a print-friendly window with iframe
@@ -479,7 +479,7 @@ const Dashboard = () => {
       if (!token) { toast({ title: 'Login required', description: 'Please log in again.' }); return; }
       if (!studyIuid) { toast({ title: 'Viewer unavailable', description: 'Study IUID missing.' }); return; }
       const params = new URLSearchParams({ study_iuid: String(studyIuid) });
-      const res = await fetch(`http://127.0.0.1:8000/reports/viewer-link?${params.toString()}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/reports/viewer-link?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors',
@@ -814,8 +814,19 @@ const Dashboard = () => {
                         </tr>
                       </thead>
                       <tbody>
-                      {filesHistory.filter(f => !!f && f.status !== '403').map((f) => (
-                          <tr key={f.id} className="border-t">
+                      {(() => {
+                        // Group files by case_id and show only one entry per case
+                        const caseMap = new Map();
+                        filesHistory
+                          .filter(f => !!f && f.status !== '403' && f.case_id)
+                          .forEach(f => {
+                            if (!caseMap.has(f.case_id)) {
+                              caseMap.set(f.case_id, f);
+                            }
+                          });
+                        
+                        return Array.from(caseMap.values()).map((f) => (
+                          <tr key={f.case_id} className="border-t">
                             <td className="py-2 pr-4">{f.case_id || '-'}</td>
                             <td className="py-2 pr-4 text-center">
                               <span className={statusBadgeClasses(f)}>{statusText(f)}</span>
@@ -829,13 +840,13 @@ const Dashboard = () => {
                                   className="bg-emerald-700 hover:bg-emerald-800 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                                   onClick={async () => {
                                     try {
-                                      const existing = pdfByFileId[f.id];
+                                      const existing = pdfByFileId[f.case_id];
                                       if (existing) { window.open(existing, '_blank'); return; }
                                       // 1) Backend: ask storage to presign the latest PDF for this patient automatically
                                       if (patientId) {
                                         const latest = await getLatestPresignedViewUrl(patientId).catch(() => null);
                                         if (latest && latest.view_url) {
-                                          setPdfByFileId(prev => ({ ...prev, [f.id]: latest.view_url }));
+                                          setPdfByFileId(prev => ({ ...prev, [f.case_id]: latest.view_url }));
                                           try { localStorage.setItem('lo_object_key', latest.key); } catch {}
                                           window.open(latest.view_url, '_blank');
                                           return;
@@ -858,7 +869,7 @@ const Dashboard = () => {
                                           }
                                         }
                                         if (presignedUrl) {
-                                          setPdfByFileId(prev => ({ ...prev, [f.id]: presignedUrl! }));
+                                          setPdfByFileId(prev => ({ ...prev, [f.case_id]: presignedUrl! }));
                                           window.open(presignedUrl, '_blank');
                                           return;
                                         }
@@ -886,7 +897,7 @@ const Dashboard = () => {
                                         resp = await getPresignedViewUrl(storedKey).catch(() => null);
                                       }
                                       if (resp && resp.view_url) {
-                                        setPdfByFileId(prev => ({ ...prev, [f.id]: resp.view_url }));
+                                        setPdfByFileId(prev => ({ ...prev, [f.case_id]: resp.view_url }));
                                         window.open(resp.view_url, '_blank');
                                         return;
                                       }
@@ -902,7 +913,8 @@ const Dashboard = () => {
                           </div>
                             </td>
                           </tr>
-                        ))}
+                        ));
+                      })()}
                       </tbody>
                     </table>
                   </div>

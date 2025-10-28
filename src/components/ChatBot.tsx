@@ -15,7 +15,7 @@ const ChatBot = () => {
   >("REGISTRATION");
 
   // Shared
-  const apiBase = "http://127.0.0.1:8000";
+  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const totalSteps = 7;

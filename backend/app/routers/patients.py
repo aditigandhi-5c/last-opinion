@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 import logging
 
 from .. import schemas, models
-from ..utils.whatsapp_gupshup import opt_in_whatsapp
+from ..utils.whatsapp_gupshup import opt_in_whatsapp, send_whatsapp_case_update
 from ..utils.slack_notifier import notify_patient_consultation_request
 from ..database import get_db
 
@@ -63,7 +63,7 @@ def create_patient(
         db.commit()
         db.refresh(patient)
 
-        # Optionally ensure opt-in once per new number (do not send message here to avoid duplicate with case creation)
+        # Ensure opt-in for new patient
         try:
             if patient.phone:
                 opt_in_whatsapp(patient.phone)

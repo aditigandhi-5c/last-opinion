@@ -62,7 +62,7 @@ const Footer = () => {
               <ul className="space-y-3 text-primary-foreground/80">
                 <li className="flex items-center space-x-2">
                   <Mail className="h-4 w-4 flex-shrink-0" />
-                  <span className="text-sm">support@5csecondopinion.com</span>
+                  <span className="text-sm">support@lastopinion.in</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <Phone className="h-4 w-4 flex-shrink-0" />
@@ -71,7 +71,7 @@ const Footer = () => {
                 <li className="flex items-start space-x-2">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
                   <span className="text-sm">
-                    5C Towers, #246, 6th Main Rd<br />
+                    Last Opinion Towers, #246, 6th Main Rd<br />
                     Above AU Bank, Opposite MedPlus<br />
                     Mico Layout, BTM 2nd Stage<br />
                     Bengaluru, Karnataka 560076, India
@@ -84,14 +84,14 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/20 mt-6 pt-4 max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-3">
-            <p className="text-primary-foreground/60">© 2024 5C Last Opinion. All rights reserved.</p>
+            <p className="text-primary-foreground/60">© 2024 Last Opinion. All rights reserved.</p>
             <div className="flex gap-8">
               <a href="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground transition-smooth">Privacy Policy</a>
               <a href="/terms" className="text-primary-foreground/60 hover:text-primary-foreground transition-smooth">Terms & Conditions</a>
             </div>
           </div>
           <div className="text-center">
-            <p className="text-primary-foreground/50 text-sm">Powered by 5C Network. All Rights Reserved.</p>
+            <p className="text-primary-foreground/50 text-sm">Powered by Last Opinion. All Rights Reserved.</p>
           </div>
         </div>
       </div>

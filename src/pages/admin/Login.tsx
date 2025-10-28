@@ -49,7 +49,7 @@ const AdminLogin = () => {
               <Stethoscope className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-primary">5C Second Opinion</h1>
+              <h1 className="text-xl font-bold text-primary">Last Opinion</h1>
               <p className="text-xs text-muted-foreground">Admin Panel</p>
             </div>
           </div>
@@ -67,7 +67,7 @@ const AdminLogin = () => {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="admin@5csecondopinion.com"
+                placeholder="admin@lastopinion.in"
                 value={formData.email}
                 onChange={handleChange}
                 required

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Deploy Last Opinion Updates to VM
+# This script will update your VM with all the working fixes
+
+echo "🚀 Deploying Last Opinion updates to VM..."
+
+# Step 1: Upload the package to your VM
+echo "📦 Uploading package to VM..."
+echo "Run this command on your local machine:"
+echo "scp /root/last-opinion/vm_update_package.tar.gz user@your-vm-ip:/tmp/"
+
+# Step 2: VM deployment commands
+echo ""
+echo "🔧 Run these commands on your VM:"
+echo ""
+echo "# 1. Backup current installation"
+echo "sudo cp -r /var/www/last-opinion /var/www/last-opinion-backup-\$(date +%Y%m%d-%H%M%S)"
+echo ""
+echo "# 2. Stop services"
+echo "sudo systemctl stop last-opinion-backend"
+echo "sudo systemctl stop last-opinion-frontend"
+echo ""
+echo "# 3. Extract new code"
+echo "cd /var/www"
+echo "sudo tar -xzf /tmp/vm_update_package.tar.gz -C /var/www/last-opinion-new"
+echo ""
+echo "# 4. Update backend files"
+echo "sudo cp -r /var/www/last-opinion-new/backend/* /var/www/last-opinion/backend/"
+echo ""
+echo "# 5. Update frontend files"
+echo "sudo cp -r /var/www/last-opinion-new/src/* /var/www/last-opinion/frontend/src/"
+echo ""
+echo "# 6. Update environment"
+echo "sudo cp /var/www/last-opinion-new/backend/.env /var/www/last-opinion/backend/.env"
+echo "sudo cp /var/www/last-opinion-new/echomed-ce18e-firebase-adminsdk-fbsvc-5355c1a9ec.json /var/www/last-opinion/backend/"
+echo ""
+echo "# 7. Install dependencies"
+echo "cd /var/www/last-opinion/backend"
+echo "source venv/bin/activate"
+echo "pip install -r requirements.txt"
+echo ""
+echo "# 8. Restart services"
+echo "sudo systemctl start last-opinion-backend"
+echo "sudo systemctl start last-opinion-frontend"
+echo ""
+echo "# 9. Check status"
+echo "sudo systemctl status last-opinion-backend"
+echo "sudo systemctl status last-opinion-frontend"
+echo ""
+echo "🎉 Deployment completed!"
+echo "🌐 Your app should now be available at: https://app.lastopinion.in"

@@ -8,8 +8,9 @@ import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, CreditCard, Shield, CheckCircle, Clock, Award } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { createRazorpayOrder, openRazorpayCheckout } from "@/lib/razorpay";
 // Frontend no longer sends Slack; backend posts to Slack on payment
-const USE_DUMMY_PAYMENT = true; // Toggle to simulate payment without backend
+const USE_DUMMY_PAYMENT = false; // Toggle to simulate payment without backend
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const PaymentPage = () => {
 
       const ensureOwnedCase = async (): Promise<number> => {
         const getMe = async () => {
-          const res = await fetch('http://127.0.0.1:8000/patients/me', { headers: { Authorization: `Bearer ${token}` } });
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/patients/me`, { headers: { Authorization: `Bearer ${token}` } });
           if (res.status === 404) throw new Error('No patient found. Please complete patient details.');
           if (!res.ok) throw new Error('Unable to fetch patient.');
           const me = await res.json();
@@ -39,7 +40,7 @@ const PaymentPage = () => {
         const patientId = await getMe();
         const existing = localStorage.getItem('currentCaseId');
         if (existing) return Number(existing);
-        const res = await fetch('http://127.0.0.1:8000/cases', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify({ patient_id: patientId }),
@@ -59,12 +60,12 @@ const PaymentPage = () => {
         await new Promise((r) => setTimeout(r, 600));
         // Try fire WhatsApp test from backend (non-blocking)
         try {
-          const meRes = await fetch('http://127.0.0.1:8000/patients/me', { headers: { Authorization: `Bearer ${token}` } });
+          const meRes = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/patients/me`, { headers: { Authorization: `Bearer ${token}` } });
           const me = meRes.ok ? await meRes.json() : null;
           const patientName = me ? `${me.first_name} ${me.last_name}`.trim() : 'Patient';
           const phone = me?.phone ? String(me.phone) : '';
           const qs = new URLSearchParams({ name: patientName, phone, case_id: String(case_id) }).toString();
-          fetch(`http://127.0.0.1:8000/test-whatsapp?${qs}`).catch(() => {});
+          fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/test-whatsapp?${qs}`).catch(() => {});
         } catch {}
         toast({
           title: 'Payment Successful!',
@@ -72,36 +73,33 @@ const PaymentPage = () => {
         });
         return navigate('/dashboard');
       }
-      const payload = {
-        case_id,
-        order_id: `ORD-${Date.now()}`,
-        payment_status: 'success',
-        amount: 3000,
-      };
-      const sendPayment = async () => fetch('http://127.0.0.1:8000/payments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(payload),
-      });
-      let res = await sendPayment();
-      let data = await res.json().catch(() => undefined);
-      if (!res.ok && String(data?.detail || '').toLowerCase().includes('not allowed for this case')) {
-        // Reset case and create a fresh one (ownership mismatch)
-        localStorage.removeItem('currentCaseId');
-        case_id = await ensureOwnedCase();
-        payload.case_id = case_id;
-        res = await sendPayment();
-        data = await res.json().catch(() => undefined);
-      }
-      if (!res.ok) {
-        const msg = (data && (data.detail || data.message)) || 'Payment failed';
-        throw new Error(msg);
-      }
-      toast({
-        title: 'Payment Successful!',
-        description: 'We have started processing your case. You will receive your report shortly.'
-      });
-      navigate('/dashboard');
+
+      // Create Razorpay order
+      const orderData = await createRazorpayOrder(case_id, 3000);
+      
+      // Open Razorpay checkout
+      await openRazorpayCheckout(
+        orderData,
+        // Success callback
+        (paymentResult) => {
+          toast({
+            title: 'Payment Successful!',
+            description: 'We have started processing your case. You will receive your report shortly.'
+          });
+          navigate('/dashboard');
+        },
+        // Error callback
+        (error) => {
+          console.error('Payment error:', error);
+          const errorMessage = error?.message || error?.detail || String(error) || 'Payment could not be completed. Please try again.';
+          toast({
+            title: 'Payment Failed',
+            description: errorMessage,
+            variant: 'destructive'
+          });
+        }
+      );
+
     } catch (e: any) {
       toast({ title: 'Payment error', description: String(e?.message || e), variant: 'destructive' });
     } finally {

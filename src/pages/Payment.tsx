@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { useDummyNotifications } from "@/hooks/useDummyNotifications";
+import { createRazorpayOrder, openRazorpayCheckout } from "@/lib/razorpay";
 import { 
   ArrowLeft, 
   Shield, 
@@ -27,31 +28,81 @@ const Payment = () => {
   const handlePayment = async () => {
     setIsProcessing(true);
 
-    // Get patient data for notifications
-    const patientData = JSON.parse(localStorage.getItem('patientDetails') || '{}');
+    try {
+      // Get patient data for notifications
+      const patientData = JSON.parse(localStorage.getItem('patientDetails') || '{}');
+      
+      // Get current case ID or create one
+      let caseId = localStorage.getItem('currentCaseId');
+      if (!caseId) {
+        // Create a case if none exists
+        const token = localStorage.getItem('token')?.replace(/^\"|\"$/g, '').trim();
+        if (!token) throw new Error('Authentication required. Please login again.');
+        
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ patient_id: 1 }), // You might need to get actual patient ID
+        });
+        
+        if (!response.ok) throw new Error('Failed to create case');
+        const caseData = await response.json();
+        caseId = caseData.id;
+        localStorage.setItem('currentCaseId', caseId);
+      }
 
-    // Simulate payment processing
-    setTimeout(() => {
+      // Create Razorpay order
+      const orderData = await createRazorpayOrder(Number(caseId), 3000);
+      
+      // Open Razorpay checkout
+      await openRazorpayCheckout(
+        orderData,
+        // Success callback
+        (paymentResult) => {
+          setIsProcessing(false);
+          toast({
+            title: "Payment Successful!",
+            description: "Your case has been submitted to our medical experts.",
+          });
+          
+          // Send thank you WhatsApp message after payment
+          const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
+          setTimeout(() => {
+            sendWhatsAppNotification(
+              patientName,
+              "Thank you for trusting us! You will see your report in your dashboard once ready."
+            );
+          }, 1000);
+          
+          // Send team notifications
+          sendTeamNotifications(patientData);
+          
+          navigate('/success');
+        },
+        // Error callback
+        (error) => {
+          setIsProcessing(false);
+          console.error('Payment error:', error);
+          const errorMessage = error?.message || error?.detail || String(error) || 'Payment could not be completed. Please try again.';
+          toast({
+            title: 'Payment Failed',
+            description: errorMessage,
+            variant: 'destructive'
+          });
+        }
+      );
+
+    } catch (error: any) {
       setIsProcessing(false);
       toast({
-        title: "Payment Successful!",
-        description: "Your case has been submitted to our medical experts.",
+        title: 'Payment Error',
+        description: error.message || 'Something went wrong. Please try again.',
+        variant: 'destructive'
       });
-      
-      // Send thank you WhatsApp message after payment
-      const patientName = `${patientData.firstName || 'Patient'} ${patientData.lastName || ''}`;
-      setTimeout(() => {
-        sendWhatsAppNotification(
-          patientName,
-          "Thank you for trusting us! You will see your report in your dashboard once ready."
-        );
-      }, 1000);
-      
-      // Send team notifications
-      sendTeamNotifications(patientData);
-      
-      navigate('/success');
-    }, 2000);
+    }
   };
 
   const features = [

@@ -76,6 +76,11 @@ class Payment(Base):
     order_id = Column(String, nullable=False)
     payment_status = Column(String, nullable=False)
     amount = Column(Integer, nullable=True)
+    razorpay_payment_id = Column(String(255), nullable=True)
+    razorpay_signature = Column(String(500), nullable=True)
+    razorpay_order_id = Column(String(255), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
     # relationships
     case = relationship("Case")

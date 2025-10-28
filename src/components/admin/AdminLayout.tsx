@@ -42,7 +42,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <div className="p-2 bg-primary rounded-lg">
             <Stethoscope className="h-5 w-5 text-primary-foreground" />
           </div>
-          <h1 className="text-lg font-bold text-primary">5C Admin</h1>
+          <h1 className="text-lg font-bold text-primary">Last Opinion Admin</h1>
         </div>
         <Button
           variant="ghost"
@@ -62,7 +62,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                 <Stethoscope className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-primary">5C Second Opinion</h1>
+                <h1 className="text-xl font-bold text-primary">Last Opinion</h1>
                 <p className="text-xs text-muted-foreground">Admin Panel</p>
               </div>
             </div>
@@ -110,7 +110,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           {/* Desktop Header */}
           <header className="hidden lg:block bg-card border-b p-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold">5C Second Opinion – Admin Panel</h1>
+              <h1 className="text-2xl font-bold">Last Opinion – Admin Panel</h1>
               <Button variant="outline" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout

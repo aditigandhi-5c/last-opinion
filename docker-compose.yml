@@ -18,16 +18,24 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8000:8000"
+      - "8001:8001"
     environment:
       - DATABASE_URL=postgresql://postgres:62ul8dBNaA28M1y@164.52.215.211:5432/mydb
       - FIREBASE_ENABLED=true
       - GOOGLE_APPLICATION_CREDENTIALS=/app/echomed-ce18e-firebase-adminsdk-fbsvc-85b9dfcfd6.json
+      - RAZORPAY_KEY_ID=rzp_test_RXeqbfnAyzjhta
+      - RAZORPAY_KEY_SECRET=zoY2gbk2Pv1KM2BqJIH4NcbI
+      - RAZORPAY_WEBHOOK_SECRET=RddKi?<rYm|1A'a
+      - SLACK_BOT_TOKEN=xoxb-7731892011942-7731892011942-7731892011942-7731892011942
+      - SLACK_WEBSITE_CHANNEL=#last-opinion-website
+      - SLACK_PATIENT_QUESTIONS_CHANNEL=#lastopinion-patient-questions
+      - CORS_ORIGINS=http://localhost:8081,http://localhost:8082,http://164.52.215.211:8081,http://164.52.215.211:8082,https://app.lastopinion.in,https://api.lastopinion.in
     volumes:
       - ./backend:/app
       - ./echomed-ce18e-firebase-adminsdk-fbsvc-85b9dfcfd6.json:/app/echomed-ce18e-firebase-adminsdk-fbsvc-85b9dfcfd6.json
     depends_on:
       - postgres
+    restart: unless-stopped
 
   # PostgreSQL Database (if you want to run locally)
   postgres:

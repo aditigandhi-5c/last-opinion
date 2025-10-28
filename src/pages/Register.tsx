@@ -24,9 +24,46 @@ const Register = () => {
     confirmPassword: ""
   });
 
+  const validatePassword = (password: string): string[] => {
+    const errors: string[] = [];
+    
+    if (password.length < 8) {
+      errors.push('At least 8 characters');
+    }
+    if (password.length > 128) {
+      errors.push('No more than 128 characters');
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push('One uppercase letter');
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push('One lowercase letter');
+    }
+    if (!/\d/.test(password)) {
+      errors.push('One number');
+    }
+    if (!/[@$!%*?&]/.test(password)) {
+      errors.push('One special character (@$!%*?&)');
+    }
+    
+    return errors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Validate password requirements
+    const passwordErrors = validatePassword(formData.password);
+    if (passwordErrors.length > 0) {
+      setIsLoading(false);
+      toast({
+        title: "Password requirements not met",
+        description: `Password must contain: ${passwordErrors.join(', ')}`,
+        variant: "destructive",
+      });
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
       setIsLoading(false);
@@ -38,28 +75,59 @@ const Register = () => {
     }
 
     try {
-      // Try Firebase-first, then exchange for backend JWT to keep the same flow
+      // Register in BOTH Firebase AND Backend
+      let firebaseSuccess = false;
+      let backendSuccess = false;
+      let firebaseError = null;
+      let backendError = null;
+
+      // 1. Try Firebase registration
       try {
         await getFirebaseApp();
         const { getAuth, createUserWithEmailAndPassword, signOut } = await import("firebase/auth");
         const auth = getAuth();
         await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-        // Do NOT auto-login. Sign out to require explicit login step, like existing flow
+        // Sign out to require explicit login step
         try { await signOut(auth); } catch {}
-        setIsLoading(false);
-        toast({ title: "Registration successful", description: "Please log in to continue." });
-        sendSlackNotification("#patient-registrations", `🆕 New signup (Firebase): ${formData.email}`);
-        navigate('/login?next=/patient-details');
-        return;
+        firebaseSuccess = true;
       } catch (firebaseErr) {
-        // Fallback: keep our existing flow so nothing breaks
+        firebaseError = firebaseErr;
+        console.log("Firebase registration failed:", firebaseErr);
       }
 
-      const result = await apiRegister({ email: formData.email, password: formData.password });
-      setIsLoading(false);
-      toast({ title: "Registration successful", description: "Please log in to continue." });
-      sendSlackNotification("#patient-registrations", `🆕 New signup: ${result.email}`);
-      navigate('/login?next=/patient-details');
+      // 2. Try Backend registration
+      try {
+        const result = await apiRegister({ email: formData.email, password: formData.password });
+        backendSuccess = true;
+      } catch (backendErr) {
+        backendError = backendErr;
+        console.log("Backend registration failed:", backendErr);
+      }
+
+      // 3. Handle results
+      if (firebaseSuccess && backendSuccess) {
+        // Both succeeded - perfect!
+        setIsLoading(false);
+        toast({ title: "Registration successful", description: "Account created successfully. Please log in to continue." });
+        sendSlackNotification("#patient-registrations", `🆕 New signup (Both systems): ${formData.email}`);
+        navigate('/login?next=/patient-details');
+      } else if (firebaseSuccess || backendSuccess) {
+        // At least one succeeded - still allow registration
+        const systems = [];
+        if (firebaseSuccess) systems.push("Firebase");
+        if (backendSuccess) systems.push("Backend");
+        
+        setIsLoading(false);
+        toast({ 
+          title: "Registration successful", 
+          description: `Account created in ${systems.join(" and ")}. Please log in to continue.` 
+        });
+        sendSlackNotification("#patient-registrations", `🆕 New signup (${systems.join(" + ")}): ${formData.email}`);
+        navigate('/login?next=/patient-details');
+      } else {
+        // Both failed
+        throw new Error("Registration failed in both systems. Please try again.");
+      }
     } catch (err: any) {
       setIsLoading(false);
       toast({
@@ -118,11 +186,14 @@ const Register = () => {
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Create a password"
+                      placeholder="8+ chars, A-Z, a-z, 0-9, @$!%*?&"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       required
                     />
+                    <p className="text-xs text-muted-foreground">
+                      Must contain: uppercase, lowercase, number, and special character
+                    </p>
                   </div>
 
                   <div className="space-y-2">

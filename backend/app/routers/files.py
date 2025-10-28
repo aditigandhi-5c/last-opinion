@@ -64,10 +64,20 @@ async def upload_dicom(
 
     try:
         # Stream file to external API
+        print(f"DEBUG: Uploading to {external_url}")
+        print(f"DEBUG: API_AUTH available: {bool(API_AUTH)}")
         async with httpx.AsyncClient(timeout=120) as client:
             payload = await dicomFile.read()
             files = {"dicomFile": (dicomFile.filename, payload, dicomFile.content_type or "application/dicom")}
-            resp = await client.post(external_url, files=files)
+            headers = {}
+            if API_AUTH:
+                headers["Authorization"] = API_AUTH
+                print(f"DEBUG: Using auth header: {API_AUTH[:20]}...")
+            else:
+                print("DEBUG: No API_AUTH found, uploading without authentication")
+            resp = await client.post(external_url, files=files, headers=headers)
+            print(f"DEBUG: Upload response status: {resp.status_code}")
+            print(f"DEBUG: Upload response: {resp.text[:200]}...")
         # Best-effort parse JSON regardless of header
         data = None
         try:

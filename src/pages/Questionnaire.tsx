@@ -34,7 +34,7 @@ const Questionnaire = () => {
       const caseId = caseIdRaw ? Number(caseIdRaw) : null;
       const token = tokenRaw ? tokenRaw.replace(/^\"|\"$/g, '').trim() : null;
       if (caseId && token && (symptoms.trim() || additionalInfo.trim())) {
-        fetch(`http://127.0.0.1:8000/cases/${caseId}`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases/${caseId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify({ 

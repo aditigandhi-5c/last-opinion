@@ -5,15 +5,16 @@ import { Badge } from "@/components/ui/badge";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, Upload as UploadIcon, FileText, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowRight, ArrowLeft, Upload as UploadIcon, FileText, CheckCircle, AlertCircle, FolderOpen } from "lucide-react";
 
 const Upload = () => {
   const navigate = useNavigate();
-  const [dicomFile, setDicomFile] = useState<File | null>(null);
+  const [dicomFiles, setDicomFiles] = useState<File[]>([]);
   const [reportFile, setReportFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadResult, setUploadResult] = useState<any>(null);
+  const [uploadType, setUploadType] = useState<'file' | 'folder'>('file');
 
   const getToken = () => {
     try {
@@ -30,7 +31,7 @@ const Upload = () => {
     if (!token) throw new Error('Missing bearer token. Please login again.');
 
     // Get latest patient for current user
-    const meResp = await fetch('http://127.0.0.1:8000/patients/me', {
+    const meResp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/patients/me`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
@@ -42,7 +43,7 @@ const Upload = () => {
     if (meResp.status === 404) {
       // Redirect user to patient details to create a patient once
       navigate('/patient-details');
-      throw new Error('No patient found. Please complete patient details first.');
+      return; // Don't throw error, just redirect
     }
     const me = await meResp.json().catch(() => undefined);
     const patientId: number = Number(me?.id);
@@ -53,7 +54,7 @@ const Upload = () => {
     if (existing) return { caseId: Number(existing), patientId };
 
     // Create a new case bound to this patient
-    const resp = await fetch('http://127.0.0.1:8000/cases', {
+    const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -71,27 +72,33 @@ const Upload = () => {
     return { caseId, patientId };
   };
 
-  const uploadDicom = async (file: File) => {
+  const uploadDicomFiles = async (files: File[]) => {
     try {
       setUploading(true);
       setUploadError(null);
       setUploadResult(null);
       const { caseId, patientId } = await ensureCase();
-      const formData = new FormData();
-      formData.append("dicomFile", file);
+      
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("dicomFile", file);
 
-      const token = getToken();
-      const response = await fetch(`http://127.0.0.1:8000/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
-        method: "POST",
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-        body: formData,
+        const token = getToken();
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
+          method: "POST",
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+          body: formData,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.detail || data?.message || `Upload failed for ${file.name}`);
+        }
+        return { file: file.name, data };
       });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.detail || data?.message || "Upload failed");
-      }
-      setUploadResult(data);
-      localStorage.setItem("dicomUploadResponse", JSON.stringify(data));
+
+      const results = await Promise.all(uploadPromises);
+      setUploadResult({ files: results, count: results.length });
+      localStorage.setItem("dicomUploadResponse", JSON.stringify({ files: results, count: results.length }));
     } catch (err: any) {
       const msg = String(err?.message || err || "Upload failed");
       // If case ownership mismatch occurred, reset and retry once
@@ -100,18 +107,24 @@ const Upload = () => {
           localStorage.removeItem('currentCaseId');
           // retry once with fresh case
           const { caseId, patientId } = await ensureCase();
-          const formData = new FormData();
-          formData.append("dicomFile", file);
-          const token = getToken();
-          const resp2 = await fetch(`http://127.0.0.1:8000/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
-            method: "POST",
-            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-            body: formData,
+          
+          const uploadPromises = files.map(async (file) => {
+            const formData = new FormData();
+            formData.append("dicomFile", file);
+            const token = getToken();
+            const resp2 = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
+              method: "POST",
+              headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+              body: formData,
+            });
+            const data2 = await resp2.json();
+            if (!resp2.ok) throw new Error(data2?.detail || data2?.message || `Upload failed for ${file.name}`);
+            return { file: file.name, data: data2 };
           });
-          const data2 = await resp2.json();
-          if (!resp2.ok) throw new Error(data2?.detail || data2?.message || "Upload failed");
-          setUploadResult(data2);
-          localStorage.setItem("dicomUploadResponse", JSON.stringify(data2));
+
+          const results = await Promise.all(uploadPromises);
+          setUploadResult({ files: results, count: results.length });
+          localStorage.setItem("dicomUploadResponse", JSON.stringify({ files: results, count: results.length }));
           setUploadError(null);
           return;
         } catch (e2: any) {
@@ -126,10 +139,18 @@ const Upload = () => {
   };
 
   const handleDicomUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setDicomFile(file);
-      uploadDicom(file);
+    const files = Array.from(event.target.files || []);
+    if (files.length > 0) {
+      setDicomFiles(files);
+      uploadDicomFiles(files);
+    }
+  };
+
+  const handleFolderUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length > 0) {
+      setDicomFiles(files);
+      uploadDicomFiles(files);
     }
   };
 
@@ -143,7 +164,7 @@ const Upload = () => {
   const handleNext = () => {
     // Store uploaded files info for next step
     const uploadData = {
-      dicomFile: dicomFile ? { name: dicomFile.name, size: dicomFile.size } : null,
+      dicomFiles: dicomFiles.map(f => ({ name: f.name, size: f.size })),
       reportFile: reportFile ? { name: reportFile.name, size: reportFile.size } : null
     };
     localStorage.setItem('uploadData', JSON.stringify(uploadData));
@@ -183,56 +204,129 @@ const Upload = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
+                {/* Upload Type Selection */}
+                <div className="mb-6">
+                  <div className="flex gap-2 justify-center">
+                    <Button
+                      variant={uploadType === 'file' ? 'default' : 'outline'}
+                      onClick={() => setUploadType('file')}
+                      size="sm"
+                    >
+                      <UploadIcon className="h-4 w-4 mr-2" />
+                      Single File
+                    </Button>
+                    <Button
+                      variant={uploadType === 'folder' ? 'default' : 'outline'}
+                      onClick={() => setUploadType('folder')}
+                      size="sm"
+                    >
+                      <FolderOpen className="h-4 w-4 mr-2" />
+                      Folder (Multiple Files)
+                    </Button>
+                  </div>
+                </div>
+
                 <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
-                  {dicomFile ? (
+                  {dicomFiles.length > 0 ? (
                     <div className="space-y-4">
                       {!uploading && !uploadError && (
                         <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
                       )}
                       {uploading && (
-                        <div className="text-sm text-muted-foreground">Uploading...</div>
+                        <div className="text-sm text-muted-foreground">Uploading {dicomFiles.length} files...</div>
                       )}
                       {uploadError && (
                         <div className="text-sm text-red-600">{uploadError}</div>
                       )}
                       <div>
-                        <p className="font-semibold text-green-700">{dicomFile.name}</p>
-                        <p className="text-sm text-muted-foreground">{formatFileSize(dicomFile.size)}</p>
+                        <p className="font-semibold text-green-700">
+                          {dicomFiles.length} file{dicomFiles.length > 1 ? 's' : ''} uploaded
+                        </p>
+                        <div className="text-sm text-muted-foreground mt-2 max-h-32 overflow-y-auto">
+                          {dicomFiles.map((file, index) => (
+                            <div key={index} className="flex justify-between items-center py-1">
+                              <span className="truncate max-w-xs">{file.name}</span>
+                              <span className="text-xs">{formatFileSize(file.size)}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                       {uploadResult && (
                         <div className="text-xs text-muted-foreground break-words">
-                          Upload complete
+                          Upload complete - {uploadResult.count} files processed
                         </div>
                       )}
-                      <Button
-                        variant="outline"
-                        onClick={() => document.getElementById('dicom-upload')?.click()}
-                      >
-                        Replace File
-                      </Button>
+                      <div className="flex gap-2 justify-center">
+                        <Button
+                          variant="outline"
+                          onClick={() => document.getElementById('dicom-upload')?.click()}
+                        >
+                          Replace Files
+                        </Button>
+                        {uploadType === 'folder' && (
+                          <Button
+                            variant="outline"
+                            onClick={() => document.getElementById('folder-upload')?.click()}
+                          >
+                            Replace Folder
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <UploadIcon className="h-12 w-12 text-muted-foreground mx-auto" />
+                      {uploadType === 'file' ? (
+                        <UploadIcon className="h-12 w-12 text-muted-foreground mx-auto" />
+                      ) : (
+                        <FolderOpen className="h-12 w-12 text-muted-foreground mx-auto" />
+                      )}
                       <div>
-                        <p className="font-semibold">Upload your DICOM scan files</p>
+                        <p className="font-semibold">
+                          {uploadType === 'file' 
+                            ? 'Upload your DICOM scan file' 
+                            : 'Upload your DICOM scan folder'
+                          }
+                        </p>
                         <p className="text-sm text-muted-foreground">
-                          Please upload your medical scan files to continue
+                          {uploadType === 'file' 
+                            ? 'Please upload your medical scan file to continue'
+                            : 'Select a folder containing multiple DICOM files for the same injury'
+                          }
                         </p>
                       </div>
-                      <Button
-                        onClick={() => document.getElementById('dicom-upload')?.click()}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        Select DICOM Files
-                      </Button>
+                      <div className="flex gap-2 justify-center">
+                        <Button
+                          onClick={() => document.getElementById('dicom-upload')?.click()}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          {uploadType === 'file' ? 'Select DICOM File' : 'Select Multiple Files'}
+                        </Button>
+                        {uploadType === 'folder' && (
+                          <Button
+                            onClick={() => document.getElementById('folder-upload')?.click()}
+                            variant="outline"
+                          >
+                            Select Folder
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   )}
                   <input
                     id="dicom-upload"
                     type="file"
                     accept=".dcm,.dicom"
+                    multiple={uploadType === 'folder'}
                     onChange={handleDicomUpload}
+                    className="hidden"
+                  />
+                  <input
+                    id="folder-upload"
+                    type="file"
+                    accept=".dcm,.dicom"
+                    multiple
+                    {...({ webkitdirectory: "" } as any)}
+                    onChange={handleFolderUpload}
                     className="hidden"
                   />
                 </div>
@@ -319,7 +413,7 @@ const Upload = () => {
               </Button>
               <Button
                 onClick={handleNext}
-                disabled={!dicomFile || uploading || !!uploadError}
+                disabled={dicomFiles.length === 0 || uploading || !!uploadError}
                 className="flex-1 bg-primary hover:bg-primary/90"
               >
                 Continue

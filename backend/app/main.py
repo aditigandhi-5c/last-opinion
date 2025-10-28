@@ -28,8 +28,11 @@ load_dotenv()
 app = FastAPI(title="Second Opinion API")
 
 
-# CORS configuration - allow common local dev ports
+# CORS configuration - allow common local dev ports and external access
 frontend_origin = os.getenv("FRONTEND_ORIGIN")  # optional override
+cors_origins_env = os.getenv("CORS_ORIGINS", "")  # comma-separated list from env
+cors_origins_list = cors_origins_env.split(",") if cors_origins_env else []
+
 origins = [
     frontend_origin,
     "http://localhost:8080",
@@ -42,8 +45,9 @@ origins = [
     "http://127.0.0.1:5173",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-]
-origins = [o for o in origins if o]
+] + cors_origins_list
+
+origins = [o.strip() for o in origins if o and o.strip()]
 
 app.add_middleware(
     CORSMiddleware,

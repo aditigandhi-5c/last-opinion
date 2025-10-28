@@ -27,27 +27,44 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // Try Firebase-first to sign in, then exchange ID token for backend JWT
-      try {
-        await getFirebaseApp();
-        const { getAuth, signInWithEmailAndPassword } = await import("firebase/auth");
-        const auth = getAuth();
-        const cred = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-        const idToken = await cred.user.getIdToken();
-        await exchangeFirebaseIdToken(idToken);
-      } catch (firebaseErr) {
-        // Fallback to existing API login so flow never breaks
-        await apiLogin({ email: formData.email, password: formData.password });
-      }
+      // First try Firebase authentication
+      const firebaseApp = await getFirebaseApp();
+      const { signInWithEmailAndPassword } = await import('firebase/auth');
+      const { getAuth } = await import('firebase/auth');
+      
+      const auth = getAuth(firebaseApp);
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const idToken = await userCredential.user.getIdToken();
+      
+      // Exchange Firebase token for backend JWT
+      await exchangeFirebaseIdToken(idToken);
+      
       setIsLoading(false);
       toast({ title: "Login Successful!", description: `You're now signed in.` });
       localStorage.setItem('isAuthenticated', 'true');
       const url = new URL(window.location.href);
       const next = url.searchParams.get('next');
       navigate(next || '/dashboard');
-    } catch (err: any) {
-      setIsLoading(false);
-      toast({ title: "Login failed", description: String(err?.message || err), variant: "destructive" });
+    } catch (firebaseErr: any) {
+      console.log('Firebase auth failed:', firebaseErr.message);
+      // If Firebase fails, try backend authentication
+      try {
+        await apiLogin({ email: formData.email, password: formData.password });
+        setIsLoading(false);
+        toast({ title: "Login Successful!", description: `You're now signed in.` });
+        localStorage.setItem('isAuthenticated', 'true');
+        const url = new URL(window.location.href);
+        const next = url.searchParams.get('next');
+        navigate(next || '/dashboard');
+      } catch (backendErr: any) {
+        console.log('Backend auth failed:', backendErr.message);
+        setIsLoading(false);
+        toast({ 
+          title: "Login failed", 
+          description: `Invalid email or password. Please check your credentials.`, 
+          variant: "destructive" 
+        });
+      }
     }
   };
 
@@ -119,23 +136,12 @@ const Login = () => {
                 <Button 
                   variant="link" 
                   className="text-sm"
-                  onClick={async () => {
-                    try {
-                      await getFirebaseApp();
-                      const { getAuth, sendPasswordResetEmail } = await import("firebase/auth");
-                      const auth = getAuth();
-                      await sendPasswordResetEmail(auth, formData.email || "");
-                      toast({
-                        title: "Reset email sent",
-                        description: "Check your email for password reset instructions.",
-                      });
-                    } catch (error: any) {
-                      toast({
-                        title: "Reset failed",
-                        description: error.message || "Failed to send reset email. Please try again.",
-                        variant: "destructive",
-                      });
-                    }
+                  onClick={() => {
+                    toast({
+                      title: "Password reset",
+                      description: "Please contact support for password reset assistance.",
+                      variant: "destructive",
+                    });
                   }}
                 >
                   Forgot your password?
