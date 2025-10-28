@@ -30,7 +30,7 @@ const Success = () => {
       if (!fileId || !token) return;
       // 1) Ensure a payment row exists for this case (auto success, 3000)
       if (caseId) {
-        fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/payments`, {
+        fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/payments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           credentials: 'include',
@@ -39,7 +39,7 @@ const Success = () => {
         }).catch(() => {});
       }
       // 2) Ask backend to refresh report status now
-      fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/${fileId}/refresh-status`, {
+      fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/files/${fileId}/refresh-status`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',

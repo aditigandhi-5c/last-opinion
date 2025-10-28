@@ -73,7 +73,7 @@ const Dashboard = () => {
       try {
         const token = getToken();
         if (token) {
-          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/mine`, {
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/files/mine`, {
             headers: { Authorization: `Bearer ${token}` },
             credentials: 'include',
             mode: 'cors',
@@ -119,7 +119,7 @@ const Dashboard = () => {
     let cancelled = false;
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/${fileId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/files/${fileId}`, {
           headers: { Authorization: `Bearer ${token}` },
           credentials: 'include',
           mode: 'cors',
@@ -148,7 +148,7 @@ const Dashboard = () => {
 
     const refreshMine = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/mine`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/files/mine`, {
           headers: { Authorization: `Bearer ${token}` },
           credentials: 'include',
           mode: 'cors',
@@ -285,7 +285,7 @@ const Dashboard = () => {
       if (token && patientId) {
         try {
           const latest = await getLatestStructuredReportByPatient(patientId);
-          const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
+          const apiBase = import.meta.env.VITE_API_BASE_URL || "https://api.lastopinion.in";
           const url = `${apiBase}${latest.view_generated_url}`; // inline
           const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, credentials: 'include', mode: 'cors' });
           if (res.ok) {
@@ -362,7 +362,7 @@ const Dashboard = () => {
       if (token && patientId) {
         try {
           const latest = await getLatestStructuredReportByPatient(patientId);
-          const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
+          const apiBase = import.meta.env.VITE_API_BASE_URL || "https://api.lastopinion.in";
           const url = `${apiBase}${latest.download_generated_url}`; // attachment
           const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, credentials: 'include', mode: 'cors' });
           if (res.ok) {
@@ -453,7 +453,7 @@ const Dashboard = () => {
   const handlePrintReport = async (_fileId: number, _studyId?: string | null) => {
     try {
       const latest = await getLatestStructuredReportByPatient(patientId!);
-      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001";
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "https://api.lastopinion.in";
       // Prefer the public inline route in demo to leverage browser viewer directly
       const objectUrl = `${apiBase}/reports/${latest.id}/public?type=generated&disposition=inline`;
       // Open a print-friendly window with iframe
@@ -479,7 +479,7 @@ const Dashboard = () => {
       if (!token) { toast({ title: 'Login required', description: 'Please log in again.' }); return; }
       if (!studyIuid) { toast({ title: 'Viewer unavailable', description: 'Study IUID missing.' }); return; }
       const params = new URLSearchParams({ study_iuid: String(studyIuid) });
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/reports/viewer-link?${params.toString()}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/reports/viewer-link?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
         credentials: 'include',
         mode: 'cors',

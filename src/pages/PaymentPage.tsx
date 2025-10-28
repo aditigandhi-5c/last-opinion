@@ -31,7 +31,7 @@ const PaymentPage = () => {
 
       const ensureOwnedCase = async (): Promise<number> => {
         const getMe = async () => {
-          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/patients/me`, { headers: { Authorization: `Bearer ${token}` } });
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/patients/me`, { headers: { Authorization: `Bearer ${token}` } });
           if (res.status === 404) throw new Error('No patient found. Please complete patient details.');
           if (!res.ok) throw new Error('Unable to fetch patient.');
           const me = await res.json();
@@ -40,7 +40,7 @@ const PaymentPage = () => {
         const patientId = await getMe();
         const existing = localStorage.getItem('currentCaseId');
         if (existing) return Number(existing);
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/cases`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify({ patient_id: patientId }),
@@ -60,12 +60,12 @@ const PaymentPage = () => {
         await new Promise((r) => setTimeout(r, 600));
         // Try fire WhatsApp test from backend (non-blocking)
         try {
-          const meRes = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/patients/me`, { headers: { Authorization: `Bearer ${token}` } });
+          const meRes = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/patients/me`, { headers: { Authorization: `Bearer ${token}` } });
           const me = meRes.ok ? await meRes.json() : null;
           const patientName = me ? `${me.first_name} ${me.last_name}`.trim() : 'Patient';
           const phone = me?.phone ? String(me.phone) : '';
           const qs = new URLSearchParams({ name: patientName, phone, case_id: String(case_id) }).toString();
-          fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/test-whatsapp?${qs}`).catch(() => {});
+          fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/test-whatsapp?${qs}`).catch(() => {});
         } catch {}
         toast({
           title: 'Payment Successful!',

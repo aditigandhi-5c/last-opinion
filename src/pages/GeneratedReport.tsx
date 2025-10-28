@@ -19,7 +19,7 @@ const GeneratedReport = () => {
   const [reportUrl, setReportUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const apiBase = useMemo(() => import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8001", []);
+  const apiBase = useMemo(() => import.meta.env.VITE_API_BASE_URL || "https://api.lastopinion.in", []);
 
   useEffect(() => {
     (async () => {

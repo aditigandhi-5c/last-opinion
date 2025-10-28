@@ -31,7 +31,7 @@ const Upload = () => {
     if (!token) throw new Error('Missing bearer token. Please login again.');
 
     // Get latest patient for current user
-    const meResp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/patients/me`, {
+    const meResp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/patients/me`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
@@ -54,7 +54,7 @@ const Upload = () => {
     if (existing) return { caseId: Number(existing), patientId };
 
     // Create a new case bound to this patient
-    const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases`, {
+    const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/cases`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const Upload = () => {
         formData.append("dicomFile", file);
 
         const token = getToken();
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
           method: "POST",
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           body: formData,
@@ -112,7 +112,7 @@ const Upload = () => {
             const formData = new FormData();
             formData.append("dicomFile", file);
             const token = getToken();
-            const resp2 = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
+            const resp2 = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/files/dicom?case_id=${caseId}&patient_id=${patientId}`, {
               method: "POST",
               headers: token ? { Authorization: `Bearer ${token}` } : undefined,
               body: formData,

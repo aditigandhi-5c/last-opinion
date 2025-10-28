@@ -18,7 +18,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8001:8001"
+      - "80:80"
     environment:
       - DATABASE_URL=postgresql://postgres:62ul8dBNaA28M1y@164.52.215.211:5432/mydb
       - FIREBASE_ENABLED=true

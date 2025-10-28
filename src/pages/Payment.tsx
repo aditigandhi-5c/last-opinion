@@ -39,7 +39,7 @@ const Payment = () => {
         const token = localStorage.getItem('token')?.replace(/^\"|\"$/g, '').trim();
         if (!token) throw new Error('Authentication required. Please login again.');
         
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'}/cases`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://api.lastopinion.in'}/cases`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
